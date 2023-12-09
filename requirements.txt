@@ -1,0 +1,5 @@
+pytest
+django==4.2.5
+django-crispy-forms
+crispy-bootstrap5
+fontawesomefree

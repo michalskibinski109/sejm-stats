@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container container-fluid">
+        <div class="row m-4">
+            <h1 class="display-3">Głosowania</h1>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Yes</th>
+                    <th scope="col">No</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for voting in votings %}
+                    <tr>
+                        <td>{{ voting.date }}</td>
+                        <td>{{ voting.topic|default:voting.description }}</td>
+                        <td>{{ voting.yes }}</td>
+                        <td>{{ voting.no }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock content %}

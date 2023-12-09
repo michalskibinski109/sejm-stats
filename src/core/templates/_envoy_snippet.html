@@ -1,0 +1,27 @@
+{% for envoy in envoys %}
+    <div class="col-md-4 ">
+        <a href='{% url "envoy_detail" envoy.id %}'
+           style="text-decoration: none;
+                  color: inherit"
+           class="card flex-row mb-4 shadow {% if envoy.number_of_votes > 100000 %}border-5 border-primary{% endif %}">
+            <img src='{{ envoy.photo.url }}'
+                 loading="lazy"
+                 class="card-img-left "
+                 alt="{{ envoy.first_name }} {{ envoy.last_name }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ envoy.first_name }} {{ envoy.last_name|truncatechars:15 }}</h5>
+                <p class="card-text">votes: {{ envoy.number_of_votes }}</p>
+                <p class="card-text badge bg-light text-secondary">{{ envoy.club.id }}</p>
+                {% if envoy.education_level == 'wyższe' %}
+                    <p class="card-text badge bg-primary border">wyższe</p>
+                {% else %}
+                    <p class="card-text badge border text-warning">{{ envoy.education_level }}</p>
+                {% endif %}
+            </div>
+        </a>
+    </div>
+{% empty %}
+    <div class="col">
+        <p>No envoys found.</p>
+    </div>
+{% endfor %}

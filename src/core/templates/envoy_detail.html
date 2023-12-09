@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="card mb-3">
+            {% comment %} {% if envoy.photo %}
+                <img src="{{ envoy.photo }}" class="card-img-top" alt="{{ envoy.first_name }} {{ envoy.last_name }}">
+            {% endif %} {% endcomment %}
+            <div class="card-body">
+                <h5 class="card-title">{{ envoy.first_name }} {{ envoy.second_name }} {{ envoy.last_name }}</h5>
+                <p class="card-text">
+                    <strong>Email:</strong> {{ envoy.email }}
+                </p>
+                {% comment %} <p class="card-text">
+                    <strong>Status:</strong> {{ 'Active' if envoy.active else 'Inactive' }}
+                </p> {% endcomment %}
+                {% if not envoy.active %}
+                    <p class="card-text">
+                        <strong>Inactive Cause:</strong> {{ envoy.inactive_cause }}
+                    </p>
+                {% endif %}
+                <p class="card-text">
+                    <strong>Waiver Description:</strong> {{ envoy.waiver_desc }}
+                </p>
+                <p class="card-text">
+                    <strong>District:</strong> {{ envoy.district_num }} - {{ envoy.district_name }}
+                </p>
+                <p class="card-text">
+                    <strong>Voivodeship:</strong> {{ envoy.voivodeship }}
+                </p>
+                <p class="card-text">
+                    <strong>Club:</strong> {{ envoy.club.name }}
+                </p>
+                <p class="card-text">
+                    <strong>Birth Date:</strong> {{ envoy.birth_date|date:"Y-m-d" }}
+                </p>
+                <p class="card-text">
+                    <strong>Birth Location:</strong> {{ envoy.birth_location }}
+                </p>
+                <p class="card-text">
+                    <strong>Profession:</strong> {{ envoy.profession }}
+                </p>
+                <p class="card-text">
+                    <strong>Education Level:</strong> {{ envoy.education_level }}
+                </p>
+                <p class="card-text">
+                    <strong>Number of Votes:</strong> {{ envoy.number_of_votes }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
