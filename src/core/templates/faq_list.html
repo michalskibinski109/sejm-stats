@@ -1,28 +1,26 @@
-{% extends "base.html" %} {% block content %}
-<div class="container container-fluid my-4">
-  <h1 class="display-3">Pytania i odpowiedzi</h1>
-  <div class="row py-5">
-    {% for faq in faqs %}
-    <div class="dropdown m-3 border rounded">
-      <div
-        class="col-12 p-3 display-6 fs-3 d-flex justify-content-between align-items-center"
-        data-bs-toggle="collapse"
-        data-bs-target="#collapseWidthExample{{ faq.id }}"
-        aria-expanded="false"
-        aria-controls="collapseWidthExample{{ faq.id }}"
-      >
-        {{ faq.question }}
-        <i class="fa-solid fa-caret-down me-2"></i>
-      </div>
-      <div class="collapse mx-0" id="collapseWidthExample{{ faq.id }}">
-        <div class="p-3">
-          {{ faq.answer|safe }} {% if faq.url1 %}
-          <a href="{{ faq.url1 }}">Read more</a>
-          {% endif %}
+{% extends "base.html" %}
+{% block content %}
+  <div class="container container-fluid my-4">
+    <h1 class="display-3">Pytania i odpowiedzi</h1>
+    <div class="row py-5">
+      {% for faq in faqs %}
+        <div class="dropdown m-3 border rounded shadow">
+          <div class=" col-12 p-3 display-6 fs-3 d-flex justify-content-between align-items-center"
+               data-bs-toggle="collapse"
+               data-bs-target="#collapseWidthExample{{ faq.id }}"
+               aria-expanded="false"
+               aria-controls="collapseWidthExample{{ faq.id }}">
+            {{ faq.question }}
+            <i class="fa-solid fa-caret-down me-2"></i>
+          </div>
+          <div class="collapse mx-0" id="collapseWidthExample{{ faq.id }}">
+            <div class="p-3">
+              {{ faq.answer|safe }}
+              {% if faq.url1 %}<a href="{{ faq.url1 }}">Read more</a>{% endif %}
+            </div>
+          </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
   {% endblock %}
 </div>

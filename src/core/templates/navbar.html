@@ -1,8 +1,15 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg rounded-bottom bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand  nav-item d-flex align-items-center " href="/">
-            <i class="fa-solid fa-magnifying-glass fa-2x  text-light mx-3 "></i>
-            <b class="fs-4  text-light">Sejm 2.0</b>
+            <img src="{% static 'img/parlament.png' %}"
+                 alt="logo"
+                 class="img-fluid"
+                 style="height: 40px;
+                        filter:invert(1)"
+                 class="fs-4 mx-3 text-light">
+            <b class="fs-4 mx-3 text-light">
+            Sejm 2.0</b>
         </a>
         <button class="navbar-toggler"
                 type="button"

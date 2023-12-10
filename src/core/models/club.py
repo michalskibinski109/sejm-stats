@@ -9,3 +9,6 @@ class Club(models.Model):
     email = models.EmailField(max_length=255)
     members_count = models.IntegerField()
     photo = models.ImageField(upload_to="photos", null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.id}"

@@ -9,4 +9,4 @@ class FAQ(models.Model):
     url2 = models.URLField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.question} ({self.answer})"
+        return f"{self.question}"

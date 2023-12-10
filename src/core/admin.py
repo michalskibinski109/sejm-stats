@@ -6,12 +6,15 @@ from core.models import Club, Envoy, Voting, Vote, Scandal, FAQ
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
-    list_display = ("id", "question", "answer")
+    list_display = ("id", "question")
 
 
 @admin.register(Scandal)
 class ScandalAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "date")
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:  # if this is a new object, set the author
+            obj.author = request.user
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(Vote)

@@ -1,6 +1,9 @@
 from django.db import models
 from .club import Club
 
+# cached property
+from django.utils.functional import cached_property
+
 
 class Envoy(models.Model):
     id = models.AutoField(primary_key=True)
@@ -21,3 +24,10 @@ class Envoy(models.Model):
     profession = models.CharField(max_length=255)
     education_level = models.CharField(max_length=255)
     number_of_votes = models.IntegerField()
+
+    @cached_property
+    def is_female(self) -> bool:
+        return self.first_name.endswith("a")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.club.id})"
