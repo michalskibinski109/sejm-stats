@@ -1,6 +1,13 @@
-# Transparlament
+# Sejm stats
 
-Transparlament is a Django-based web application for managing parliamentary data.
+Sejm stats is a Django-based web application for managing parliamentary data.
+
+
+![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/305bbbb2-4c44-4a94-a8f7-6f897d092375)
+![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/4ab87998-c985-4472-a613-04132d419599)
+![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/a13514d6-277a-4b36-be1e-9c9660d0558e)
+![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/8ba7f0a6-2e18-40ed-a176-b93d810ad890)
+
 
 ## Installation
 
