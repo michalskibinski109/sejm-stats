@@ -1,42 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_head %}
-  <script src="{% static 'js/home.js' %}" defer></script>
+<script src="{% static 'js/home.js' %}" defer></script>
 {% endblock extra_head %}
 {% block content %}
-  <div class="container mt-4">
-    <div class="row">
+<div class="row m-0 bg-primary">
+  <div class="col-12 text-center text-white p-3">
+    <p class="text-light lead mb-4 ">
+      <span class="fst-italic">
+        "Naród, który nie potrafi pilnować swojego rządu, nie zasługuje na wolność."
+      </span>
+      - Carl Schurz
+    </p>
+    <h1 class="display-3 mb-4">
+      Sejm 2.0</h1>
+    <p class="text-light">
+      <b class="text-danger">Oficjalne</b> Dane sejmowe przedstawione w przejrzysty sposób.
+
+    </p>
+    <div class="row m-4 p-5">
+
       <div class="col-3">
-        <div class="border rounded m-4 mx-0 p-2 clickable-card shadow">
-          <h1 class="display-6 text-center p-1">Wszystkich głosowań</h1>
-          <p class="counter display-4 text-center fw-bolder">{{ all_votings }}</p>
-        </div>
-        <div class="border rounded m-4 mx-0 p-2 clickable-card shadow">
-          <h1 class="display-6 text-center p-1">Wszystkich afer rządowych</h1>
-          <p class="counter display-4 text-center fw-bolder">{{ all_scandals }}</p>
-        </div>
+        <i class="fa-4x fa-person fa-regular"></i>
+        <p class="text-light  p-3">Informacje na temat posłów, wykształcenia, zarobków, i wiele innych.
+        </p>
       </div>
-      <div class="col-4">
-        <div class="border rounded m-4 p-2 clickable-card shadow">
-          <h1 class="display-6 text-center p-1">Przegłosowanych projektów</h1>
-          <p class="counter display-4 text-center fw-bolder">{{ passed_votings }}</p>
-        </div>
-        <div class="border rounded m-4 p-2 clickable-card shadow">
-          <h1 class="display-6 text-center p-1">Klubów parlamentarnych</h1>
-          <p class="counter display-4 text-center fw-bolder">{{ all_clubs }}</p>
-        </div>
+
+      <div class="col-3">
+        <i class="fa-4x  fa-regular fa-house"></i>
+        <p class="text-light p-3">Informacje o klubach parlamentarnych, ich członkach i liderach</p>
+
       </div>
-      <div class="col-5 my-4 ">
-        <h1 class="display-6 text-center p-1">Ostatnie głosowania</h1>
-        <ul class="list-group mb-3">
-          {% for voting in latest_votings %}
-            <li class=" shadow list-group-item d-flex align-items-center rounded  m-1 border clickable-card {% if voting.success %}border-success{% else %}border-danger{% endif %}">
-              {{ voting.title|truncatechars:100 }}
-              <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
-            </li>
-          {% endfor %}
-        </ul>
+
+      <div class="col-3">
+        <i class="fa-4x fa-chart-simple fa-regular"></i>
+        <p class="text-light  p-3">Statystyki dot, głosowań, afer, klubów parlamentarnych</p>
       </div>
+      <div class="col-3">
+        <i class="fa-4x fa-regular fa-money-bill-1"></i>
+        <p class="text-light  p-3">Informacje o aferach rządowych
+          (uzupełniane prez administratorów)</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-3 mt-4">
+      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+        <h1 class="fs-2 lead text-center p-1">Wszystkich głosowań</h1>
+        <p class="counter display-4 text-center ">{{ all_votings }}</p>
+      </div>
+      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+        <h1 class="fs-2 lead text-center p-1">Wszystkich afer rządowych</h1>
+        <p class="counter display-4 text-center text-danger ">{{ all_scandals }}</p>
+      </div>
+    </div>
+    <div class="col-3 mt-4">
+      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+        <h1 class="fs-2 lead text-center p-1">Przegłosowanych projektów</h1>
+        <p class="counter display-4 text-center ">{{ passed_votings }}</p>
+      </div>
+      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+        <h1 class="fs-2 lead text-center p-1">Klubów parlamentarnych</h1>
+        <p class="counter display-4 text-center ">{{ all_clubs }}</p>
+      </div>
+    </div>
+    <div class="col-6 my-4 ">
+      <h1 class="display-6 text-center p-1 text-danger">Ostatnie głosowania</h1>
+      <ul class="list-group mb-3">
+        {% for voting in latest_votings %}
+        <hr class="m-0 p-0 bprder border-primary" />
+        <li class="list-group-item d-flex m-2  border-0 border-bottom-1 clickable-card">
+          <!-- class="list-group-item d-flex  rounded   m-1  clickable-card {% if voting.success %}border-success{% else %}border-danger{% endif %}"> -->
+          {{ voting.title|truncatechars:100 }}
+          <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endblock content %}
   </div>
 </div>

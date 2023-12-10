@@ -12,14 +12,6 @@ $(document).ready(function () {
     var newTheme = theme === "dark" ? "light" : "dark";
     $("html").attr("data-bs-theme", newTheme);
     localStorage.setItem("theme", newTheme);
-    console.log(icon);
-    if (theme === "dark") {
-      icon.removeClass("fa-moon");
-      icon.addClass("fa-sun");
-    } else {
-      icon.removeClass("fa-sun");
-      icon.addClass("fa-moon");
-    }
   });
 
   // Search bar
