@@ -1,7 +1,17 @@
 from django.contrib import admin
-from core.models import Club, Envoy, Voting, Vote
+from core.models import Club, Envoy, Voting, Vote, Scandal, FAQ
 
 # Register your models here.
+
+
+@admin.register(FAQ)
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ("id", "question", "answer")
+
+
+@admin.register(Scandal)
+class ScandalAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "date")
 
 
 @admin.register(Vote)

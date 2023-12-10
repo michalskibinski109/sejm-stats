@@ -14,7 +14,7 @@
                 <div class="col-7">
                     <ul class="list-group mb-3">
                         {% for club in clubs %}
-                            <li class="list-group-item d-flex align-items-center "
+                            <li class="list-group-item d-flex align-items-center rounded border m-1 border clickable-card"
                                 style="background: linear-gradient(90deg, rgba(120,120,120,0.2) {{ club.members_count|divide }}%, transparent {{ club.members_count|divide }}%)">
                                 <span class="bg-white rounded p-1 m-2 me-4">
                                     <img src="{{ club.photo.url }}"

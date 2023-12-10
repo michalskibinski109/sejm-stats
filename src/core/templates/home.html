@@ -1,10 +1,45 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block content %}
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="text-center display-4">Welcome to Parlament site</h2>
-            </div>
-        </div>
+{% extends 'base.html' %} {% load static %} {% block extra_head %}
+<script src="{% static 'js/home.js' %}" defer></script>
+{% endblock extra_head %} {% block content %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-3">
+      <div class="border rounded m-4 mx-0 p-2 clickable-card">
+        <h1 class="display-6 text-center p-1">Wszystkich głosowań</h1>
+        <p class="counter display-4 text-center fw-bolder">{{ all_votings }}</p>
+      </div>
+      <div class="border rounded m-4 mx-0 p-2 clickable-card">
+        <h1 class="display-6 text-center p-1">Wszystkich afer rządowych</h1>
+        <p class="counter display-4 text-center fw-bolder">
+          {{ all_scandals }}
+        </p>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="border rounded m-4 p-2 clickable-card">
+        <h1 class="display-6 text-center p-1">Przegłosowanych projektów</h1>
+        <p class="counter display-4 text-center fw-bolder">
+          {{ passed_votings }}
+        </p>
+      </div>
+      <div class="border rounded m-4 p-2 clickable-card">
+        <h1 class="display-6 text-center p-1">Klubów parlamentarnych</h1>
+        <p class="counter display-4 text-center fw-bolder">{{ all_clubs }}</p>
+      </div>
+    </div>
+    <div class="col-5 border rounded my-4">
+      <h1 class="display-6 text-center p-1">Ostatnie głosowania</h1>
+      <ul class="list-group mb-3">
+        {% for voting in latest_votings %}
+        <li
+          class="list-group-item d-flex align-items-center rounded border m-1 border clickable-card {% if voting.success %}border-success{% else %}border-danger{% endif %}"
+        >
+          {{ voting.title|truncatechars:100 }}
+          <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endblock content %}
+  </div>
+</div>

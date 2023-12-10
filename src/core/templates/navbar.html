@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <a class="navbar-brand  nav-item d-flex align-items-center " href="/">
             <i class="fa-solid fa-magnifying-glass fa-2x  text-light mx-3 "></i>
-            <b class="fs-4  text-light">Sejm Stats</b>
+            <b class="fs-4  text-light">Sejm 2.0</b>
         </a>
         <button class="navbar-toggler"
                 type="button"
@@ -23,12 +23,17 @@
                 <li class="nav-item">
                     <a class="nav-link active  text-light"
                        aria-current="page"
-                       href="{% url 'clubs' %}">Kluby</a>
+                       href="{% url 'clubs' %}">Kluby parlamentarne</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active  text-light"
                        aria-current="page"
                        href="{% url 'votings' %}">Głosowania</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active  text-light"
+                       aria-current="page"
+                       href="{% url 'faq' %}">FAQ</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active  text-light" aria-current="page" href="/admin">Admin</a>

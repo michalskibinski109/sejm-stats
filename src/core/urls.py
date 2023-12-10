@@ -7,6 +7,7 @@ from .views import (
     HomeView,
     VotingListView,
     VotingDetailView,
+    FAQListView,
 )
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     path("clubs/<int:pk>", ClubDetailView.as_view(), name="club_detail"),
     path("votings/", VotingListView.as_view(), name="votings"),
     path("voting/<int:pk>", VotingDetailView.as_view(), name="voting_detail"),
+    path("faq/", FAQListView.as_view(), name="faq"),
 ]
