@@ -56,8 +56,10 @@ class ClubListView(ListView):
     context_object_name = "clubs"
 
     def get_queryset(self):
-        # Annotate each club with the count of its envoys
-        return Club.objects.annotate(envoys_count=Count("envoys"))
+        # Annotate each club with the count of its envoys and order by this count
+        return Club.objects.annotate(envoys_count=Count("envoys")).order_by(
+            "-envoys_count"
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

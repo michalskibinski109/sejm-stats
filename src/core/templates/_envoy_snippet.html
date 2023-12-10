@@ -1,21 +1,30 @@
 {% for envoy in envoys %}
-    <div class="col-md-4 ">
+    <div class="col-12 col-md-6 col-lg-6 col-xl-4">
         <a href='{% url "envoy_detail" envoy.id %}'
            style="text-decoration: none;
                   color: inherit"
            class="card flex-row mb-4 shadow {% if envoy.number_of_votes > 100000 %}border-5 border-primary{% endif %}">
             <img src='{{ envoy.photo.url }}'
                  loading="lazy"
-                 class="card-img-left "
+                 class="card-img-left"
                  alt="{{ envoy.first_name }} {{ envoy.last_name }}">
             <div class="card-body">
-                <h5 class="card-title">{{ envoy.first_name }} {{ envoy.last_name|truncatechars:15 }}</h5>
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">{{ envoy.first_name }} {{ envoy.last_name|truncatechars:15 }}</h5>
+                    <span class="badge bg-white rounded p-1">
+                        <img src="{{ envoy.club.photo.url }}"
+                             loading="lazy"
+                             alt="Club Photo"
+                             class=""
+                             style="width: 40px;
+                                    height: 40px">
+                    </span>
+                </div>
                 <p class="card-text">votes: {{ envoy.number_of_votes }}</p>
-                <p class="card-text badge bg-light text-secondary">{{ envoy.club.id }}</p>
                 {% if envoy.education_level == 'wyższe' %}
-                    <p class="card-text badge bg-primary border">wyższe</p>
+                    <p class="card-text badge bg-dark text-light border">wyższe</p>
                 {% else %}
-                    <p class="card-text badge border text-warning">{{ envoy.education_level }}</p>
+                    <p class="card-text  bg-dark text-warning badge border border-warning">{{ envoy.education_level }}</p>
                 {% endif %}
             </div>
         </a>

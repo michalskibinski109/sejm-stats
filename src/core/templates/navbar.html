@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg rounded-bottom bg-primary">
     <div class="container-fluid">
-        <a class="navbar-brand  p-2 pb-0 pt-0" href="/">
-            <i class="fa-solid fa-chess-king fa-2x  text-light"></i>
-            <b class="fs-4  text-light">Transparlament</b>
+        <a class="navbar-brand  nav-item d-flex align-items-center " href="/">
+            <i class="fa-solid fa-magnifying-glass fa-2x  text-light mx-3 "></i>
+            <b class="fs-4  text-light">Sejm Stats</b>
         </a>
         <button class="navbar-toggler"
                 type="button"
@@ -35,6 +35,11 @@
                 </li>
             </ul>
         </div>
-        <button id="theme-toggle" class="btn btn-light">Toggle Theme</button>
+        <div id="theme-toggle"
+             class="nav-item me-3 d-flex align-items-center  "
+             style="cursor: pointer">
+            <span class="navbar-text p-2 text-light mx-2">Motyw</span>
+            <i id="theme-toggle-icon" class="fa-solid fa-sun fa-2x text-light"></i>
+        </div>
     </div>
 </nav>

@@ -25,7 +25,8 @@ def run():
     download_clubs()
     download_envoys()
     download_photos()
-    download_votings()
+    download_clubs_photos()
+    # download_votings()
 
 
 def download_envoys():
@@ -52,6 +53,23 @@ def download_clubs():
             Club.objects.create(**club_snake_case)
     else:
         logger.info("Clubs already exists in database")
+
+
+def download_clubs_photos():
+    # if not Club.objects.get(id=1).photo:
+    logger.info("Downloading clubs photos")
+    for club in Club.objects.all():
+        if club.photo:
+            continue
+        photo_url = f"{settings.CLUBS_URL}/{club.id}/logo"
+        photo = requests.get(photo_url)
+        logger.info(f"Downloading photo for {club.id}")
+        if photo.status_code == 200:
+            photo_file = ContentFile(photo.content)
+            club.photo.save(f"{club.id}.jpg", photo_file)
+            club.save()
+        else:
+            logger.warning(f"Photo for {club.id} not found")
 
 
 def download_photos():
@@ -115,6 +133,10 @@ def download_votings():
     last_voting = (
         Voting.objects.order_by("-date").first() if Voting.objects.exists() else None
     )
+    # check if last voting is from today
+    if last_voting and last_voting.date.date() == timezone.now().date():
+        logger.info("Votings are up to date")
+        return
     sitting, number = (
         (last_voting.sitting, last_voting.votingNumber + 1) if last_voting else (1, 1)
     )

@@ -10,6 +10,7 @@ class Club(models.Model):
     fax = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     members_count = models.IntegerField()
+    photo = models.ImageField(upload_to="photos", null=True, blank=True)
 
 
 class Envoy(models.Model):
@@ -31,31 +32,6 @@ class Envoy(models.Model):
     profession = models.CharField(max_length=255)
     education_level = models.CharField(max_length=255)
     number_of_votes = models.IntegerField()
-
-
-# class VotingOption(models.Model):
-#     optionIndex = models.IntegerField(
-#         help_text=_("Index of the option on the list"), primary_key=True
-#     )
-#     option = models.CharField(
-#         max_length=255, null=True, blank=True, help_text=_("Name of the option")
-#     )
-#     description = models.CharField(
-#         max_length=255,
-#         null=True,
-#         blank=True,
-#         help_text=_("Optional description of the option"),
-#     )
-#     votes = models.IntegerField(
-#         null=True, blank=True, help_text=_("Number of votes for this option")
-#     )
-#     voting = models.ForeignKey(
-#         "Voting",
-#         on_delete=models.CASCADE,
-#         null=True,
-#         blank=True,
-#         help_text=_("Voting this option belongs to"),
-#     )
 
 
 class Voting(models.Model):

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load math_filters %}
 {% load static %}
 {% block extra_head %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -6,11 +7,32 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 {% endblock extra_head %}
 {% block content %}
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-5">
-                <h2>Club Envoys Distribution</h2>
-                <canvas id="envoysChart" data-clubs="{{ clubs_json }}"></canvas>
+    <div class="container ">
+        <div class="container mt-4">
+            <h1 class="display-3 mb-4">Kluby parlamentarne</h1>
+            <div class="row">
+                <div class="col-7">
+                    <ul class="list-group mb-3">
+                        {% for club in clubs %}
+                            <li class="list-group-item d-flex align-items-center "
+                                style="background: linear-gradient(90deg, rgba(120,120,120,0.2) {{ club.members_count|divide }}%, transparent {{ club.members_count|divide }}%)">
+                                <span class="bg-white rounded p-1 m-2 me-4">
+                                    <img src="{{ club.photo.url }}"
+                                         class=""
+                                         alt="{{ club.id }}"
+                                         style="height: 40px;
+                                                width: 40px">
+                                </span>
+                                <div>
+                                    <h5 class="mb-0">{{ club.id }}</h5>
+                                    <p class="mb-0">{{ club.members_count }} posłów</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-5">
+                    <canvas id="envoysChart" data-clubs="{{ clubs_json }}"></canvas>
+                </div>
             </div>
-        </div>
-    {% endblock content %}
+        {% endblock content %}

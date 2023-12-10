@@ -1,10 +1,28 @@
-document.getElementById("theme-toggle").addEventListener("click", function () {
-  var html = document.querySelector("html");
-  var theme = html.getAttribute("data-bs-theme");
-  html.setAttribute("data-bs-theme", theme === "dark" ? "light" : "dark");
-});
+// Set theme immediately when the script is loaded
+var theme = localStorage.getItem("theme");
+if (theme) {
+  $("html").attr("data-bs-theme", theme);
+}
 
 $(document).ready(function () {
+  // Theme toggle
+  $("#theme-toggle").click(function () {
+    var theme = $("html").attr("data-bs-theme");
+    let icon = $("#theme-toggle-icon");
+    var newTheme = theme === "dark" ? "light" : "dark";
+    $("html").attr("data-bs-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    console.log(icon);
+    if (theme === "dark") {
+      icon.removeClass("fa-moon");
+      icon.addClass("fa-sun");
+    } else {
+      icon.removeClass("fa-sun");
+      icon.addClass("fa-moon");
+    }
+  });
+
+  // Search bar
   $("#searchBar").on("keyup", function () {
     var query = $(this).val();
     $.ajax({
