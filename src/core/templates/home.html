@@ -71,9 +71,15 @@
       <h1 class="display-6 text-center p-1 text-danger">Ostatnie głosowania</h1>
       <ul class="list-group mb-3">
         {% for voting in latest_votings %}
-        <hr class="m-0 p-0 bprder border-primary" />
-        <li class="list-group-item d-flex m-2  border-0 border-bottom-1 clickable-card">
-          <!-- class="list-group-item d-flex  rounded   m-1  clickable-card {% if voting.success %}border-success{% else %}border-danger{% endif %}"> -->
+        <hr class="m-0 p-0 " />
+        <li
+          class="list-group-item d-flex justify-content-center align-items-center m-2  border-0 border-bottom-1 clickable-card">
+          <p class="m-0 me-2">
+
+            {% if voting.success %}
+            <i class="fa text-success fa-lg fa-check"></i>
+            {% else %}<i class="fa text-danger fa-lg fa-x"></i>{% endif %}
+          </p>
           {{ voting.title|truncatechars:100 }}
           <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
         </li>
