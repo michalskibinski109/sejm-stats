@@ -14,7 +14,7 @@ class ScandalEntryStatus(models.TextChoices):
 class Scandal(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
     envoys = models.ManyToManyField(Envoy, related_name="scandals", blank=True)
     clubs = models.ManyToManyField(Club, related_name="scandals", blank=True)
     entry_status = models.CharField(
