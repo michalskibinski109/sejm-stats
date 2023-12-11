@@ -7,9 +7,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 {% endblock extra_head %}
 {% block content %}
-    <div class="container ">
-        <div class="container mt-4">
-            <h1 class="display-3 mb-4">Kluby parlamentarne</h1>
+    <div class="container fluid mt-4">
+        <h1 class="display-5">Kluby parlamentarne</h1>
+        <hr class="my-4">
+        <div class="row">
             <div class="row">
                 <div class="col-7">
                     <ul class="list-group mb-3">
@@ -36,4 +37,6 @@
                     <canvas id="envoysChart" data-clubs="{{ clubs_json }}"></canvas>
                 </div>
             </div>
-        {% endblock content %}
+        </div>
+    </div>
+{% endblock content %}

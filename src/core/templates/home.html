@@ -1,49 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block extra_head %}
-<script src="{% static 'js/home.js' %}" defer></script>
+  <script src="{% static 'js/home.js' %}" defer></script>
 {% endblock extra_head %}
 {% block content %}
-<div class="row m-0 bg-primary">
-  <div class="col-12 text-center text-white p-3">
-    <!-- <p class="text-light lead mb-4 ">
+  <div class="row m-0 bg-primary">
+    <div class="col-12 text-center text-white p-3">
+      <!-- <p class="text-light lead mb-4 ">
       <span class="fst-italic">
         "Naród, który nie potrafi pilnować swojego rządu, nie zasługuje na wolność."
       </span>
       - Carl Schurz
     </p> -->
-    <h1 class="display-3 mb-4">
-      Sejm 2.0</h1>
-    <p class="text-light">
-      <b class="text-danger">Oficjalne</b> Dane sejmowe przedstawione w przejrzysty sposób.
-
-    </p>
-    <div class="row m-4 p-5">
-
-      <div class="col-3">
-        <i class="fa-4x fa-person fa-regular"></i>
-        <p class="text-light  p-3">Informacje na temat posłów, wykształcenia, zarobków, i wiele innych.
-        </p>
-      </div>
-
-      <div class="col-3">
-        <i class="fa-4x  fa-regular fa-house"></i>
-        <p class="text-light p-3">Informacje o klubach parlamentarnych, ich członkach i liderach</p>
-
-      </div>
-
-      <div class="col-3">
-        <i class="fa-4x fa-chart-simple fa-regular"></i>
-        <p class="text-light  p-3">Statystyki dot, głosowań, afer, klubów parlamentarnych</p>
-      </div>
-      <div class="col-3">
-        <i class="fa-4x fa-regular fa-money-bill-1"></i>
-        <p class="text-light  p-3">Informacje o aferach rządowych
-          (uzupełniane prez administratorów)</p>
+      <h1 class="display-3 mb-4">Sejm 2.0</h1>
+      <p class="text-light">
+        <b class="text-danger">Oficjalne</b> Dane sejmowe przedstawione w przejrzysty sposób.
+      </p>
+      <div class="row m-4 p-5">
+        <div class="col-3">
+          <i class="fa-4x fa-person fa-regular"></i>
+          <p class="text-light  p-3">Informacje na temat posłów, wykształcenia, zarobków, i wiele innych.</p>
+        </div>
+        <div class="col-3">
+          <i class="fa-4x  fa-regular fa-house"></i>
+          <p class="text-light p-3">Informacje o klubach parlamentarnych, ich członkach i liderach</p>
+        </div>
+        <div class="col-3">
+          <i class="fa-4x fa-chart-simple fa-regular"></i>
+          <p class="text-light  p-3">Statystyki dot, głosowań, afer, klubów parlamentarnych</p>
+        </div>
+        <div class="col-3">
+          <i class="fa-4x fa-regular fa-money-bill-1"></i>
+          <p class="text-light  p-3">
+            Informacje o aferach rządowych
+            (uzupełniane prez administratorów)
+          </p>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 <div class="container mt-4">
   <div class="row">
@@ -71,28 +66,31 @@
       <h1 class="display-6 text-center p-1 text-danger">Ostatnie głosowania</h1>
       <ul class="list-group mb-3">
         {% for voting in latest_votings %}
-        <hr class="m-0 p-0 " />
-        <li
-          class="list-group-item d-flex justify-content-center align-items-center m-2  border-0 border-bottom-1 clickable-card">
-          <p class="m-0 me-2">
-
-            {% if voting.success %}
-            <i class="fa text-success fa-lg fa-check"></i>
-            {% else %}<i class="fa text-danger fa-lg fa-x"></i>{% endif %}
-          </p>
-          {{ voting.title|truncatechars:100 }}
-          <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
-        </li>
+          <hr class="m-0 p-0 " />
+          <li class="list-group-item d-flex justify-content-center align-items-center m-2  border-0 border-bottom-1 clickable-card">
+            <p class="m-0 me-2">
+              {% if voting.success %}
+                <i class="fa text-success fa-lg fa-check"></i>
+              {% else %}
+                <i class="fa text-danger fa-lg fa-x"></i>
+              {% endif %}
+            </p>
+            {{ voting.title|truncatechars:100 }}
+            <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
+          </li>
         {% endfor %}
       </ul>
     </div>
     <h1 class="display-5">Aktualności</h1>
     <hr class="mb-5" />
-    <div class="col-6 ">
-      <img src="{% static 'img/example.png' %}" class="img-fluid rounded" alt="placeholder" style="max-height: 500px" />
+    <div class="col-6 p-5">
+      <img src="{% static 'img/example.png' %}"
+           class="img-fluid rounded"
+           alt="placeholder"
+           style="max-height: 500px" />
     </div>
     <div class="col-6">
-      <h1 class="display-6 text-center text-danger">Lorem ipsum dolor </h1>
+      <h1 class="display-6 text-center text-danger">Lorem ipsum dolor</h1>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium numquam ratione qui illo,
       vitae optio aspernatur temporibus sint culpa consectetur atque quas ut eaque omnis voluptatem autem sapiente.
       Quasi nostrum possimus nesciunt! At assumenda distinctio, ullam ut nulla inventore soluta tempora eum iure nobis
@@ -109,5 +107,4 @@
     </div>
   </div>
 </div>
-
 {% endblock content %}
