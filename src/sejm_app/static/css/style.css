@@ -1,0 +1,15 @@
+.clickable-card {
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.clickable-card:hover {
+    /* make it bigger */
+    transform: scale(1.04);
+}
+
+.not-ready-content {
+    filter: blur(6px);
+    cursor: not-allowed;
+    position: relative;
+}

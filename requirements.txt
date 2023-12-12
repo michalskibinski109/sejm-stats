@@ -7,3 +7,4 @@ fontawesomefree==6.5.1
 loguru
 requests
 Pillow
+bs4
