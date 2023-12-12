@@ -15,10 +15,10 @@ Whether you're a citizen looking to stay informed, a journalist seeking data for
 
 Start exploring Sejm 2.0 now!
 
-![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/305bbbb2-4c44-4a94-a8f7-6f897d092375)
-![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/4ab87998-c985-4472-a613-04132d419599)
-![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/a13514d6-277a-4b36-be1e-9c9660d0558e)
-![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/8ba7f0a6-2e18-40ed-a176-b93d810ad890)
+![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/51c4e1d1-a340-4b9e-a312-4cdccc52989a)
+![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/b6ed424b-a12b-4e02-9624-9c470030f785)
+![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/a1af2d65-eeb9-4110-882f-b701931c6914)
+![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/debd73b5-1dab-4002-82f4-f98c9f400ed6)
 
 
 ## Installation
