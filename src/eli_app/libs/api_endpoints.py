@@ -15,9 +15,9 @@
 #     "list_changed_acts": "https://api.sejm.gov.pl/eli/changes/acts?since={date}&limit={limit}&offset={offset}",
 # }
 import requests
-from urllib.parse import urljoin, urlparse
-from datetime import datetime
-from pydantic import BaseModel, Field
+from urllib.parse import urljoin
+from pydantic import AnyUrl
+from loguru import logger
 
 
 class EliAPI:
@@ -32,48 +32,52 @@ class EliAPI:
         try:
             response = self.session.get(url, params=kwargs)
             response.raise_for_status()
+            logger.info(f"Request to {url} successful")
             return response.json()
         except requests.HTTPError as http_err:
-            print(f"HTTP error occurred: {http_err}")
+            logger.error(f"HTTP error occurred: {http_err}")
         except Exception as err:
-            print(f"Other error occurred: {err}")
+            logger.error(f"Other error occurred: {err}")
 
-    def list_statuses(self):
+    def list_publishers(self) -> list[str]:
+        return self._request("acts")
+
+    def list_statuses(self) -> list[str]:
         return self._request("statuses")
 
-    def list_reference_types(self):
+    def list_reference_types(self) -> list[str]:
         return self._request("references")
 
-    def list_document_types(self):
+    def list_document_types(self) -> list[str]:
         return self._request("types")
 
-    def list_keywords(self):
+    def list_keywords(self) -> list[str]:
         return self._request("keywords")
 
-    def list_institutions(self):
+    def list_institutions(self) -> list[str]:
         return self._request("institutions")
 
-    def list_years(self, publisher):
+    def list_years(self, publisher) -> list[str]:
         return self._request(f"acts/{publisher}")
 
-    def list_acts(self, publisher, year):
+    def list_acts(self, publisher, year) -> list[str]:
         return self._request(f"acts/{publisher}/{year}")
 
-    def act_details(self, publisher, year, position):
+    def act_details(self, publisher, year, position) -> dict:
         return self._request(f"acts/{publisher}/{year}/{position}")
 
-    def act_pdf(self, publisher, year, position):
+    def act_pdf(self, publisher, year, position) -> AnyUrl:
         return self._request(f"acts/{publisher}/{year}/{position}/text.pdf")
 
-    def act_html(self, publisher, year, position):
+    def act_html(self, publisher, year, position) -> AnyUrl:
         return self._request(f"acts/{publisher}/{year}/{position}/text.html")
 
-    def act_references(self, publisher, year, position):
-        return self._request(f"acts/{publisher}/{year}/{position}/references")
+    # def act_references(self, publisher, year, position):
+    #     return self._request(f"acts/{publisher}/{year}/{position}/references")
 
-    def search(self):
-        return self._request("acts/search")
+    # def search(self):
+    #     return self._request("acts/search")
 
-    def list_changed_acts(self, date, limit, offset):
+    def list_changed_acts(self, date, limit, offset) -> list:
         date_str = date.strftime("%Y-%m-%d")
         return self._request("changes/acts", since=date_str, limit=limit, offset=offset)

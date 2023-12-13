@@ -15,16 +15,16 @@ $(document).ready(function () {
   });
 
   // Search bar
-  $("#searchBar").on("keyup", function () {
-    var query = $(this).val();
-    $.ajax({
-      url: "",
-      data: { q: query },
-      dataType: "json",
-      success: function (response) {
-        // Replace the envoy list with the new HTML
-        $(".row").html(response.html);
-      },
-    });
-  });
+  // $("#searchBar").on("keyup", function () {
+  //   var query = $(this).val();
+  //   $.ajax({
+  //     url: "",
+  //     data: { q: query },
+  //     dataType: "json",
+  //     success: function (response) {
+  //       // Replace the envoy list with the new HTML
+  //       $(".row").html(response.html);
+  //     },
+  //   });
+  // });
 });
