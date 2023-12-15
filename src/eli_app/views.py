@@ -1,7 +1,9 @@
 from django.views.generic import ListView
 from eli_app.models import Act, Publisher, ActStatus, Keyword
+from .forms import SearchForm
 import json
 from django.db.models import Count
+from loguru import logger
 
 
 class ActListView(ListView):
@@ -11,26 +13,29 @@ class ActListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["publishers"] = Publisher.objects.all()
-        context["keywords"] = Keyword.objects.all()
-        context["statuses"] = ActStatus.objects.all().annotate(total=Count("act"))
-        context["selected_statuses"] = self.request.GET.getlist("status")
-        print(context["selected_statuses"])
+        context["form"] = SearchForm(self.request.GET or None)
         return context
 
     def get_queryset(self):
         queryset = Act.objects.order_by("-changeDate")
-        publisher = self.request.GET.get("publisher")
-        statuses = self.request.GET.getlist("status")
-        minDate = self.request.GET.get("minDate")
-        maxDate = self.request.GET.get("maxDate")
-        if publisher:
-            queryset = queryset.filter(publisher__name=publisher)
-        if statuses:
-            queryset = queryset.filter(status__name__in=statuses)
-        if minDate:
-            queryset = queryset.filter(changeDate__gte=minDate)
-        if maxDate:
-            queryset = queryset.filter(changeDate__lte=maxDate)
+        form = SearchForm(self.request.GET or None)
+        if form.is_valid():
+            keywords = form.cleaned_data.get("keywords")
+            if keywords and not isinstance(keywords, list):
+                keywords = [keywords]
+            publisher = form.cleaned_data.get("publisher")
+            status = form.cleaned_data.get("status")
+            minDate = form.cleaned_data.get("minDate")
+            maxDate = form.cleaned_data.get("maxDate")
+            if keywords:
+                queryset = queryset.filter(keywords__in=keywords)
+            if publisher:
+                queryset = queryset.filter(publisher=publisher)
+            if status:
+                queryset = queryset.filter(status=status)
+            if minDate:
+                queryset = queryset.filter(changeDate__gte=minDate)
+            if maxDate:
+                queryset = queryset.filter(changeDate__lte=maxDate)
 
-        return queryset[:500]
+        return queryset[:250]

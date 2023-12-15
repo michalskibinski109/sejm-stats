@@ -34,8 +34,8 @@ $('#votingTable').DataTable({
     </script>
 {% endblock extra_head %}
 {% block content %}
-    <div class="alert alert-info lead text-center fw-bold" role="alert">Funkcja dostępna wkrótce !</div>
-    <div class="container container-fluid mt-4 not-ready-content">
+    {% comment %} <div class="alert alert-info lead text-center fw-bold" role="alert">Funkcja dostępna wkrótce !</div> {% endcomment %}
+    <div class="container container-fluid mt-4">
         <h1 class="display-5">Głosowania</h1>
         <hr class="my-4">
         <table class="table" id="votingTable">
@@ -63,7 +63,7 @@ $('#votingTable').DataTable({
                             {% for url in voting.resolution_urls %}<a href="{{ url }}">{{ voting.votingNumber }}" "</a>{% endfor %}
                         </td>
                         <td>{{ voting.date }}</td>
-                        <td>{{ voting.topic|default:voting.description }}</td>
+                        <td>{{ voting.title|default:voting.description }}</td>
                         <td>{{ voting.yes }}</td>
                         <td>{{ voting.no }}</td>
                     </tr>

@@ -8,3 +8,4 @@ loguru
 requests
 Pillow
 bs4
+django-select2

@@ -26,7 +26,7 @@ def run():
     download_envoys()
     download_photos()
     download_clubs_photos()
-    download_votings()
+    # download_votings()
 
 
 def download_envoys():
@@ -104,7 +104,7 @@ def process_votes(votes):
         vote["MP"] = Envoy.objects.get(id=vote["MP"])
         if vote["vote"] == "VOTE_VALID":
             vote["vote"] = list(vote["listVotes"].values())[-1]  # get only last value
-        for field in ["club", "firstName", "lastName", "mP", "listVotes"]:
+        for field in ["club", "firstName", "lastName", "mP", "listVotes", "secondName"]:
             if field in vote:
                 vote.pop(field)
 

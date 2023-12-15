@@ -38,7 +38,7 @@ def summarize_text(text):
     model = "sshleifer/distilbart-cnn-12-6"
     summarizer: SummarizationPipeline = pipeline("summarization", model=model)
 
-    summary = summarizer(text, max_length=480, min_length=30, do_sample=False)
+    summary = summarizer(text, max_length=100, min_length=30, do_sample=False)
     return summary[0]["summary_text"]
 
 
@@ -60,17 +60,7 @@ def summarize_pdf(pdf_path):
 #     f.write(pdf)
 # print(summarize_pdf("temp.pdf"))
 text = """
-. 1. W przypadku egzaminu zawodowego przeprowadzanego w okresie od dnia 9 stycznia 2023 r. do
-dnia 31 stycznia 2023 r. asystentowi technicznemu biorącemu udział w przeprowadzaniu części praktycznej tego
-egzaminu, której rezultatem końcowym wykonania zadania lub zadań egzaminacyjnych jest wyrób lub usługa, w tym
-dla osób, które zdają ten egzamin jako eksternistyczny, przysługuje wynagrodzenie w wysokości określonej jako
-iloczyn 0,54% stawki za każdą godzinę udziału w jednej zmianie egzaminu, zgodnie z czasem trwania części praktycznej egzaminu zawodowego, określonym w informatorze, o którym mowa w art. 9a ust. 2 pkt 3 ustawy z dnia
-7 września 1991 r. o systemie oświaty, na podstawie art. 44zzzm ust. 3 tej ustawy, oraz liczby zmian egzaminu,
-w których bierze udział.
-2. Asystentowi technicznemu, o którym mowa w ust. 1, przysługuje także wynagrodzenie w wysokości określonej jako iloczyn 0,54% stawki za każdą godzinę przygotowywania stanowisk egzaminacyjnych dla jednej zmiany
-egzaminu oraz liczby zmian egzaminu, w których bierze udział. Czas przygotowywania stanowisk egzaminacyjnych
-dla jednej zmiany egzaminu nie może być dłuższy niż trzy godziny.
-3. W przypadku egzaminu potwierdzającego kwalifikacje w zawodzie przeprowadzanego w okresie od dnia
-9 stycznia 2023 r. do dnia 31 stycznia 2023 r. przepisy ust. 1 i 2 stosuje się również do asystentów technicznych,
-o których w § 1 ust. 2 pkt 2.”."""
+zmieniające rozporządzenie w sprawie wymagań, jakim powinna odpowiadać osoba zajmująca stanowisko dyrektora
+oraz inne stanowisko kierownicze w publicznym przedszkolu, publicznej szkole podstawowej,
+publicznej szkole ponadpodstawowej oraz publicznej placówce"""
 print(summarize_text(text))

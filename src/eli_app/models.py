@@ -29,12 +29,12 @@ class Keyword(models.Model):
         return self.name
 
 
-class Institution(models.Model):
+class Institution(models.Model):  # TODO remove institution with 0 acts
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.name
+        return f'{self.name[:50]}{"... " if len(self.name) > 50 else ""}'
 
 
 class DocumentType(models.Model):

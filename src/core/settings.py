@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     "sejm_app.apps.SejmAppConfig",
     "eli_app.apps.EliAppConfig",
     "fontawesomefree",
+    "django_select2",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -130,6 +137,7 @@ CADENCE = 10
 API_URL = "https://api.sejm.gov.pl/"
 from urllib.parse import urljoin
 
+SEJM_ROOT_URL = urljoin(API_URL, f"sejm/term{CADENCE}")
 ENVOYS_URL = urljoin(API_URL, f"sejm/term{CADENCE}/MP")
 CLUBS_URL = urljoin(API_URL, f"sejm/term{CADENCE}/clubs")
 VOTINGS_URL = urljoin(API_URL, f"sejm/term{CADENCE}/votings")
