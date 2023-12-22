@@ -1,7 +1,15 @@
 # import django settings
 from django.conf import settings
 import requests
-from sejm_app.models import Club, Envoy, Vote, Voting, VotingOption
+from sejm_app.models import (
+    Club,
+    Envoy,
+    Vote,
+    Voting,
+    VotingOption,
+    PrintModel,
+    AdditionalPrint,
+)
 from loguru import logger
 from django.db.utils import OperationalError
 import io
@@ -9,10 +17,24 @@ from django.core.files.base import ContentFile
 import urllib.parse as urlparse
 from django.utils import timezone
 from datetime import datetime
+from django.db import models
+
+# select * from sys.objects
+# order by modify_date desc
 
 
 def camel_to_snake(name):
     return "".join(["_" + i.lower() if i.isupper() else i for i in name]).lstrip("_")
+
+
+def should_be_updated(model: models.Model, date_field: str):
+    try:
+        model.objects.first()
+
+    except OperationalError:
+        logger.info("Database not initialized yet")
+        return False
+    return not model.objects.order_by("-" + date_field).first() == timezone.now().date()
 
 
 def run():
@@ -22,11 +44,41 @@ def run():
     except OperationalError:
         logger.info("Database not initialized yet")
         return
-    download_clubs()
-    download_envoys()
-    download_photos()
-    download_clubs_photos()
-    # download_votings()
+    # download_clubs()
+    # download_envoys()
+    # download_photos()
+    # download_clubs_photos()
+    download_votings()
+    # download_prints()
+
+
+def download_prints():
+    if not should_be_updated(PrintModel, "change_date"):
+        return
+    url = f"{settings.SEJM_ROOT_URL}/prints"
+    logger.info(f"Downloading prints from {url}")
+    resp = requests.get(url)
+    resp.raise_for_status()
+    prints = resp.json()
+    print(f"Downloaded {len(prints)} prints")
+    for print_ in prints[::-1]:
+        if PrintModel.objects.filter(id=f'{print_["term"]}{print_["number"]}').exists():
+            break
+        print_.pop("attachments")
+        add_prints = []
+        print_.pop("processPrint")
+        if print_.get("additionalPrints"):
+            add_prints = print_.pop("additionalPrints")
+        print_ = {camel_to_snake(k): v for k, v in print_.items()}
+        print_mdl = PrintModel.objects.create(**print_)
+        for add_print in add_prints:
+            if add_print.get("processPrint"):
+                add_print.pop("processPrint")
+            add_print.pop("attachments")
+            add_print.pop("numberAssociated")
+            add_print = {camel_to_snake(k): v for k, v in add_print.items()}
+            add_print["main_print"] = print_mdl
+            AdditionalPrint.objects.create(**add_print)
 
 
 def download_envoys():
@@ -89,46 +141,6 @@ def download_photos():
                 logger.warning(f"Photo for {envoy.id} not found")
 
 
-# def create_voting_option(option, voting_obj):
-#     option["voting"] = voting_obj
-#     VotingOption.objects.create(**option)
-
-
-def create_vote(vote, voting_obj):
-    vote["voting"] = voting_obj
-    Vote.objects.create(**vote).save()
-
-
-def process_votes(votes):
-    for vote in votes:
-        vote["MP"] = Envoy.objects.get(id=vote["MP"])
-        if vote["vote"] == "VOTE_VALID":
-            vote["vote"] = list(vote["listVotes"].values())[-1]  # get only last value
-        for field in ["club", "firstName", "lastName", "mP", "listVotes", "secondName"]:
-            if field in vote:
-                vote.pop(field)
-
-        vote["vote"] = VotingOption[vote["vote"].upper()].value
-    return votes
-
-
-def process_voting_json_data(json_data):
-    date_str = json_data["date"]
-    date_format = "%Y-%m-%dT%H:%M:%S"
-    naive_date = datetime.strptime(date_str, date_format)
-    json_data["date"] = timezone.make_aware(naive_date)
-    for field in [
-        "notParticipating",
-        "totalVoted",
-        "term",
-        "votingOptions",
-    ]:
-        if field in json_data:
-            json_data.pop(field)
-
-    return json_data
-
-
 def download_votings():
     last_voting = (
         Voting.objects.order_by("-date").first() if Voting.objects.exists() else None
@@ -137,8 +149,9 @@ def download_votings():
     if last_voting and last_voting.date.date() == timezone.now().date():
         logger.info("Votings are up to date")
         return
+    logger.warning(last_voting.voting_number)
     sitting, number = (
-        (last_voting.sitting, last_voting.votingNumber + 1) if last_voting else (1, 1)
+        (last_voting.sitting, last_voting.voting_number + 1) if last_voting else (1, 1)
     )
     logger.info(f"Downloading votings from {sitting} sitting")
     while True:
@@ -155,14 +168,5 @@ def download_votings():
             break
         resp.raise_for_status()
         json_data = resp.json()
-        votes = process_votes(json_data.pop("votes"))
-        logger.debug(f"Votes for {sitting}/{number}: {len(votes)}")
-        json_data = process_voting_json_data(json_data)
-
-        voting_obj = Voting.objects.create(**json_data)
-        # for option in options:
-        #     create_voting_option(option, voting_obj)
-        for vote in votes:
-            create_vote(vote, voting_obj)
-        voting_obj.save()
+        voting = Voting.from_api_response(json_data)
         number += 1

@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from loguru import logger
 from django.utils.functional import cached_property
 from django.conf import settings
+from sejm_app.utils import parse_all_dates, camel_to_snake
+from sejm_app.models.vote import Vote
 import re
 
 
@@ -17,10 +19,10 @@ class Voting(models.Model):
     sitting = models.IntegerField(
         null=True, blank=True, help_text=_("Number of the Sejm sitting")
     )
-    sittingDay = models.IntegerField(
+    sitting_day = models.IntegerField(
         null=True, blank=True, help_text=_("Day number of the Sejm sitting")
     )
-    votingNumber = models.IntegerField(
+    voting_number = models.IntegerField(
         null=True, blank=True, help_text=_("Voting number")
     )
     date = models.DateTimeField(null=True, blank=True, help_text=_("Date of the vote"))
@@ -33,7 +35,7 @@ class Voting(models.Model):
     topic = models.CharField(
         max_length=255, null=True, blank=True, help_text=_("Short voting topic")
     )
-    pdfLink = models.URLField(
+    pdf_link = models.URLField(
         null=True,
         blank=True,
         help_text=_("Link to the PDF document with voting details"),
@@ -71,15 +73,6 @@ class Voting(models.Model):
 
     @cached_property
     def resolution_urls(self) -> list[str] | None:
-        """
-        valid format:
-        `druki nr. x, y, ..., i z`
-        `druk nr x`
-        `druki nr x i y`
-        `druki nr x-A,  i y`
-        eg:
-        niektórych innych ustaw (druki nr 72, 72-A i 88) -> [72, 72-A, 88]
-        """
         search_str = (self.title or "") + (self.topic or "")
         sub_str = re.search(r"(druki? nr\.? .+)", search_str)
         if not sub_str:
@@ -89,3 +82,22 @@ class Voting(models.Model):
         # return f"{settings.RESOLUTION_URL}/{number}_u.htm"
         return [f"{settings.RESOLUTION_URL}/{number}_u.htm" for number in numbers]
         # return
+
+    @classmethod
+    def from_api_response(cls, response: dict):
+        voting = cls()
+        response = parse_all_dates(response)
+        response = {camel_to_snake(key): value for key, value in response.items()}
+        for key, value in response.items():
+            if not hasattr(voting, key):
+                logger.debug(f"Voting has no attribute {key}")
+                continue
+            if key == "votes":
+                voting.save()
+                votes = (
+                    Vote.from_api_response(vote_data, voting) for vote_data in value
+                )
+                continue
+            setattr(voting, key, value)
+        voting.save()
+        return voting

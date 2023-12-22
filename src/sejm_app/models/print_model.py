@@ -2,15 +2,29 @@ from django.db import models
 from django.utils.functional import cached_property
 from django.conf import settings
 from urllib.parse import urljoin
+from django.db.models import F
+from django.utils import timezone
+from datetime import datetime
 
 
-class Print(models.Model):
+class PrintModel(models.Model):
+    id = models.CharField(max_length=13, primary_key=True, editable=False)
     number = models.CharField(max_length=10)
-    title = models.TextField()
     term = models.SmallIntegerField()
+    title = models.TextField()
     document_date = models.DateField(db_column="documentDate")
     delivery_date = models.DateField(db_column="deliveryDate")
     change_date = models.DateTimeField(db_column="changeDate")
+
+    def save(self, *args, **kwargs):
+        self.document_date = timezone.make_aware(
+            datetime.strptime(self.document_date, "%Y-%m-%d")
+        )
+        self.delivery_date = timezone.make_aware(
+            datetime.strptime(self.delivery_date, "%Y-%m-%d")
+        )
+        self.id = f"{self.term}{self.number}"
+        super().save(*args, **kwargs)
 
     # id is term + number
     @cached_property
@@ -26,11 +40,13 @@ class Print(models.Model):
             settings.SEJM_ROOT_URL, f"prints/{self.number}/{self.number}.pdf"
         )
 
+    def __str__(self) -> str:
+        return f"{self.id} {self.title}"
 
-class AdditionalPrint(Print):
+
+class AdditionalPrint(PrintModel):
     main_print = models.ForeignKey(
-        Print,
+        PrintModel,
         related_name="additional_prints",
         on_delete=models.CASCADE,
     )
-    number_associated = models.CharField(db_column="numberAssociated", max_length=10)

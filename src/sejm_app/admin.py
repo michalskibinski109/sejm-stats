@@ -1,7 +1,30 @@
 from django.contrib import admin
-from sejm_app.models import Club, Envoy, Voting, Vote, Scandal, FAQ
+from sejm_app.models import (
+    Club,
+    Envoy,
+    Voting,
+    Vote,
+    Scandal,
+    FAQ,
+    PrintModel,
+    AdditionalPrint,
+)
 
 # Register your models here.
+
+
+@admin.register(PrintModel)
+class PrintModelAdmin(admin.ModelAdmin):
+    list_display = ("id", "number", "title")
+
+
+@admin.register(AdditionalPrint)
+class AdditionalPrintAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "number",
+        "title",
+    )
 
 
 @admin.register(FAQ)
