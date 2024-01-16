@@ -8,9 +8,23 @@ from sejm_app.models import (
     FAQ,
     PrintModel,
     AdditionalPrint,
+    Process,
+    Stage,
 )
 
+
 # Register your models here.
+@admin.register(Stage)
+class StageAdmin(admin.ModelAdmin):
+    list_display = ("id",)
+
+
+@admin.register(Process)
+class process_admin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "description",
+    )
 
 
 @admin.register(PrintModel)

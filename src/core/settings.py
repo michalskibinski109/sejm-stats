@@ -133,12 +133,12 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-CADENCE = 10
+TERM = 10
 API_URL = "https://api.sejm.gov.pl/"
 from urllib.parse import urljoin
 
-SEJM_ROOT_URL = urljoin(API_URL, f"sejm/term{CADENCE}")
-ENVOYS_URL = urljoin(API_URL, f"sejm/term{CADENCE}/MP")
-CLUBS_URL = urljoin(API_URL, f"sejm/term{CADENCE}/clubs")
-VOTINGS_URL = urljoin(API_URL, f"sejm/term{CADENCE}/votings")
+SEJM_ROOT_URL = urljoin(API_URL, f"sejm/term{TERM}")
+ENVOYS_URL = urljoin(API_URL, f"sejm/term{TERM}/MP")
+CLUBS_URL = urljoin(API_URL, f"sejm/term{TERM}/clubs")
+VOTINGS_URL = urljoin(API_URL, f"sejm/term{TERM}/votings")
 RESOLUTION_URL = "https://orka.sejm.gov.pl/proc10.nsf/uchwaly"

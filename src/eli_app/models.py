@@ -36,6 +36,12 @@ class Institution(models.Model):  # TODO remove institution with 0 acts
     def __str__(self):
         return f'{self.name[:50]}{"... " if len(self.name) > 50 else ""}'
 
+    @classmethod
+    def get_by_name(cls, name: str):
+        name = name.strip()
+        name = name.upper()
+        return cls.objects.get(name=name)
+
 
 class DocumentType(models.Model):
     id = models.AutoField(primary_key=True)

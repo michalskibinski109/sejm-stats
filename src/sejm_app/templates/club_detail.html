@@ -1,2 +1,23 @@
 {% extends "base.html" %}
-{% block content %}<div class="container container-fluid">{{ club }}</div>{% endblock %}
+{% block content %}
+    <div class="container container-fluid">
+        <h1 class="text-center">{{ club.name }}</h1>
+        <img src="{{ club.photo.url }}"
+             class="img-fluid rounded mx-auto d-block"
+             alt="{{ club.name }}">
+        <p>
+            <strong>Phone:</strong> {{ club.phone }}
+        </p>
+        <p>
+            <strong>Fax:</strong> {{ club.fax }}
+        </p>
+        <p>
+            <p>
+                <strong>Email:</strong> {{ club.email }}
+            </p>
+        </p>
+        <p>
+            <strong>posłowie:</strong> {{ club.members_count }}
+        </p>
+    </div>
+{% endblock %}

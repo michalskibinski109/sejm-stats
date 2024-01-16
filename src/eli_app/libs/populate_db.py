@@ -23,9 +23,6 @@ def populate(function: Callable, model: models.Model):
     except OperationalError:
         logger.info("Database not initialized yet")
         return
-    if model.objects.count() > 0:
-        logger.info(f"{model.__name__} already populated")
-        return
     names = function()
     if model.objects.count() == len(names):  # TODO Will never happen
         logger.info(f"{model.__name__} already populated")
@@ -64,7 +61,11 @@ def populate_acts(function: Callable):
     year = 2023  # TODO need to change this
     api = EliAPI()
     for publisher in Publisher.objects.all():
-        acts_count = api.list_acts(publisher.code, year)["count"]
+        try:
+            acts_count = api.list_acts(publisher.code, year)["count"]
+        except TypeError:
+            logger.warning(f"Publisher {publisher.name} not found")
+            continue
         db_count = Act.objects.filter(publisher=publisher, year=year).count() + 1
         if acts_count == db_count:
             logger.info(f"{publisher.name} already populated")
@@ -83,7 +84,7 @@ def populate_acts(function: Callable):
                 title=act["title"],
                 status=ActStatus.objects.get(name=act["status"]),
                 type=DocumentType.objects.get(name=act["type"]),
-                releasedBy=Institution.objects.get(name=act["releasedBy"][0])
+                releasedBy=Institution.get_by_name(act["releasedBy"][0])
                 if act.get("releasedBy")
                 else None,
                 changeDate=timezone.make_aware(
