@@ -1,7 +1,6 @@
 .timeline {
     position: relative;
-    margin-top: 20px;
-    padding-bottom: 20px;
+    z-index: 0;
 }
 
 .timeline::before {
@@ -12,9 +11,7 @@
     width: 2px;
     height: 100%;
     background: #dc3545;
-    /* Bootstrap's `danger` color */
     z-index: 0;
-    /* Ensure the line is behind the badges */
 }
 
 /* Arrowhead at the bottom */
@@ -39,7 +36,9 @@
 .timeline-step {
     position: relative;
     width: 100%;
-    margin: 10px 0;
+    z-index: 2;
+    margin-bottom: 30px;
+
 }
 
 .timeline-content {

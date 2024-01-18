@@ -16,7 +16,7 @@ from sejm_app.models import (
 # Register your models here.
 @admin.register(Stage)
 class StageAdmin(admin.ModelAdmin):
-    list_display = ("id",)
+    list_display = ("id", "decision", "stage_name", "date", "process")
 
 
 @admin.register(Process)

@@ -13,27 +13,31 @@
         <div class="row">
             <div class="col-xl-6 col-12 bg-primary"></div>
             <div class="col-xl-6 col-12 px-4">
-                <!-- Timeline starts here -->
-                <div class="timeline">
-                    <!-- Timeline item -->
-                    {% for stage in stages %}
-                        <div class="timeline-step">
-                            <div class="timeline-content shadow border-top  border-danger rounded-bottom p-3">
-                                {% if stage.date %}
-                                    <div class="timeline-badge">{{ stage.date }}</div>
-                                {% else %}
-                                    <div class="timeline-badge">-</div>
-                                {% endif %}
-                                <h5>{{ stage.stage_name }}</h5>
-                                {% if stage.comment %}<p>{{ stage.comment }}</p>{% endif %}
+                <div class="row m-3">
+                    <div class="col-12 mx-5">
+                        <a href="{{ process.print.pdf_url }}"
+                           class="text-center text-primary fs-5 text-decoration-none">{{ process.print }}</a>
+                    </div>
+                    <div class="timeline m-5">
+                        <!-- Timeline item -->
+                        {% for stage in stages %}
+                            <div class="timeline-step">
+                                <div class="timeline-content shadow border-top border-2  rounded-bottom p-3 {% if stage.result == 'PASS' %}border-success{% elif stage.result == 'FAIL' %}border-danger{% endif %}">
+                                    {% if stage.date %}
+                                        <div class="timeline-badge">{{ stage.date }}</div>
+                                    {% else %}
+                                        <div class="timeline-badge">-</div>
+                                    {% endif %}
+                                    <h5>{{ stage.stage_name }}</h5>
+                                    {% if stage.decision %}<p>{{ stage.decision }}</p>{% endif %}
+                                </div>
                             </div>
-                        </div>
-                    {% empty %}
-                        <p>No stages found</p>
-                    {% endfor %}
+                        {% empty %}
+                            <p>No stages found</p>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

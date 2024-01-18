@@ -11,26 +11,12 @@
             src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <script>
 $(document).ready( function () {
-$('#votingTable').DataTable({
-"pagingType": "full_numbers",
-"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-"responsive": true,
-"language": {
-"lengthMenu": "Wyświetl _MENU_ rekordów na stronę",
-"zeroRecords": "Nie znaleziono pasujących rekordów",
-"info": "Wyświetlanie strony _PAGE_ z _PAGES_",
-"infoEmpty": "Brak dostępnych rekordów",
-"infoFiltered": "(przefiltrowane z _MAX_ wszystkich rekordów)",
-"search": "Szukaj:",
-"paginate": {
-"first": "Pierwsza",
-"last": "Ostatnia",
-"next": "Następna",
-"previous": "Poprzednia"
-},
-}
+    $('#votingTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Polish.json"
+        }
+    });
 });
-} );
     </script>
 {% endblock extra_head %}
 {% block content %}

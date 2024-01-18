@@ -53,25 +53,31 @@ def run():
     # download_photos()
     # download_clubs_photos()
     # download_votings()
-    download_processes()
+    # download_processes()
     # download_prints()
 
 
 def download_processes():
     url = f"{settings.SEJM_ROOT_URL}/processes"
     last_process = (
-        int(Process.objects.order_by("change_date").last().id[2:]) + 1
+        int(Process.objects.order_by("number").last().number) + 1
         if Process.objects.exists()
         else 1
     )
+    MAX_MISSING = 8
+    missing = 0
     logger.info(f" last num {last_process} ")
     for i in count(last_process):
         if f"{settings.TERM}{i}" in Process.objects.values_list("id", flat=True):
             continue
         resp = requests.get(f"{url}/{i}")
         if resp.status_code == 404:
-            logger.info(f"Finished downloading processes")
+            missing += 1
+            continue
+        if missing > MAX_MISSING:
+            logger.info(f"Finished downloading processes on {i}")
             break
+        missing = 0
         resp.raise_for_status()
         process = resp.json()
         process = Process.from_api_response(process)

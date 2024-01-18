@@ -1,35 +1,49 @@
 {% extends "base.html" %}
+{% block extra_head %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
+    <script type="text/javascript"
+            charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script type="text/javascript"
+            charset="utf8"
+            src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+$(document).ready( function () {
+    $('#processesTable').DataTable({
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Polish.json"
+        }
+    });
+});
+    </script>
+{% endblock extra_head %}
 {% block content %}
     <div class="container">
-        <h1>Process List</h1>
-        <table class="table">
+        <h1>Procesy legislacyjne</h1>
+        <table id="processesTable" class="table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Document Type</th>
-                    <th>Start Date</th>
-                    <th>Urgency Status</th>
-                    <th>Details</th>
+                    <th>Tytuł</th>
+                    <th>Typ dokumentu</th>
+                    <th>Data rozpoczęcia</th>
                 </tr>
             </thead>
             <tbody>
                 {% for process in processes %}
                     <tr>
-                        <td>{{ process.id }}</td>
-                        <td>{{ process.title }}</td>
-                        <td>{{ process.description }}</td>
+                        <td>{{ process.number }}</td>
+                        <td>
+                            <a href="{% url 'process_detail' process.id %}">{{ process.title }}</a>
+                        </td>
                         <td>{{ process.document_type }}</td>
                         <td>{{ process.process_start_date }}</td>
-                        <td>{{ process.urgency_status }}</td>
-                        <td>
-                            <a href="{% url 'process_detail' process.id %}" class="btn btn-primary">View Details</a>
-                        </td>
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="7" class="text-center">No processes found</td>
+                        <td colspan="7" class="text-center">Nie znaleziono procesów</td>
                     </tr>
                 {% endfor %}
             </tbody>

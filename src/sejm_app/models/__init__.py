@@ -6,4 +6,4 @@ from .scandal import Scandal
 from .faq import FAQ
 from .print_model import PrintModel, AdditionalPrint
 from .process import Process
-from .process import Stage
+from .stage import Stage

@@ -36,12 +36,10 @@ class PrintModel(models.Model):
 
     @cached_property
     def pdf_url(self) -> str:
-        return urljoin(
-            settings.SEJM_ROOT_URL, f"prints/{self.number}/{self.number}.pdf"
-        )
+        return f"{settings.SEJM_ROOT_URL}/prints/{self.number}/{self.number}.pdf"
 
     def __str__(self) -> str:
-        return f"{self.id} {self.title}"
+        return f"{self.number}. {self.title}"
 
 
 class AdditionalPrint(PrintModel):
