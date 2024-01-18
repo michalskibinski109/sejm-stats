@@ -2,6 +2,7 @@ from __future__ import annotations
 from django.db import models
 from .print_model import PrintModel
 from sejm_app.utils import camel_to_snake, parse_all_dates
+from django.utils.functional import cached_property
 from loguru import logger
 from .stage import Stage
 
@@ -38,6 +39,12 @@ class Process(models.Model):
     @property
     def print(self):
         return PrintModel.objects.get(id=self.id)
+
+    @cached_property
+    def is_finished(self) -> bool:
+        if not self.stages.exists():
+            return False
+        return self.stages.last().stage_name.lower() == "zamknięcie sprawy"
 
     @classmethod
     def from_api_response(cls, response: dict):
