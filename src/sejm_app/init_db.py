@@ -52,9 +52,9 @@ def run():
     # download_envoys()
     # download_photos()
     # download_clubs_photos()
-    download_votings()
+    # download_votings()
     download_processes()
-    download_prints()
+    # download_prints()
 
 
 def download_processes():
@@ -65,12 +65,12 @@ def download_processes():
         else 1
     )
     logger.info(f" last num {last_process} ")
-    logger.info(f" {Process.objects.order_by('id').first()} ")
     for i in count(last_process):
         if f"{settings.TERM}{i}" in Process.objects.values_list("id", flat=True):
             continue
         resp = requests.get(f"{url}/{i}")
         if resp.status_code == 404:
+            logger.info(f"Finished downloading processes")
             break
         resp.raise_for_status()
         process = resp.json()

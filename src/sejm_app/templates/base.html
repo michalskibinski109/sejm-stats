@@ -12,6 +12,7 @@
                 integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
                 crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        {% comment %} <script type="text/javascript"  src="{% static 'js/mdb.min.js' %}"></script> {% endcomment %}
         {% block extra_head %}
         {% endblock extra_head %}
         <link href="{% static 'fontawesomefree/css/fontawesome.css' %}"
@@ -23,6 +24,10 @@
         <link href="{% static 'fontawesomefree/css/solid.css' %}"
               rel="stylesheet"
               type="text/css" />
+        <link rel="stylesheet"
+              href="{% static 'css/mdb.min.css' %}"
+              type="text/css"
+              media="screen,projection" />
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
         <link rel="stylesheet" href="{% static 'css/style.css' %}" />
         <script src="{% static 'js/script.js' %}"></script>

@@ -9,6 +9,8 @@ from .views import (
     VotingDetailView,
     FAQListView,
     ScandalListView,
+    ProcessListView,
+    ProcessDetailView,
 )
 
 urlpatterns = [
@@ -21,4 +23,6 @@ urlpatterns = [
     path("voting/<int:pk>/", VotingDetailView.as_view(), name="voting_detail"),
     path("faq/", FAQListView.as_view(), name="faq"),
     path("scandals/", ScandalListView.as_view(), name="scandals"),
+    path("processes/", ProcessListView.as_view(), name="processes"),
+    path("process/<int:pk>/", ProcessDetailView.as_view(), name="process_detail"),
 ]

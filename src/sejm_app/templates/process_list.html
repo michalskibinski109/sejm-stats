@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Process List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Document Type</th>
+                    <th>Start Date</th>
+                    <th>Urgency Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for process in processes %}
+                    <tr>
+                        <td>{{ process.id }}</td>
+                        <td>{{ process.title }}</td>
+                        <td>{{ process.description }}</td>
+                        <td>{{ process.document_type }}</td>
+                        <td>{{ process.process_start_date }}</td>
+                        <td>{{ process.urgency_status }}</td>
+                        <td>
+                            <a href="{% url 'process_detail' process.id %}" class="btn btn-primary">View Details</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No processes found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -23,7 +23,7 @@ class StageAdmin(admin.ModelAdmin):
 class process_admin(admin.ModelAdmin):
     list_display = (
         "id",
-        "description",
+        "title",
     )
 
 

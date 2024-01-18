@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet"
+          href="{% static 'css/steps.css' %}"
+          type="text/css"
+          media="screen,projection" />
+    {% comment %} <link rel="stylesheet" href="{% static 'css/steppers.min.css' %}" type="text/css" media="screen,projection" />
+    <script type="text/javascript"  src="{% static 'js/steppers.min.js' %}"></script> {% endcomment %}
+{% endblock %}
+{% block content %}
+    <div class="container m-3">
+        <div class="row">
+            <div class="col-xl-6 col-12 bg-primary"></div>
+            <div class="col-xl-6 col-12 px-4">
+                <!-- Timeline starts here -->
+                <div class="timeline">
+                    <!-- Timeline item -->
+                    {% for stage in stages %}
+                        <div class="timeline-step">
+                            <div class="timeline-content shadow border-top  border-danger rounded-bottom p-3">
+                                {% if stage.date %}
+                                    <div class="timeline-badge">{{ stage.date }}</div>
+                                {% else %}
+                                    <div class="timeline-badge">-</div>
+                                {% endif %}
+                                <h5>{{ stage.stage_name }}</h5>
+                                {% if stage.comment %}<p>{{ stage.comment }}</p>{% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No stages found</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

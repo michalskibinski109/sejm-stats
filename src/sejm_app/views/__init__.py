@@ -1,3 +1,5 @@
+from .process_detail_view import ProcessDetailView
+from .process_list_view import ProcessListView
 from .club_detail_view import ClubDetailView
 from .club_list_view import ClubListView
 from .envoy_detail_view import EnvoyDetailView
