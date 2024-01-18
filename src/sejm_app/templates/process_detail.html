@@ -14,22 +14,36 @@
             <div class="col-xl-6 col-12 bg-primary"></div>
             <div class="col-xl-6 col-12 px-4">
                 <div class="row m-3">
-                    <div class="col-12 mx-5">
-                        <a href="{{ process.print.pdf_url }}"
-                           class="text-center text-primary fs-5 text-decoration-none">{{ process.print }}</a>
+                    <div class="col-12 mx-5 row">
+                        <h5 class="text-center col-11">{{ process.print }}</h5>
+                        <a href="{{ process.print.pdf_url }}" target="_blank" class="col-1 p-1">
+                            <i class="fas fa-file-pdf fa-2x"></i>
+                        </a>
                     </div>
                     <div class="timeline m-5">
                         <!-- Timeline item -->
                         {% for stage in stages %}
                             <div class="timeline-step">
-                                <div class="timeline-content shadow border-top border-2  rounded-bottom p-3 {% if stage.result == 'PASS' %}border-success{% elif stage.result == 'FAIL' %}border-danger{% endif %}">
+                                <div class="timeline-content shadow border-top border-2 border-danger rounded-bottom p-3 ">
                                     {% if stage.date %}
                                         <div class="timeline-badge">{{ stage.date }}</div>
                                     {% else %}
                                         <div class="timeline-badge">-</div>
                                     {% endif %}
                                     <h5>{{ stage.stage_name }}</h5>
-                                    {% if stage.decision %}<p>{{ stage.decision }}</p>{% endif %}
+                                    {% if stage.voting %}
+                                        <a href="{% url 'voting_detail' stage.voting.id %}" class="">Głosowanie</a>
+                                    {% endif %}
+                                    {% if stage.decision %}
+                                        <p>
+                                            {{ stage.decision }}
+                                            {% if stage.result == "PASS" %}
+                                                <i class="fas fa-check text-success mx-2"></i>
+                                            {% elif stage.result == "FAIL" %}
+                                                <i class="fas fa-times-circle fa-2x text-danger mx-2"></i>
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
                                 </div>
                             </div>
                         {% empty %}

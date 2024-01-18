@@ -62,7 +62,7 @@ class Stage(models.Model):
 
     @property
     def result(self):
-        pass_phrases = ("uchwalon", "przyjęto", "przyjeto")
+        pass_phrases = ("uchwalon", "przyjęto", "uchwałę")
         fail_phrases = ("nie przyjęto", "nie przyjeto", "odrzucon")
         if self.decision:
             if any(phrase in self.decision.lower() for phrase in pass_phrases):

@@ -12,22 +12,8 @@
     <script>
 $(document).ready( function () {
 $('#actsTable').DataTable({
-"pagingType": "full_numbers",
-"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-"responsive": true,
-"language": {
-"lengthMenu": "Wyświetl _MENU_ rekordów na stronę",
-"zeroRecords": "Nie znaleziono pasujących rekordów",
-"info": "Wyświetlanie strony _PAGE_ z _PAGES_",
-"infoEmpty": "Brak dostępnych rekordów",
-"infoFiltered": "(przefiltrowane z _MAX_ wszystkich rekordów)",
-"search": "Szukaj:",
-"paginate": {
-"first": "Pierwsza",
-"last": "Ostatnia",
-"next": "Następna",
-"previous": "Poprzednia"
-},
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Polish.json"
 }
 });
 } );
@@ -47,8 +33,8 @@ $('#actsTable').DataTable({
                     <h4 class="text-danger ">Filtruj</h4>
                     <hr class="my-4 text-danger">
                     {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary mx-4">Filtruj</button>
-                    <button type="reset" class="btn btn-secondary mx-4">Resetuj filtry</button>
+                    <button type="submit" class="btn btn-primary m-2">Filtruj</button>
+                    <button type="reset" class="btn btn-secondary m-2">Resetuj filtry</button>
                 </form>
             </div>
             <!-- Your table goes here in the 'col-md-9' div -->
