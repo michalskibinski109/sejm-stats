@@ -30,7 +30,7 @@ class Stage(models.Model):
         super().save(*args, **kwargs)
 
     @classmethod
-    def from_api_response(cls, response: dict, process: Process):
+    def from_api_response(cls, response: dict, process):
         stage = cls()
         if len(response.get("children", ())) > 1:
             logger.error(f"More than one child in stage for {process.id}")
