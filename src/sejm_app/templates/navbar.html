@@ -31,10 +31,7 @@
                        href="{% url 'votings' %}">Głosowania</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'faq' %}">FAQ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'acts' %}">Akty prawne</a>
+                    <a class="nav-link active " aria-current="page" href="{% url 'acts' %}">Akty prawne</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active"
@@ -46,11 +43,12 @@
                        aria-current="page"
                        href="{% url 'scandals' %}">Afery rządowe</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="/admin">Admin</a>
-                </li>
             </ul>
         </div>
+        <a class="nav-link active mx-2"
+           aria-current="page"
+           href="{% url 'faq' %}">FAQ</a>
+        <a class="nav-link active mx-2" aria-current="page" href="/admin">Admin</a>
         <div id="theme-toggle"
              class="nav-item me-3 d-flex align-items-center  "
              style="cursor: pointer">
