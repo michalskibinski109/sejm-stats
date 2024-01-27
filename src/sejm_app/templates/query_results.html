@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container container-fluid my-4">
+        <h1 class="display-5">
+            Rezultaty wyszukiwania: <em>{{ query|truncatechars:40 }}</em>
+        </h1>
+        <hr class="my-4">
+        <div class="row"></div>
+    </div>
+{% endblock %}

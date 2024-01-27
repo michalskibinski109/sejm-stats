@@ -1,9 +1,15 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg rounded-bottom border-3 border-bottom border-danger pb-0">
+<nav class="navbar navbar-expand-lg rounded-bottom border-3 border-bottom border-danger pb-1">
     <div class="container-fluid">
-        <a class="navbar-brand  nav-item d-flex align-items-center " href="/">
-            <i class="fa-regular text-danger fa-flag fa-2x mx-2"></i>
-            <p class="fs-4 mx-3 ">Sejm 2.0</p>
+        <a class="navbar-brand nav-item d-flex justify-content-center align-items-center"
+           href="/"
+           style="height: 100%">
+            <img src="{% static 'img/logo.png' %}"
+                 alt="logo"
+                 width="40"
+                 height="40"
+                 class="d-inline-block align-middle">
+            <p class="fs-4 mx-1 m-0 text-center">sejm-stats</p>
         </a>
         <button class="navbar-toggler"
                 type="button"
@@ -31,7 +37,10 @@
                        href="{% url 'votings' %}">Głosowania</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="{% url 'acts' %}">Akty prawne</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'faq' %}">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'acts' %}">Akty prawne</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active"
@@ -43,12 +52,11 @@
                        aria-current="page"
                        href="{% url 'scandals' %}">Afery rządowe</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active " aria-current="page" href="/admin">Admin</a>
+                </li>
             </ul>
         </div>
-        <a class="nav-link active mx-2"
-           aria-current="page"
-           href="{% url 'faq' %}">FAQ</a>
-        <a class="nav-link active mx-2" aria-current="page" href="/admin">Admin</a>
         <div id="theme-toggle"
              class="nav-item me-3 d-flex align-items-center  "
              style="cursor: pointer">

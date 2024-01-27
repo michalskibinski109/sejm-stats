@@ -12,10 +12,28 @@
       </span>
       - Carl Schurz
     </p> -->
-      <h1 class="display-3 mb-4">Sejm 2.0</h1>
+      <h1 class="display-3 mb-4">Sejm stats</h1>
       <p class="text-light">
-        <b class="text-danger">Oficjalne</b> Dane sejmowe przedstawione w przejrzysty sposób.
+        <b class="text-danger">Parlament pod lupą</b>: Kompleksowy Przegląd Aktywności Sejmowej
       </p>
+      <div class="container-fluid px-5 my-3">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <form action="{% url 'search' %}" method="get">
+              <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Wpisz hasło np. Wiatraki, Kaczyński etc."
+                       aria-label="Search"
+                       name="search">
+                <button class="btn btn-outline-light" type="submit">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
       <div class="row m-4 p-5">
         <div class="col-3">
           <i class="fa-4x fa-person fa-regular"></i>

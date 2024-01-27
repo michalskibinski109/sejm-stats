@@ -60,3 +60,32 @@ Visit `http://localhost:8000` in your web browser to use the application.
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+
+### Software stack
+
+1. Infrastructure
+   - AWS S3
+   - AWS Elastic Beanstalk
+   - AWS EC3
+2. Backend
+   - Python
+   - Django
+   - Django REST Framework
+   - PostgreSQL
+   - Elasticsearch
+   - Celery
+   - Redis
+   - Docker
+3. Frontend
+   - JS, jQuery
+   - Bootstrap 5
+   - HTML, CSS
+   - Chart.js
+   - DataTables
+   - FontAwesome
+4. Development
+   - Git
+   - GitHub
+   - VS Code
+   - Github copilot

@@ -68,20 +68,22 @@ def download_processes():
     missing = 0
     logger.info(f" last num {last_process} ")
     for i in count(last_process):
+        logger.info(f"Downloading process {i}")
         if f"{settings.TERM}{i}" in Process.objects.values_list("id", flat=True):
             continue
         resp = requests.get(f"{url}/{i}")
-        if resp.status_code == 404:
+        if resp.status_code != 200:
             missing += 1
+            logger.info(f"Missing process {i} ({missing}/{MAX_MISSING})")
             continue
+        else:
+            missing = 0
+            process = resp.json()
+            process = Process.from_api_response(process)
+            logger.info(f"Downloaded process {process.id}")
         if missing > MAX_MISSING:
             logger.info(f"Finished downloading processes on {i}")
-            break
-        missing = 0
-        resp.raise_for_status()
-        process = resp.json()
-        process = Process.from_api_response(process)
-        logger.info(f"Downloaded process {process.id}")
+            return
 
 
 def download_prints():

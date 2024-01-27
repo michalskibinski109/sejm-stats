@@ -9,3 +9,4 @@ from .voting_list_view import VotingListView
 from .home_view import HomeView
 from .faq_list_view import FAQListView
 from .scandal_list_view import ScandalListView
+from .query_result_view import SearchResultView

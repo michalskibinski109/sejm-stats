@@ -9,3 +9,4 @@ requests
 Pillow
 bs4
 django-select2
+elasticsearch-dsl

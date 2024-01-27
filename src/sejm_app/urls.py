@@ -11,10 +11,12 @@ from .views import (
     ScandalListView,
     ProcessListView,
     ProcessDetailView,
+    SearchResultView,
 )
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
+    path("search/", SearchResultView.as_view(), name="search"),
     path("envoys/", EnvoyListView.as_view(), name="envoys"),
     path("envoys/<int:pk>", EnvoyDetailView.as_view(), name="envoy_detail"),
     path("clubs/", ClubListView.as_view(), name="clubs"),
