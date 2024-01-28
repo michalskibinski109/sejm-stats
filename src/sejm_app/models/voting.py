@@ -49,19 +49,6 @@ class Voting(models.Model):
 
     @cached_property
     def success(self) -> bool:
-        """
-        https://orka.sejm.gov.pl/wydbas.nsf/0/B5FA668643E89D51C1257F03002F9D51/$File/Strony%20odwyklady-3.pdf
-        Tak więc dla ważności większości
-        rozstrzygnięć konieczny jest udział w głosowaniu
-        na sali plenarnej co najmniej 230 posłów. Wyjątkiem są głosowania niezależne od kworum, kiedy
-        to Sejm rozstrzyga większością głosów obecnych
-        posłów. Dotyczą one, zgodnie z art. 184 ust. 4 regulaminu Sejmu, wniosków formalnych w  sprawie zamknięcia listy mówców, zamknięcia dyskusji, ograniczenia czasu przemówień, stwierdzenia
-        kworum i  przeliczenia głosów oraz odroczenia
-        dyskusji (art. 184 ust. 7 regulaminu Sejmu). W tych
-        wypadkach Sejm może podjąć decyzję niezależnie
-        od tego, ilu posłów w momencie głosowania bierze
-        w nim udział.
-        """
         if self.no + self.yes + self.abstain < 230:
             logger.warning(
                 f"Voting {self.id} has less than 230 votes, cannot determine if passed"

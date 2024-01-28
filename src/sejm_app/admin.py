@@ -10,7 +10,19 @@ from sejm_app.models import (
     AdditionalPrint,
     Process,
     Stage,
+    Interpellation,
+    Reply,
 )
+
+
+@admin.register(Reply)
+class ReplyAdmin(admin.ModelAdmin):
+    list_display = ("id", "key")
+
+
+@admin.register(Interpellation)
+class InterpellationAdmin(admin.ModelAdmin):
+    list_display = ("id", "title", "from_member")
 
 
 # Register your models here.

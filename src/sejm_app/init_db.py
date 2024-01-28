@@ -6,6 +6,7 @@ from sejm_app.models import (
     Envoy,
     Vote,
     Voting,
+    Interpellation,
     VotingOption,
     PrintModel,
     AdditionalPrint,
@@ -55,6 +56,29 @@ def run():
     # download_votings()
     # download_processes()
     # download_prints()
+    download_interpellations()
+
+
+def download_interpellations():
+    url = f"{settings.SEJM_ROOT_URL}/interpellations"
+    last_interpellation = (
+        Interpellation.objects.order_by("num").last().num
+        if Interpellation.objects.exists()
+        else 1
+    )
+    # for i in count(last_interpellation):
+    for i in range(last_interpellation, last_interpellation + 10):
+        logger.info(f"Downloading interpellation {i}")
+        if f"{settings.TERM}{i}" in Interpellation.objects.values_list("id", flat=True):
+            continue
+        resp = requests.get(f"{url}/{i}")
+        if resp.status_code != 200:
+            logger.info(f"Finished downloading interpellations on {i}")
+            return
+        else:
+            interpellation = resp.json()
+            interpellation = Interpellation.from_api_response(interpellation)
+            logger.info(f"Downloaded interpellation {interpellation.id}")
 
 
 def download_processes():

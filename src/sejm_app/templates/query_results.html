@@ -1,10 +1,58 @@
 {% extends "base.html" %}
+{% load static %}
+{% block extra_head %}
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+{% endblock extra_head %}
 {% block content %}
     <div class="container container-fluid my-4">
         <h1 class="display-5">
             Rezultaty wyszukiwania: <em>{{ query|truncatechars:40 }}</em>
         </h1>
+        <h2 class="display-6">{{ total }} wyników</h2>
         <hr class="my-4">
-        <div class="row"></div>
+        <section class="mb-4">
+            <h3 class="mb-3">Interpellations</h3>
+            {% for interpellation in interpelations %}
+                <div class="card custom-card mb-3 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ interpellation.title }}</h5>
+                        <!-- Add more fields as needed -->
+                    </div>
+                </div>
+            {% empty %}
+                <p>No interpellations found.</p>
+            {% endfor %}
+        </section>
+        <section class="mb-4">
+            <h3 class="mb-3">Procesy</h3>
+            {% for process in processes %}
+                <div class="card custom-card mb-3 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ process.title }}</h5>
+                        <!-- Add more fields as needed -->
+                    </div>
+                </div>
+            {% empty %}
+                <p>No processes found.</p>
+            {% endfor %}
+        </section>
+        <section class="mb-4">
+            <h3 class="mb-3">Druki</h3>
+            {% for print in prints %}
+                <div class="card custom-card mb-3 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ print.title }}</h5>
+                        <!-- Add more fields as needed -->
+                    </div>
+                </div>
+            {% empty %}
+                <p>No prints found.</p>
+            {% endfor %}
+        </section>
+        <section class="mb-4">
+            <h3 class="mb-3">Posłowie</h3>
+            <div class="row">{% include "_envoy_snippet.html" %}</div>
+            <p>No envoys found.</p>
+        </section>
     </div>
 {% endblock %}
