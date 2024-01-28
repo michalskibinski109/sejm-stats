@@ -17,7 +17,7 @@ class Process(models.Model):
         choices=((True, "YES"), (False, "NO")), null=True, blank=True
     )
     number = models.IntegerField()
-    change_date = models.DateTimeField()
+    change_date = models.DateField()
     description = models.TextField()
     # document_date = models.DateField()
     document_type = models.CharField(max_length=255)

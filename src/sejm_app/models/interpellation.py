@@ -11,8 +11,8 @@ class Reply(models.Model):
         "Interpellation", on_delete=models.CASCADE, related_name="replies"
     )
     key = models.CharField(max_length=255)
-    receipt_date = models.DateTimeField()
-    last_modified = models.DateTimeField()
+    receipt_date = models.DateField()
+    last_modified = models.DateField()
     from_member = models.ForeignKey(
         Envoy, on_delete=models.CASCADE, related_name="replies", null=True
     )
@@ -59,8 +59,8 @@ class Interpellation(models.Model):
     title = models.CharField(
         max_length=255, help_text=_("Title of the interpellation"), null=True
     )
-    receipt_date = models.DateTimeField(help_text=_("Date of receipt"), null=True)
-    last_modified = models.DateTimeField(help_text=_("Last modified date"), null=True)
+    receipt_date = models.DateField(help_text=_("Date of receipt"), null=True)
+    last_modified = models.DateField(help_text=_("Last modified date"), null=True)
     body_link = models.URLField(
         help_text=_("Link to the interpellation body"), null=True
     )
@@ -70,7 +70,7 @@ class Interpellation(models.Model):
     to = models.JSONField(
         default=list, help_text=_("Recipients of the interpellation"), null=True
     )
-    sent_date = models.DateTimeField(help_text=_("Date sent"), null=True)
+    sent_date = models.DateField(help_text=_("Date sent"), null=True)
     repeated_interpellation = models.JSONField(
         default=list, help_text=_("Repeated interpellation references"), null=True
     )

@@ -56,7 +56,7 @@ def run():
     # download_votings()
     # download_processes()
     # download_prints()
-    download_interpellations()
+    # download_interpellations()
 
 
 def download_interpellations():
@@ -66,8 +66,7 @@ def download_interpellations():
         if Interpellation.objects.exists()
         else 1
     )
-    # for i in count(last_interpellation):
-    for i in range(last_interpellation, last_interpellation + 10):
+    for i in count(last_interpellation):
         logger.info(f"Downloading interpellation {i}")
         if f"{settings.TERM}{i}" in Interpellation.objects.values_list("id", flat=True):
             continue

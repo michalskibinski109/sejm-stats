@@ -1,41 +1,94 @@
 {% extends "base.html" %}
 {% load static %}
 {% block extra_head %}
-    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/interpellation_chart.js' %}" defer></script>
+    <script src="{% static 'js/interest_chart.js' %}" defer></script>
+    <script src="{% static 'js/processes_chart.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 {% endblock extra_head %}
 {% block content %}
     <div class="container container-fluid my-4">
         <h1 class="display-5">
             Rezultaty wyszukiwania: <em>{{ query|truncatechars:40 }}</em>
         </h1>
-        <h2 class="display-6">{{ total }} wyników</h2>
-        <hr class="my-4">
-        <section class="mb-4">
-            <h3 class="mb-3">Interpellations</h3>
-            {% for interpellation in interpelations %}
-                <div class="card custom-card mb-3 shadow">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ interpellation.title }}</h5>
-                        <!-- Add more fields as needed -->
-                    </div>
+        <hr class="my-5" />
+        <div class="row">
+            <div class="mb-4 col-4">
+                <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+                    <h1 class="fs-2 lead text-center p-1">Wszystkich wyników</h1>
+                    <p class="counter display-4 text-center ">{{ total }}</p>
                 </div>
-            {% empty %}
-                <p>No interpellations found.</p>
-            {% endfor %}
-        </section>
-        <section class="mb-4">
-            <h3 class="mb-3">Procesy</h3>
-            {% for process in processes %}
-                <div class="card custom-card mb-3 shadow">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ process.title }}</h5>
-                        <!-- Add more fields as needed -->
-                    </div>
+                <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+                    <h1 class="fs-2 lead text-center p-1">interpelacji</h1>
+                    <p class="counter display-4 text-center ">{{ interpelations|length }}</p>
                 </div>
-            {% empty %}
-                <p>No processes found.</p>
-            {% endfor %}
-        </section>
+                <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
+                    <h1 class="fs-2 lead text-center p-1">procesów</h1>
+                    <p class="counter display-4 text-center ">{{ processes|length }}</p>
+                </div>
+            </div>
+            <div class="mb-4 col-8">
+                <canvas id="interpellationChart" data-interpellations="{{ commitment }}"></canvas>
+            </div>
+            <hr class="my-4" />
+            <div class="mb-4 col-6">
+                <canvas id="interestChart" data-interest="{{ topic_interest_over_time }}"></canvas>
+            </div>
+            <div class="mb-4 col-6">
+                <canvas id="processesChart" data-interest="{{ number_of_projects_by_club }}"></canvas>
+            </div>
+            <div class="mb-4 col-4"></div>
+            <hr class="my-5" />
+            <div class="mb-4 col-6">
+                <h3 class="mb-3">Interpelacje</h3>
+                {% for interpellation in interpelations %}
+                    <div class="card custom-card mb-3 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ interpellation.title }}</h5>
+                            <p class="card-text">{{ interpellation.from_member.first_name }} {{ interpellation.from_member.second_name }}</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Odpowiedzi:</h6>
+                            {% if interpellation.replies.all %}
+                                <ul>
+                                    {% for reply in interpellation.replies.all %}
+                                        <li>
+                                            <strong>{{ reply.from_member.first_name }} {{ reply.from_member.last_name }}</strong>
+                                            <p>Dnia: {{ reply.receipt_date|date:"d M Y" }}</p>
+                                            <!-- Add more fields as needed -->
+                                        </li>
+                                        {% if not forloop.last %}<hr />{% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No replies available.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No interpellations found.</p>
+                {% endfor %}
+            </div>
+            <div class="mb-4 col-6">
+                <h3 class="mb-3">Procesy</h3>
+                <ul class="list-group mb-3">
+                    {% for process in processes %}
+                        <li class="list-group-item d-flex align-items-center m-2 border-0 border-bottom-1 clickable-card">
+                            <p class="m-0 me-2">
+                                <i class="fa fa-lg {{ process.is_finished|yesno:'fa-check-circle text-success, fa-regular fa-clock text-warning' }} mr-2"></i>
+                            </p>
+                            <div>
+                                <p class="text-muted mb-0">{{ process.change_date|date:"d.m.Y" }}</p>
+                                <p class="mb-0">{{ process.title|truncatechars:120 }}</p>
+                            </div>
+                        </li>
+                        <hr class="m-0" />
+                    {% empty %}
+                        <li class="list-group-item">Nie znaleziono procesów</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
         <section class="mb-4">
             <h3 class="mb-3">Druki</h3>
             {% for print in prints %}
@@ -52,7 +105,6 @@
         <section class="mb-4">
             <h3 class="mb-3">Posłowie</h3>
             <div class="row">{% include "_envoy_snippet.html" %}</div>
-            <p>No envoys found.</p>
         </section>
     </div>
 {% endblock %}

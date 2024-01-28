@@ -2,7 +2,6 @@ $(document).ready(function () {
   var ctx = $("#envoysChart").get(0).getContext("2d");
   let clubs_str = $("#envoysChart").attr("data-clubs");
   // parse it to string
-  console.log(clubs_str);
   var clubs = JSON.parse(clubs_str);
   var labels = clubs.map(function (club) {
     return club.id;
