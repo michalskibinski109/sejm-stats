@@ -1,19 +1,10 @@
-# Sejm 2.0
+# Sejm stats
+
+<img src="src/sejm_app/static/img/logo.png" alt="sejm-stats" width="200"/>
+
+## [Dokumentacja w języku polskim](https://michalskibinski109.github.io/sejm-stats-docs/)
 
 Welcome to Sejm 2.0, a project aimed at making parliamentary data more accessible and understandable. This project provides a clear and concise view of complex parliamentary data, making it easier for citizens to stay informed about the actions and decisions of their representatives.
-
-## Features
-
-- Detailed information about representatives, including education, earnings, and more.
-- Comprehensive data about parliamentary clubs, their members, and leaders.
-- Voting records and details about each vote.
-- Frequently asked questions and answers about the parliament.
-
-Sejm 2.0 is built with Python and Django, and uses a variety of data sources to provide the most accurate and up-to-date information possible.
-
-Whether you're a citizen looking to stay informed, a journalist seeking data for a story, or a researcher studying parliamentary actions, Sejm 2.0 has something for you. Explore the project, contribute, or just learn more about your parliament.
-
-Start exploring Sejm 2.0 now!
 
 ![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/51c4e1d1-a340-4b9e-a312-4cdccc52989a)
 ![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/b6ed424b-a12b-4e02-9624-9c470030f785)
@@ -21,71 +12,23 @@ Start exploring Sejm 2.0 now!
 ![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/debd73b5-1dab-4002-82f4-f98c9f400ed6)
 
 
-## Installation
+## Introduction 🚀
 
-1. Clone the repository:
+sejm-stats is a project aimed at improving the accessibility of parliamentary information for everyone. The official parliamentary website is not very user-friendly and lacks some key features, such as keyword search. sejm-stats aims to fix these issues and add some additional features.
 
-```
-git clone https://github.com/michalskibinski109/transparlament.git
-```
+## Motivation
 
-2. Navigate to the project directory:
+The main motivation behind sejm-stats is to make parliamentary information more accessible to everyone. The project is not driven by financial motives, but rather by the desire to keep everyone informed about what's happening in the country. sejm-stats is not affiliated with any political party. The goal is to provide objective and convenient information to help citizens understand the decision-making processes in our country. However, as the project developed, it became clear that some form of financing would be necessary to keep it going.
 
-```
-cd transparlament
-```
+## Advantages over the official parliamentary website
 
-3. Install the required packages:
+In addition to all the data available on the official parliamentary website, sejm-stats will also offer:
 
-```
-pip install -r requirements.txt
-```
+- Intelligent summaries of resolutions, laws, bill projects, etc. using artificial intelligence models (NLP). 📝
+- Advanced data search capabilities using AI, elasticSearch, and a vector database.
+- Integrated data visualizations. 📊
+- The ability to subscribe to a specific topic and receive notifications about new bill projects, resolutions, etc. 📬
+- Analysis of parliamentary data using machine learning to detect anomalies and irregularities in the actions of deputies. 🤖
+- The ability to export data to CSV, JSON, XML files for further analysis. 📁
+- An intuitive user interface offering light and dark themes. ☀️
 
-4. Run the Django migrations:
-
-```
-python manage.py migrate
-```
-
-5. Start the Django server:
-
-```
-python manage.py runserver
-```
-
-## Usage
-
-Visit `http://localhost:8000` in your web browser to use the application.
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-
-### Software stack
-
-1. Infrastructure
-   - AWS S3
-   - AWS Elastic Beanstalk
-   - AWS EC3
-2. Backend
-   - Python
-   - Django
-   - Django REST Framework
-   - PostgreSQL
-   - Elasticsearch
-   - Celery
-   - Redis
-   - Docker
-3. Frontend
-   - JS, jQuery
-   - Bootstrap 5
-   - HTML, CSS
-   - Chart.js
-   - DataTables
-   - FontAwesome
-4. Development
-   - Git
-   - GitHub
-   - VS Code
-   - Github copilot
