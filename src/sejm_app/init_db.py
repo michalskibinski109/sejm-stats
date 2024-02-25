@@ -77,7 +77,6 @@ def download_interpellations():
         else:
             interpellation = resp.json()
             interpellation = Interpellation.from_api_response(interpellation)
-            logger.info(f"Downloaded interpellation {interpellation.id}")
 
 
 def download_processes():
@@ -95,6 +94,9 @@ def download_processes():
         if f"{settings.TERM}{i}" in Process.objects.values_list("id", flat=True):
             continue
         resp = requests.get(f"{url}/{i}")
+        if missing > MAX_MISSING:
+            logger.info(f"Finished downloading processes on {i}")
+            return
         if resp.status_code != 200:
             missing += 1
             logger.info(f"Missing process {i} ({missing}/{MAX_MISSING})")
@@ -104,9 +106,6 @@ def download_processes():
             process = resp.json()
             process = Process.from_api_response(process)
             logger.info(f"Downloaded process {process.id}")
-        if missing > MAX_MISSING:
-            logger.info(f"Finished downloading processes on {i}")
-            return
 
 
 def download_prints():
@@ -206,7 +205,6 @@ def download_votings():
     if last_voting and last_voting.date.date() == timezone.now().date():
         logger.info("Votings are up to date")
         return
-    logger.warning(last_voting.voting_number)
     sitting, number = (
         (last_voting.sitting, last_voting.voting_number + 1) if last_voting else (1, 1)
     )

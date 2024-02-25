@@ -1,0 +1,52 @@
+<div class="dropdown my-3 mx-0  border rounded shadow">
+    <div class=" col-12 p-3 display-6 fs-3 d-flex justify-content-between align-items-center"
+         role="button"
+         data-bs-toggle="collapse"
+         data-bs-target="#interpellationsDropdown"
+         aria-expanded="false"
+         aria-controls="interpellationsDropdown">
+        Interpelacje
+        <i class="fa-solid fa-caret-down me-2"></i>
+    </div>
+    <div id="interpellationsDropdown"
+         class=" collapse mx-0 p-1"
+         aria-labelledby="interpellationsDropdown">
+        {% for interpellation in interpelations %}
+            <a class="dropdown-item">
+                <div class="card mb-3 shadow p-1">
+                    <div class="card-body">
+                        <a class="text-wrap lead text-decoration-none"
+                           href="{{ interpellation.body_link }}">{{ interpellation.title }}</a>
+                        {% if interpellation.replies.all %}
+                            <h6 class="card-subtitle mb-2 text-muted">Odpowiedzi:</h6>
+                            <ul>
+                                {% for reply in interpellation.replies.all %}
+                                    <li>
+                                        <strong>
+                                            <a href="{{ reply.body_link }}" class="text-decoration-none">
+                                            odpowiedź od: {{ reply.author }}</strong></a>
+                                            <p>Dnia: {{ reply.receipt_date|date:"d M Y" }}</p>
+                                        </li>
+                                        {% if not forloop.last %}<hr />{% endif %}
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer text-muted d-flex justify-content-between">
+                        </span>
+                        <span class="card-text fw-bold">
+                            {% if interpellation.replies.all %}
+                                <i class="fa-solid text-success fa-check"></i>
+                            {% else %}
+                                <i class="fa-solid text-warning fa-clock"></i>
+                            {% endif %}
+                        {{ interpellation.from_member }}</span>
+                        <span class="card-text">Ostatnia modyfikacja: {{ interpellation.last_modified|date:"d M Y" }}</span>
+                    </div>
+                </div>
+            </a>
+        {% empty %}
+            <a class="dropdown-item">No interpellations found.</a>
+        {% endfor %}
+    </div>
+</div>

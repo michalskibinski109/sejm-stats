@@ -3,6 +3,7 @@ from django.conf import settings
 from django.shortcuts import render
 from django.views import View
 from sejm_app.models import PrintModel, Process, Envoy, Interpellation, Reply, Club
+from eli_app.models import Act
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
 from django.db.models import Count
@@ -10,36 +11,57 @@ import json
 from django.db.models.functions import (
     TruncWeek,
 )  # or TruncDay, TruncWeek based on your need
+from django.contrib.postgres.search import (
+    SearchVector,
+    SearchQuery,
+    SearchRank,
+    TrigramSimilarity,
+)
+from django.db.models.functions import Greatest
 
 # Full-text search across multiple fields using SearchVector
 
 
 class SearchResultView(View):
     def get(self, request):
-        interpolations_query = Q()
-        processes_query = Q()
-        prints_query = Q()
-        envoys_query = Q()
         query = request.GET.get("search", "").strip()
-        keywords = query.split()
-        for keyword in keywords:
-            interpolations_query |= Q(
-                title__icontains=keyword
-            )  # Add more fields if needed
-            processes_query |= Q(title__icontains=keyword)  # Add more fields if needed
-            prints_query |= Q(title__icontains=keyword)  # Add more fields if needed
-            envoys_query |= Q(first_name__icontains=keyword) | Q(
-                second_name__icontains=keyword
+        keywords = query.split(",")
+        search_queries = [
+            SearchQuery(keyword.strip(), config="pl_ispell") for keyword in keywords
+        ]
+        combined_search_query = search_queries.pop()
+        for search_query in search_queries:
+            combined_search_query |= search_query
+        title_vector = SearchVector("title", config="pl_ispell")
+        keyword_vector = SearchVector("keywords", config="pl_ispell")
+        person_vector = SearchVector(
+            "first_name", "second_name", "last_name", config="pl_ispell"
+        )
+        interpolations = (
+            Interpellation.objects.annotate(
+                search=title_vector,
             )
-
-        # Filter based on constructed Q objects
-        interpolations = Interpellation.objects.filter(interpolations_query)
-        processes = Process.objects.filter(processes_query)
-        prints = PrintModel.objects.filter(prints_query)
-        envoys = Envoy.objects.filter(envoys_query)
-
+            .filter(search=combined_search_query)
+            .order_by("-last_modified")
+        )
+        processes = Process.objects.annotate(search=title_vector).filter(
+            search=combined_search_query
+        )
+        prints = PrintModel.objects.annotate(search=title_vector).filter(
+            search=combined_search_query
+        )
+        envoys = Envoy.objects.annotate(search=person_vector).filter(
+            search=combined_search_query
+        )
+        # use title and keyword vector
+        acts = (
+            Act.objects.annotate(search=title_vector + keyword_vector)
+            .filter(search=combined_search_query)
+            .order_by("-announcementDate")
+        )
         context = {
-            "query": query,
+            "query": query.split(","),
+            "acts": acts,
             "interpelations": interpolations,
             "processes": processes,
             "prints": prints,
@@ -49,18 +71,23 @@ class SearchResultView(View):
             "topic_interest_over_time": json.dumps(
                 self._get_topic_interest_over_time(interpolations, processes, prints)
             ),
-            "number_of_projects_by_club": json.dumps(
-                self._get_number_of_projects_by_club(processes)
+            "clubs_involvement": json.dumps(
+                self._get_clubs_involvement(interpolations)
             ),
         }
 
         return render(request, "query_results.html", context)
 
-    def _get_number_of_projects_by_club(self, processes) -> dict:
-        import random
+    def _get_clubs_involvement(
+        self,
+        interpolations: list[Interpellation],
+    ) -> dict:
 
-        clubs = Club.objects.all()
-        return {club.id: random.randint(0, 20) for club in clubs}
+        involvement = {}
+        for club in Club.objects.all():
+            involvement[club.id] = interpolations.filter(from_member__club=club).count()
+
+        return involvement
 
     def _get_topic_interest_over_time(self, interpolations, processes, prints) -> dict:
         # Aggregate interpellations by week

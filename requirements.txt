@@ -10,3 +10,4 @@ Pillow
 bs4
 django-select2
 elasticsearch-dsl
+psycopg~=3.1.8

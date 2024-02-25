@@ -1,4 +1,5 @@
 from django.db import models
+import django
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
@@ -77,13 +78,19 @@ class Voting(models.Model):
         response = {camel_to_snake(key): value for key, value in response.items()}
         for key, value in response.items():
             if not hasattr(voting, key):
-                logger.debug(f"Voting has no attribute {key}")
                 continue
+            if isinstance(value, str) and len(value) > 255:
+                value = value[:255]
             if key == "votes":
-                voting.save()
-                votes = (
-                    Vote.from_api_response(vote_data, voting) for vote_data in value
-                )
+                try:
+
+                    voting.save()
+                    votes = (
+                        Vote.from_api_response(vote_data, voting) for vote_data in value
+                    )
+                except django.db.utils.DataError:
+                    logger.warning(f"DataError: {value}")
+                    continue
                 continue
             setattr(voting, key, value)
         voting.save()

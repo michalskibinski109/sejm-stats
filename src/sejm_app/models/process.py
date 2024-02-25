@@ -54,6 +54,8 @@ class Process(models.Model):
         response = {camel_to_snake(key): value for key, value in response.items()}
         process.id = str(response["term"]) + str(response["number"])
         for key, value in response.items():
+            if key == "change_date":
+                value = value.split("T")[0]
             if key == "stages":
                 for stage in value:
                     Stage.from_api_response(stage, process)

@@ -16,6 +16,7 @@ class Reply(models.Model):
     from_member = models.ForeignKey(
         Envoy, on_delete=models.CASCADE, related_name="replies", null=True
     )
+    from_not_envoy = models.CharField(max_length=255, null=True, blank=True)
     body_link = models.URLField(null=True)
     only_attachment = models.BooleanField(default=False)
     attachments = models.JSONField(default=list)
@@ -23,11 +24,17 @@ class Reply(models.Model):
     def __str__(self):
         return self.key
 
+    @property
+    def author(self):
+        if self.from_member:
+            return self.from_member
+        return self.from_not_envoy
+
     @classmethod
     def from_api_response(cls, response: dict, interpolation):
-        response = parse_all_dates(response)
         response["interpolation"] = interpolation
         response = {camel_to_snake(key): value for key, value in response.items()}
+        response = parse_all_dates(response, True)
         if "from" in response:
             value = response["from"]
             del response["from"]
@@ -44,6 +51,7 @@ class Reply(models.Model):
                     logger.error(
                         f"Envoy with first_name={first_name} and last_name={last_name} does not exist."
                     )
+                    response["from_not_envoy"] = value
         if "links" in response:
             for link in response["links"]:
                 if link["rel"] == "body":
@@ -59,6 +67,8 @@ class Interpellation(models.Model):
     title = models.CharField(
         max_length=255, help_text=_("Title of the interpellation"), null=True
     )
+    # title_stemmed = models.GeneratedField(
+
     receipt_date = models.DateField(help_text=_("Date of receipt"), null=True)
     last_modified = models.DateField(help_text=_("Last modified date"), null=True)
     body_link = models.URLField(
@@ -83,14 +93,16 @@ class Interpellation(models.Model):
     def __str__(self):
         return f"{self.title} ({self.receipt_date})"
 
-    # Rest of your code...
     @classmethod
     def from_api_response(cls, response: dict):
         interpellation = cls()
-        response = parse_all_dates(response)
         response = {camel_to_snake(key): value for key, value in response.items()}
+        response = parse_all_dates(response, True)
 
         for key, value in response.items():
+            if isinstance(value, str) and len(value) > 255:
+                value = value[:255]
+
             if key == "from":
                 key = "from_member"
                 value = value[0]
@@ -121,6 +133,6 @@ class Interpellation(models.Model):
 
         if "replies" in response:
             for reply_data in response["replies"]:
-                reply = Reply.from_api_response(reply_data, interpellation)
+                Reply.from_api_response(reply_data, interpellation)
 
         return interpellation

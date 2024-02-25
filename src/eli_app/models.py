@@ -70,7 +70,7 @@ class Act(models.Model):
     status = models.ForeignKey(ActStatus, on_delete=models.CASCADE)
     textHTML = models.BooleanField()
     textPDF = models.BooleanField()
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=512)
     type = models.ForeignKey(DocumentType, on_delete=models.CASCADE, null=True)
     volume = models.IntegerField()
     year = models.IntegerField()

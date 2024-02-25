@@ -81,30 +81,36 @@ def populate_acts(function: Callable):
                 publisher=publisher,
                 year=year,
                 ELI=act["ELI"],
-                title=act["title"],
+                title=act["title"][:512],
                 status=ActStatus.objects.get(name=act["status"]),
                 type=DocumentType.objects.get(name=act["type"]),
-                releasedBy=Institution.get_by_name(act["releasedBy"][0])
-                if act.get("releasedBy")
-                else None,
+                releasedBy=(
+                    Institution.get_by_name(act["releasedBy"][0])
+                    if act.get("releasedBy")
+                    else None
+                ),
                 changeDate=timezone.make_aware(
                     datetime.strptime(act["changeDate"], "%Y-%m-%dT%H:%M:%S")
                 ),
                 textHTML=act["textHTML"],
                 volume=act["volume"],
                 pos=act["pos"],
-                announcementDate=timezone.make_aware(
-                    datetime.strptime(act["announcementDate"], "%Y-%m-%d")
-                )
-                if act.get("announcementDate")
-                else None,
+                announcementDate=(
+                    timezone.make_aware(
+                        datetime.strptime(act["announcementDate"], "%Y-%m-%d")
+                    )
+                    if act.get("announcementDate")
+                    else None
+                ),
                 directives=act["directives"],
                 textPDF=act["textPDF"],
-                entryIntoForce=timezone.make_aware(
-                    datetime.strptime(act["entryIntoForce"], "%Y-%m-%d")
-                )
-                if act.get("entryIntoForce")
-                else None,
+                entryIntoForce=(
+                    timezone.make_aware(
+                        datetime.strptime(act["entryIntoForce"], "%Y-%m-%d")
+                    )
+                    if act.get("entryIntoForce")
+                    else None
+                ),
             )
             act_instance.keywords.set(Keyword.objects.filter(name__in=act["keywords"]))
 

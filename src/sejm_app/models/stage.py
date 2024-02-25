@@ -5,6 +5,7 @@ from .voting import Voting
 from django.utils.dateparse import parse_date, parse_datetime
 from sejm_app.utils import camel_to_snake, parse_all_dates
 from loguru import logger
+from datetime import datetime
 
 
 class Stage(models.Model):
@@ -35,6 +36,7 @@ class Stage(models.Model):
         if len(response.get("children", ())) > 1:
             logger.error(f"More than one child in stage for {process.id}")
             return
+
         if len(response.get("children", ())) > 0:
             child = response["children"][0]
             response.pop("children")
@@ -51,7 +53,6 @@ class Stage(models.Model):
                 else:
                     value = Voting.from_api_response(value)
             if not hasattr(stage, key):
-                logger.debug(f"Stage has no attribute {key}")
                 continue
 
             setattr(stage, key, value)

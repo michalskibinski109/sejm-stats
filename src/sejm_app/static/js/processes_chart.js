@@ -30,7 +30,7 @@ $(document).ready(function () {
         },
         title: {
           display: true,
-          text: "Liczba projektów w sejmie [DANE PRZYKŁADOWE]",
+          text: "Liczba interpelacji",
 
           font: {
             size: 20,
