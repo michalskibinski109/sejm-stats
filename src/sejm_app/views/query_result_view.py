@@ -18,6 +18,7 @@ from django.contrib.postgres.search import (
     TrigramSimilarity,
 )
 from django.db.models.functions import Greatest
+from loguru import logger
 
 # Full-text search across multiple fields using SearchVector
 
@@ -25,6 +26,7 @@ from django.db.models.functions import Greatest
 class SearchResultView(View):
     def get(self, request):
         query = request.GET.get("search", "").strip()
+        logger.debug(f"Query: {query}")
         keywords = query.split(",")
         search_queries = [
             SearchQuery(keyword.strip(), config="pl_ispell") for keyword in keywords
@@ -59,6 +61,7 @@ class SearchResultView(View):
             .filter(search=combined_search_query)
             .order_by("-announcementDate")
         )
+        logger.debug(f"Found models.")
         context = {
             "query": query.split(","),
             "acts": acts,
@@ -75,6 +78,7 @@ class SearchResultView(View):
                 self._get_clubs_involvement(interpolations)
             ),
         }
+        logger.debug(f"running render.")
 
         return render(request, "query_results.html", context)
 
@@ -83,11 +87,10 @@ class SearchResultView(View):
         interpolations: list[Interpellation],
     ) -> dict:
 
-        involvement = {}
-        for club in Club.objects.all():
-            involvement[club.id] = interpolations.filter(from_member__club=club).count()
-
-        return involvement
+        return {
+            club.id: interpolations.filter(from_member__club=club).count()
+            for club in Club.objects.all()
+        }
 
     def _get_topic_interest_over_time(self, interpolations, processes, prints) -> dict:
         # Aggregate interpellations by week

@@ -10,7 +10,7 @@
                  height="40"
                  class="d-inline-block align-middle">
             <p class="fs-4 mx-1 m-0 text-center">sejm-stats</p>
-            <span class="mx-3 badge bg-danger text-wrap">pre-release version</span>
+            {% comment %} <span class="mx-3  badge bg-danger text-wrap">pre-release version</span> {% endcomment %}
         </a>
         <button class="navbar-toggler"
                 type="button"
@@ -46,18 +46,19 @@
                        aria-current="page"
                        href="{% url 'processes' %}">Procesy legislacyjne</a>
                 </li>
-                {% comment %} <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="{% url 'scandals' %}">Afery rządowe</a>
-                </li> {% endcomment %}
+                <li class="nav-item">
+                    <a class="nav-link active "
+                       aria-current="page"
+                       href="{% url 'scandals' %}">Afery rządowe</a>
+                </li>
                 {% comment %} <li class="nav-item">
                     <a class="nav-link active " aria-current="page" href="/admin">Admin</a>
                 </li> {% endcomment %}
             </ul>
         </div>
         <div id="theme-toggle"
-             class="nav-item me-3 d-flex align-items-center  "
+             class="nav-item me-3 d-flex align-items-center"
              style="cursor: pointer">
-            <span class="navbar-text px-2 mx-2">Motyw</span>
             <i id="theme-toggle-icon" class="fas fa-moon fa-2x"></i>
         </div>
     </div>

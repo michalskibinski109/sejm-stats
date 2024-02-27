@@ -16,9 +16,9 @@
       <p class="text-light">
         <b class="text-danger">Parlament pod lupą</b>: Kompleksowy Przegląd Aktywności Sejmowej
       </p>
-      <div class="container-fluid px-5 my-3">
+      <div class="container-fluid px-lg-5 px-1 my-4 mb-5">
         <div class="row justify-content-center">
-          <div class="col-lg-6">
+          <div class="col-lg-6 col-12">
             <form action="{% url 'search' %}" method="get">
               <div class="input-group">
                 <input type="text"
@@ -34,20 +34,20 @@
           </div>
         </div>
       </div>
-      <div class="row m-4 p-5">
-        <div class="col-3">
+      <div class="row m-lg-4 m-1 p-lg-5 p-1">
+        <div class="col-6 col-lg-3">
           <i class="fa-4x fa-person fa-regular"></i>
           <p class="text-light  p-3">Informacje na temat posłów, wykształcenia, zarobków, i wiele innych.</p>
         </div>
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <i class="fa-4x  fa-regular fa-house"></i>
           <p class="text-light p-3">Informacje o klubach parlamentarnych, ich członkach i liderach</p>
         </div>
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <i class="fa-4x fa-chart-simple fa-regular"></i>
           <p class="text-light  p-3">Statystyki dot, głosowań, afer, klubów parlamentarnych</p>
         </div>
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <i class="fa-4x fa-regular fa-money-bill-1"></i>
           <p class="text-light  p-3">
             Informacje o aferach rządowych
@@ -59,28 +59,20 @@
   </div>
 </div>
 <div class="container mt-4">
-  <div class="row">
-    <div class="col-3 mt-4">
-      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
-        <h1 class="fs-2 lead text-center p-1">Wszystkich głosowań</h1>
-        <p class="counter display-4 text-center ">{{ all_votings }}</p>
-      </div>
-      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
-        <h1 class="fs-2 lead text-center p-1">Wszystkich afer rządowych</h1>
-        <p class="counter display-4 text-center text-danger ">{{ all_scandals }}</p>
-      </div>
-    </div>
-    <div class="col-3 mt-4">
-      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
-        <h1 class="fs-2 lead text-center p-1">Wszystkich projektów</h1>
-        <p class="counter display-4 text-center ">{{ all_processes }}</p>
-      </div>
-      <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
-        <h1 class="fs-2 lead text-center p-1">Oczekujących projektów</h1>
-        <p class="counter display-4 text-center ">{{ waiting_processes }}</p>
+  <div class="row my-4 ">
+    <div class="col-lg-6 my-4 ">
+      <div class="row">
+        {% for card in cards %}
+          <div class="col-md-6 col-12  ">
+            <div class="border rounded m-3 mx-1 p-2 clickable-card shadow ">
+              <h1 class="fs-2 lead text-center p-1">{{ card.title }}</h1>
+              <p class="counter display-4 text-center {{ card.color }}">{{ card.count }}</p>
+            </div>
+          </div>
+        {% endfor %}
       </div>
     </div>
-    <div class="col-6 my-4 ">
+    <div class="col-lg-6 my-4 ">
       <h1 class="display-6 text-center p-1 text-danger">Ostatnie głosowania</h1>
       <ul class="list-group mb-3">
         {% for voting in latest_votings %}
@@ -99,30 +91,31 @@
         {% endfor %}
       </ul>
     </div>
-    <h1 class="display-5">Aktualności</h1>
-    <hr class="mb-5" />
-    <div class="col-6 p-5">
-      <img src="{% static 'img/example.png' %}"
-           class="img-fluid rounded"
-           alt="placeholder"
-           style="max-height: 500px" />
-    </div>
-    <div class="col-6">
-      <h1 class="display-6 text-center text-danger">Lorem ipsum dolor</h1>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium numquam ratione qui illo,
-      vitae optio aspernatur temporibus sint culpa consectetur atque quas ut eaque omnis voluptatem autem sapiente.
-      Quasi nostrum possimus nesciunt! At assumenda distinctio, ullam ut nulla inventore soluta tempora eum iure nobis
-      ea reprehenderit perferendis sapiente eligendi adipisci similique facere esse officia neque expedita quidem
-      molestiae? Minus eaque aliquam illum harum quae accusantium numquam dolorum aliquid aut, sint ducimus unde
-      maiores? Similique ullam, illum temporibus quasi quae asperiores nam totam itaque? Vero expedita necessitatibus
-      veniam numquam debitis ex hic, odit aliquam nulla ullam itaque, nam magni ipsa enim sint rem. Incidunt numquam
-      ducimus fuga sit. Quasi repellat ipsam quibusdam veritatis ducimus esse dolores, in laboriosam illo autem
-      doloribus cumque debitis voluptate sunt nisi nihil quo nemo dolor commodi dolorum excepturi. Magni ducimus
-      adipisci reiciendis aliquid nemo dolor nesciunt et blanditiis molestiae velit voluptatum sapiente odit sequi rerum
-      voluptate itaque nobis saepe aspernatur id sint earum, provident facilis facere. Culpa blanditiis minus, officiis
-      architecto perferendis alias laboriosam pariatur earum voluptatum, corporis repellat aperiam reiciendis
-      distinctio. Quia eligendi ab qui voluptatum.
-    </div>
   </div>
+  <h1 class="display-5">Aktualności</h1>
+  <hr class="mb-5" />
+  <div class="col-lg-6 col-12 p-lg-5 p-1">
+    <img src="{% static 'img/example.png' %}"
+         class="img-fluid rounded"
+         alt="placeholder"
+         style="max-height: 500px" />
+  </div>
+  <div class="col-lg-6 col-12">
+    <h1 class="display-6 text-center text-danger">Lorem ipsum dolor</h1>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium numquam ratione qui illo,
+    vitae optio aspernatur temporibus sint culpa consectetur atque quas ut eaque omnis voluptatem autem sapiente.
+    Quasi nostrum possimus nesciunt! At assumenda distinctio, ullam ut nulla inventore soluta tempora eum iure nobis
+    ea reprehenderit perferendis sapiente eligendi adipisci similique facere esse officia neque expedita quidem
+    molestiae? Minus eaque aliquam illum harum quae accusantium numquam dolorum aliquid aut, sint ducimus unde
+    maiores? Similique ullam, illum temporibus quasi quae asperiores nam totam itaque? Vero expedita necessitatibus
+    veniam numquam debitis ex hic, odit aliquam nulla ullam itaque, nam magni ipsa enim sint rem. Incidunt numquam
+    ducimus fuga sit. Quasi repellat ipsam quibusdam veritatis ducimus esse dolores, in laboriosam illo autem
+    doloribus cumque debitis voluptate sunt nisi nihil quo nemo dolor commodi dolorum excepturi. Magni ducimus
+    adipisci reiciendis aliquid nemo dolor nesciunt et blanditiis molestiae velit voluptatum sapiente odit sequi rerum
+    voluptate itaque nobis saepe aspernatur id sint earum, provident facilis facere. Culpa blanditiis minus, officiis
+    architecto perferendis alias laboriosam pariatur earum voluptatum, corporis repellat aperiam reiciendis
+    distinctio. Quia eligendi ab qui voluptatum.
+  </div>
+</div>
 </div>
 {% endblock content %}

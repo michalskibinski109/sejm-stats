@@ -44,7 +44,7 @@
             </div>
             <div class="mb-4 col-lg-4 col-12"></div>
             <hr class="my-5" />
-            <div class="mb-4 col-12 mx-0 px-0">{% include "search/_interpellation.html" %}</div>
+            <div class="mb-4 col-12 mx-0 px-0">{% include "search/_interpellations.html" %}</div>
             <div class="mb-4 col-12">
                 <h3 class="mb-3">Procesy</h3>
                 <ul class="list-group mb-3">
@@ -66,24 +66,7 @@
                     {% endfor %}
                 </ul>
             </div>
-        </div>
-        <div class="mb-4 col-12">
-            <h3 class="mb-3">Akty</h3>
-            <ul class="list-group mb-3">
-                {% for act in acts %}
-                    <li class="list-group-item d-flex align-items-center m-2 border-0 border-bottom-1">
-                        <div>
-                            <p class="text-muted mb-0">{{ act.announcementDate|date:"d.m.Y" }}</p>
-                            <p class="mb-0">
-                                <a href="{{ act.url }}">{{ act.title|truncatechars:320 }}</a>
-                            </p>
-                        </div>
-                    </li>
-                    <hr class="m-0" />
-                {% empty %}
-                    <li class="list-group-item">Nie znaleziono aktów</li>
-                {% endfor %}
-            </ul>
+            <div class="mb-4 col-12 mx-0 px-0">{% include "search/_acts.html" %}</div>
         </div>
         <section class="mb-4 ">
             <h3 class="mb-3">Posłowie</h3>
