@@ -1,4 +1,5 @@
 from django.utils.dateparse import parse_datetime, parse_date
+from django.utils import timezone
 
 
 def camel_to_snake(name: str) -> str:
@@ -11,6 +12,7 @@ def parse_all_dates(response: dict, only_date=False) -> dict:
     for key, value in response.items():
         if isinstance(value, str) and (("date" in key) or ("last_modified" in key)):
             value = parse_datetime(value) if "T" in value else parse_date(value)
+            value = timezone.make_aware(value)
             if only_date:
                 try:
                     value = value.date()

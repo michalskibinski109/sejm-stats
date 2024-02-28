@@ -5,10 +5,11 @@ from sejm_app.utils import camel_to_snake, parse_all_dates
 
 
 class VotingOption(models.IntegerChoices):
-    YES = 1, _("Yes")
     NO = 0, _("No")
+    YES = 1, _("Yes")
     ABSTAIN = 2, _("ABSTAIN")
     ABSENT = 3, _("ABSENT")
+    VOTE_VALID = 4, _("VOTE_VALID")
 
 
 class Vote(models.Model):
@@ -22,6 +23,17 @@ class Vote(models.Model):
         choices=VotingOption.choices,
         help_text=_("Vote option"),
     )
+
+    @property
+    def vote_label(self):
+        dct = {
+            VotingOption.NO: "Przeciw",
+            VotingOption.YES: "Za",
+            VotingOption.ABSTAIN: "Wstzymanie się",
+            VotingOption.ABSENT: "Nieobecność",
+            VotingOption.VOTE_VALID: "Głos ważny",
+        }
+        return dct[self.vote]
 
     @classmethod
     def from_api_response(cls, response: dict, voting: "Voting"):
@@ -40,3 +52,25 @@ class Vote(models.Model):
             setattr(vote, key, value)
         vote.save()
         return vote
+
+
+class ClubVote(models.Model):
+    vote = models.SmallIntegerField(
+        choices=VotingOption.choices,
+        help_text=_("Vote option"),
+    )
+    club = models.ForeignKey(
+        "Club", on_delete=models.CASCADE, null=True, blank=True, related_name="votes"
+    )
+    percentage = models.FloatField(
+        null=True,
+        blank=True,
+        help_text=_("Percentage of club members who voted to this option"),
+    )
+    voting = models.ForeignKey(
+        "Voting",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="club_votes",
+    )

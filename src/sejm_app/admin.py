@@ -12,7 +12,13 @@ from sejm_app.models import (
     Stage,
     Interpellation,
     Reply,
+    ClubVote,
 )
+
+
+@admin.register(ClubVote)
+class ClubVoteAdmin(admin.ModelAdmin):
+    list_display = ("id",)
 
 
 @admin.register(Reply)

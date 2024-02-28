@@ -1,6 +1,6 @@
 from .club import Club
 from .envoy import Envoy
-from .vote import Vote, VotingOption
+from .vote import Vote, VotingOption, ClubVote
 from .voting import Voting
 from .scandal import Scandal
 from .faq import FAQ

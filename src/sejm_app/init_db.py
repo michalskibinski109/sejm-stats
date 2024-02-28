@@ -53,7 +53,7 @@ def run():
     # download_envoys()
     # download_photos()
     # download_clubs_photos()
-    # download_votings()
+    download_votings()
     # download_processes()
     # download_prints()
     # download_interpellations()

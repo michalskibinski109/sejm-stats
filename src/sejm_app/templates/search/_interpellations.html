@@ -5,13 +5,13 @@
          data-bs-target="#interpellationsDropdown"
          aria-expanded="false"
          aria-controls="interpellationsDropdown">
-        Interpelacje
+        Interpelacje ({{ interpellations.count }})
         <i class="fa-solid fa-caret-down me-2"></i>
     </div>
     <div id="interpellationsDropdown"
          class=" collapse mx-0 p-1"
          aria-labelledby="interpellationsDropdown">
-        {% for interpellation in interpelations %}
+        {% for interpellation in interpellations %}
             <a class="dropdown-item">
                 <div class="card mb-3 shadow p-1">
                     <div class="card-body">
@@ -46,7 +46,7 @@
                 </div>
             </a>
         {% empty %}
-            <a class="dropdown-item">No interpellations found.</a>
+            <a class="dropdown-item p-3">Nie znaleziono interpelacji</a>
         {% endfor %}
     </div>
 </div>

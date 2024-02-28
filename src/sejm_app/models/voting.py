@@ -6,11 +6,14 @@ from loguru import logger
 from django.utils.functional import cached_property
 from django.conf import settings
 from sejm_app.utils import parse_all_dates, camel_to_snake
-from sejm_app.models.vote import Vote
+from sejm_app.models.vote import Vote, ClubVote, VotingOption
+from sejm_app.models.club import Club
 import re
+from django.db.models import Count, Case, When, IntegerField
 
 
 class Voting(models.Model):
+    id = models.IntegerField(primary_key=True, help_text=_("Voting ID"))
     yes = models.SmallIntegerField(null=True, blank=True, help_text=_("Yes votes"))
     no = models.SmallIntegerField(null=True, blank=True, help_text=_("No votes"))
     abstain = models.SmallIntegerField(
@@ -36,6 +39,7 @@ class Voting(models.Model):
     topic = models.CharField(
         max_length=255, null=True, blank=True, help_text=_("Short voting topic")
     )
+
     pdf_link = models.URLField(
         null=True,
         blank=True,
@@ -71,27 +75,49 @@ class Voting(models.Model):
         return [f"{settings.RESOLUTION_URL}/{number}_u.htm" for number in numbers]
         # return
 
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.id = self.sitting_day * 1000 + self.voting_number
+        super().save(*args, **kwargs)
+        if not Vote.objects.filter(voting=self).exists():
+            return
+        for club in Club.objects.all():
+            votes = Vote.objects.filter(voting=self, MP__club=club)
+            yes = votes.filter(vote=VotingOption.YES).count()
+            no = votes.filter(vote=VotingOption.NO).count()
+            option = VotingOption.YES if yes > no else VotingOption.NO
+            if not (yes + no):
+                percentage = 0
+            else:
+                percentage = (
+                    yes / (yes + no) * 100 if yes + no else no / (yes + no) * 100
+                )
+            club_vote = ClubVote.objects.create(
+                club=club, voting=self, vote=option, percentage=percentage
+            )
+            club_vote.save()
+
     @classmethod
     def from_api_response(cls, response: dict):
         voting = cls()
-        response = parse_all_dates(response)
         response = {camel_to_snake(key): value for key, value in response.items()}
+        response = parse_all_dates(response)
         for key, value in response.items():
-            if not hasattr(voting, key):
+            if not hasattr(voting, key) or key == "votes":
                 continue
             if isinstance(value, str) and len(value) > 255:
                 value = value[:255]
-            if key == "votes":
-                try:
-
-                    voting.save()
-                    votes = (
-                        Vote.from_api_response(vote_data, voting) for vote_data in value
-                    )
-                except django.db.utils.DataError:
-                    logger.warning(f"DataError: {value}")
-                    continue
-                continue
             setattr(voting, key, value)
         voting.save()
+        if votes_data := response.get("votes"):
+            try:
+                voting.save()
+                votes = (
+                    Vote.from_api_response(vote_data, voting)
+                    for vote_data in votes_data
+                )
+                for vote in votes:
+                    vote.save()
+            except django.db.utils.DataError:
+                logger.warning(f"DataError: {votes_data}")
         return voting

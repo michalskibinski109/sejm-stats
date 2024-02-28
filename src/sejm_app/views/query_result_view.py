@@ -64,10 +64,10 @@ class SearchResultView(View):
         logger.debug(f"Found models.")
         context = {
             "query": query.split(","),
-            "acts": acts,
-            "interpelations": interpolations,
+            "acts": acts[:5],  # TODO only temporary
+            "interpellations": interpolations[:5],
             "processes": processes,
-            "prints": prints,
+            "prints": prints[:5],
             "envoys": envoys,
             "total": len(interpolations) + len(processes) + len(prints) + len(envoys),
             "commitment": self._get_envoys_commitment(interpolations),
