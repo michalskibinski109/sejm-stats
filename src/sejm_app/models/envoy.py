@@ -24,6 +24,12 @@ class Envoy(models.Model):
     profession = models.CharField(max_length=255)
     education_level = models.CharField(max_length=255)
     number_of_votes = models.IntegerField()
+    biography = models.TextField(
+        null=True, blank=True, help_text="Biography of the envoy pulled from wikipedia"
+    )
+    biography_source = models.URLField(
+        null=True, blank=True, help_text="URL to the wikipedia page of the envoy"
+    )
 
     @cached_property
     def is_female(self) -> bool:

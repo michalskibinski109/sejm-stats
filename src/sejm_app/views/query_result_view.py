@@ -65,11 +65,15 @@ class SearchResultView(View):
         context = {
             "query": query.split(","),
             "acts": acts[:5],  # TODO only temporary
-            "interpellations": interpolations[:5],
+            "interpellations": interpolations,
             "processes": processes,
             "prints": prints[:5],
             "envoys": envoys,
-            "total": len(interpolations) + len(processes) + len(prints) + len(envoys),
+            "total": len(interpolations)
+            + len(processes)
+            + len(prints)
+            + len(envoys)
+            + len(acts),
             "commitment": self._get_envoys_commitment(interpolations),
             "topic_interest_over_time": json.dumps(
                 self._get_topic_interest_over_time(interpolations, processes, prints)

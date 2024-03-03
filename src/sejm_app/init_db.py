@@ -12,6 +12,8 @@ from sejm_app.models import (
     AdditionalPrint,
     Process,
 )
+from sejm_app.libs.wikipedia_searcher import get_wikipedia_biography
+
 from loguru import logger
 from django.db.utils import OperationalError
 import io
@@ -54,6 +56,7 @@ def run():
     # download_photos()
     # download_clubs_photos()
     download_votings()
+
     # download_processes()
     # download_prints()
     # download_interpellations()
@@ -144,12 +147,21 @@ def download_envoys():
         for envoy in envoys:
             envoy = {camel_to_snake(k): v for k, v in envoy.items()}
             # first_last_name,last_first_name // remove this fields
+
             envoy.pop("first_last_name")
             envoy.pop("last_first_name")
             envoy["club"] = Club.objects.get(id=envoy["club"])
-            Envoy.objects.create(**envoy)
+            envoy = Envoy.objects.create(**envoy)
+            download_biography(envoy)
     else:
         logger.info("Envoys already exists in database")
+
+
+def download_biography(envoy: Envoy):
+    biography, source = get_wikipedia_biography(envoy.title, with_source=True)
+    envoy.biography = biography
+    envoy.biography_source = source
+    envoy.save()
 
 
 def download_clubs():

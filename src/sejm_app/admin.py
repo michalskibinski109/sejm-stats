@@ -18,7 +18,10 @@ from sejm_app.models import (
 
 @admin.register(ClubVote)
 class ClubVoteAdmin(admin.ModelAdmin):
-    list_display = ("id",)
+    list_display = (
+        "id",
+        "club",
+    )
 
 
 @admin.register(Reply)

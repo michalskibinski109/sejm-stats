@@ -50,27 +50,22 @@ class Vote(models.Model):
             if key == "vote":
                 value = VotingOption[value.upper()].value
             setattr(vote, key, value)
+        if voting.votes.filter(MP=vote.MP).exists():
+            return voting.votes.get(MP=vote.MP)
         vote.save()
         return vote
 
 
 class ClubVote(models.Model):
-    vote = models.SmallIntegerField(
-        choices=VotingOption.choices,
-        help_text=_("Vote option"),
-    )
+
     club = models.ForeignKey(
         "Club", on_delete=models.CASCADE, null=True, blank=True, related_name="votes"
     )
-    percentage = models.FloatField(
-        null=True,
-        blank=True,
-        help_text=_("Percentage of club members who voted to this option"),
-    )
+    yes = models.IntegerField(default=0)
+    no = models.IntegerField(default=0)
+    abstain = models.IntegerField(default=0)
     voting = models.ForeignKey(
         "Voting",
         on_delete=models.CASCADE,
-        null=True,
-        blank=True,
         related_name="club_votes",
     )

@@ -79,21 +79,19 @@ class Voting(models.Model):
         if not self.id:
             self.id = self.sitting_day * 1000 + self.voting_number
         super().save(*args, **kwargs)
-        if not Vote.objects.filter(voting=self).exists():
-            return
+
+    def create_club_votes(self):
         for club in Club.objects.all():
+            if self.club_votes.filter(club=club).exists():
+                continue
             votes = Vote.objects.filter(voting=self, MP__club=club)
             yes = votes.filter(vote=VotingOption.YES).count()
             no = votes.filter(vote=VotingOption.NO).count()
-            option = VotingOption.YES if yes > no else VotingOption.NO
-            if not (yes + no):
-                percentage = 0
-            else:
-                percentage = (
-                    yes / (yes + no) * 100 if yes + no else no / (yes + no) * 100
-                )
+            abstain = votes.filter(
+                vote__in=[VotingOption.ABSTAIN, VotingOption.ABSENT]
+            ).count()
             club_vote = ClubVote.objects.create(
-                club=club, voting=self, vote=option, percentage=percentage
+                club=club, voting=self, yes=yes, no=no, abstain=abstain
             )
             club_vote.save()
 
@@ -120,4 +118,5 @@ class Voting(models.Model):
                     vote.save()
             except django.db.utils.DataError:
                 logger.warning(f"DataError: {votes_data}")
+        voting.create_club_votes()
         return voting

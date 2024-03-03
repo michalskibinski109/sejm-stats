@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
+{% block extra_head %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/discipline_chart.js' %}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+{% endblock extra_head %}
 {% block content %}
     <div class="container fluid mt-4">
         <h1 class="display-5">{{ envoy.title }}</h1>
@@ -65,12 +71,23 @@
                         </li>
                     </ul>
                 </div>
+                <h1 class="display-6  p-1 mt-4 text-danger">Dyscyplina głosowania</h1>
+                <div class="mb-4 col-12">
+                    <canvas id="disciplineChart" data-discipline="{{ discipline_ratio }}"></canvas>
+                </div>
             </div>
             <div class="col-12 col-lg-8">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Biografia</h5>
-                        <p class="card-text">{{ biography|truncatechars:1000 }}</p>
+                        <h3 class="card-title d-flex justify-content-between">
+                            Życiorys
+                            <a href="{{ envoy.biography_source }} "
+                               class="btn btn-outline-primary btn-sm ms-2"
+                               target="_blank">
+                                Czytaj więcej <i class=" px-2 fa-solid fa-external-link"></i>
+                            </a>
+                        </h3>
+                        <p class="card-text">{{ envoy.biography|truncatechars:1500 }}</p>
                     </div>
                 </div>
                 <div class="mt-4">
