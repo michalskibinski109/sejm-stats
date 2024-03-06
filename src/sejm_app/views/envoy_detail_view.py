@@ -16,14 +16,12 @@ class EnvoyDetailView(DetailView):
 
         context = super().get_context_data(**kwargs)
         context["interpellations"] = self.object.interpellations.all()
-        logger.debug(f"Interpellations: {context['interpellations']}")
         context["latest_votings"] = self.get_latest_votings(5)
         context["discipline_ratio"] = self.get_discipline_ratio()
         return context
 
     def get_latest_votings(self, n):
         votes = self.object.votes.all()
-        logger.debug(f"Votes: {votes}")
         votings = (
             Voting.objects.filter(votes__in=votes).distinct().order_by("-date")[:n]
         )

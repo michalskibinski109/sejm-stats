@@ -71,25 +71,26 @@
                         </li>
                     </ul>
                 </div>
-                <h1 class="display-6  p-1 mt-4 text-danger">Dyscyplina głosowania</h1>
                 <div class="mb-4 col-12">
-                    <canvas id="disciplineChart" data-discipline="{{ discipline_ratio }}"></canvas>
+                    <div class="card my-4 p-2">
+                        <h1 class="card-title display-6  p-1 ">Dyscyplina głosowania</h1>
+                        <div class="card-body">
+                            <canvas id="disciplineChart" data-discipline="{{ discipline_ratio }}"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12 col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="card-title d-flex justify-content-between">
-                            Życiorys
-                            <a href="{{ envoy.biography_source }} "
-                               class="btn btn-outline-primary btn-sm ms-2"
-                               target="_blank">
-                                Czytaj więcej <i class=" px-2 fa-solid fa-external-link"></i>
-                            </a>
-                        </h3>
-                        <p class="card-text">{{ envoy.biography|truncatechars:1500 }}</p>
-                    </div>
-                </div>
+                <h3 class="display-6  p-0 mt-4 text-danger d-flex justify-content-between">
+                    Życiorys
+                    <a href="{{ envoy.biography_source }} "
+                       class="btn btn-outline-primary btn-sm ms-2 py-1"
+                       target="_blank">
+                        Czytaj więcej <i class=" px-2 fa-solid fa-external-link"></i>
+                    </a>
+                </h3>
+                <hr class="my-3">
+                <p class="card-text p-1">{{ envoy.biography|truncatechars:1500 }}</p>
                 <div class="mt-4">
                     <h1 class="display-6  p-1 text-danger">Ostatnie głosowania</h1>
                     <ul class="list-group mb-3">
@@ -105,6 +106,29 @@
                                     {{ voting.title|truncatechars:160 }}
                                 </p>
                                 <p class="text-muted ps-3">{{ voting.envoy_vote }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="mt-4">
+                    <h1 class="display-6  p-1 text-danger">Projekty ustaw, uchwał, wnioski</h1>
+                    <ul class="list-group mb-3">
+                        {% for process in envoy.processes.all|slice:"-5:" %}
+                            <hr class="m-0 p-0 " />
+                            <li class="list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1 clickable-card">
+                                <p class="m-0 me-2">
+                                    {% if process.is_finished %}
+                                        <i class="fa text-success fa-lg fa-check"></i>
+                                    {% else %}
+                                        <i class="fa text-danger fa-lg fa-x"></i>
+                                    {% endif %}
+                                    {{ process.title|truncatechars:160 }}
+                                </p>
+                                <p class="text-muted ps-3">{{ process.document_type }}</p>
+                            </li>
+                        {% empty %}
+                            <li class="list-group list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1 clickable-card">
+                                <p class="m-0 me-2">Brak</p>
                             </li>
                         {% endfor %}
                     </ul>

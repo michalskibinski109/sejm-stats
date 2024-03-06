@@ -55,10 +55,9 @@ def run():
     # download_envoys()
     # download_photos()
     # download_clubs_photos()
-    download_votings()
-
-    # download_processes()
+    # download_votings()
     # download_prints()
+    # download_processes()
     # download_interpellations()
 
 
@@ -158,6 +157,8 @@ def download_envoys():
 
 
 def download_biography(envoy: Envoy):
+    if envoy.biography:
+        return
     biography, source = get_wikipedia_biography(envoy.title, with_source=True)
     envoy.biography = biography
     envoy.biography_source = source
