@@ -3,7 +3,6 @@ from transformers import pipeline, SummarizationPipeline
 import requests
 from loguru import logger
 from pdfminer.high_level import extract_text
-import tabula
 import pytesseract
 from pdf2image import convert_from_path
 import glob
