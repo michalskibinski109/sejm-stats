@@ -12,22 +12,17 @@
                 <div class="d-flex justify-content-between">
                     <h5 class="card-title fs-6">{{ envoy.first_name }} {{ envoy.last_name|truncatechars:15 }}</h5>
                 </div>
-                <p class="card-text">
-                    <span class="badge bg-white rounded p-1">
-                        <img src="{{ envoy.club.photo.url }}"
-                             loading="lazy"
-                             alt="Club Photo"
-                             class=""
-                             style="width: 40px;
-                                    height: 40px">
-                    </span>
-                    {% comment %} głosy: {{ envoy.number_of_votes }} {% endcomment %}
-                    {% comment %} {% if envoy.education_level == 'wyższe' %}
-                    <p class="card-text badge bg-dark text-light border">wyższe</p>
-                {% else %}
-                    <p class="card-text  bg-dark text-warning badge border border-warning">{{ envoy.education_level }}</p>
-                    {% endif %} {% endcomment %}
-                </p>
+                <span class="badge bg-white rounded p-1 ">
+                    <img src="{{ envoy.club.photo.url }}"
+                         loading="lazy"
+                         alt="Club Photo"
+                         style="width: 40px;
+                                height: 40px">
+                </span>
+                {% comment %} {% if envoy.total_activity > 100 %}
+                        <p class="col-5 m-1 my-2 badge  text-danger badge border border-dagner pb-0">aktywny/a</p>
+                {% endif %} {% endcomment %}
+                {% comment %} głosy: {{ envoy.number_of_votes }} {% endcomment %}
             </div>
         </a>
     </div>

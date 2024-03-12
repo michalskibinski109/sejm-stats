@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.views.generic import ListView
 from sejm_app.models import Envoy, Club
 from django.db.models import Count
+from django.db.models import Count, F
 
 
 class EnvoyListView(ListView):
@@ -23,7 +24,7 @@ class EnvoyListView(ListView):
         search_query = self.request.GET.get("searchEnvoys")
         clubs = self.request.GET.getlist("club")
         districts = self.request.GET.getlist("district")
-
+        most_active = self.request.GET.get("most_active")
         queryset = super().get_queryset()
         if search_query:
             query_parts = search_query.strip().split()
@@ -35,5 +36,10 @@ class EnvoyListView(ListView):
             queryset = queryset.filter(club__id__in=clubs)
         if districts and "all" not in districts:
             queryset = queryset.filter(district_name__in=districts)
+        queryset = queryset.order_by("first_name", "last_name")
+        if most_active:
+            queryset = sorted(queryset, key=lambda x: x.total_activity, reverse=True)[
+                :10
+            ]
 
-        return queryset.order_by("first_name", "last_name")
+        return queryset

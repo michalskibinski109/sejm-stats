@@ -89,7 +89,7 @@ DATABASES = {
         "NAME": "transparlament",
         "USER": "postgres",
         "PASSWORD": "postgres",
-        "HOST": "localhost",  # or another hostname if your db is on another server
+        "HOST": "transparlament.ctk604eq2iz3.eu-central-1.rds.amazonaws.com",  # or another hostname if your db is on another server
         "PORT": "5432",  # default postgres port
     }
 }

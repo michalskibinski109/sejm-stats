@@ -28,8 +28,8 @@
                     <p class="counter display-4 text-center ">{{ interpellations|length }}</p>
                 </div>
                 <div class="border rounded m-3 mx-1 p-2 clickable-card shadow">
-                    <h1 class="fs-2 lead text-center p-1">Procesów</h1>
-                    <p class="counter display-4 text-center ">{{ processes|length }}</p>
+                    <h1 class="fs-2 lead text-center p-1">Aktów prawnych</h1>
+                    <p class="counter display-4 text-center ">{{ acts|length }}</p>
                 </div>
             </div>
             <div class="mb-4 col-lg-8 col-12">
@@ -44,33 +44,14 @@
             </div>
             <div class="mb-4 col-lg-4 col-12"></div>
             <hr class="my-5" />
-            <div class="mb-4 col-12 mx-0 px-0">{% include "search/_interpellations.html" %}</div>
-            <div class="mb-4 col-12">
-                <h3 class="mb-3">Procesy ({{ processes|length }})</h3>
-                <ul class="list-group mb-3">
-                    {% for process in processes %}
-                        <li class="list-group-item d-flex align-items-center m-2 border-0 border-bottom-1">
-                            <p class="m-0 me-2">
-                                <i class="fa fa-lg {{ process.is_finished|yesno:'fa-check-circle text-success, fa-regular fa-clock text-warning' }} mr-2"></i>
-                            </p>
-                            <div>
-                                <p class="text-muted mb-0">{{ process.change_date|date:"d.m.Y" }}</p>
-                                <p class="mb-0">
-                                    <a href="{{ process.print.pdf_url }}">{{ process.title|truncatechars:120 }}</a>
-                                </p>
-                            </div>
-                        </li>
-                        <hr class="m-0" />
-                    {% empty %}
-                        <li class="list-group-item">Nie znaleziono procesów</li>
-                    {% endfor %}
-                </ul>
-            </div>
+            <div class="mb-4 col-12 mx-0 px-0">{% include "search/_processes.html" %}</div>
             <div class="mb-4 col-12 mx-0 px-0">{% include "search/_acts.html" %}</div>
+            <div class="mb-4 col-12 mx-0 px-0">
+                <h1 class="display-6  p-1 text-danger">Posłowie</h1>
+                <hr class="m-0 p-0 " />
+                <div class="row">{% include "_envoy_snippet.html" %}</div>
+            </div>
+            <div class="mb-4 col-12 mx-0 px-0">{% include "search/_interpellations.html" %}</div>
         </div>
-        <section class="mb-4 ">
-            <h3 class="mb-3">Posłowie</h3>
-            <div class="row">{% include "_envoy_snippet.html" %}</div>
-        </section>
     </div>
 {% endblock %}

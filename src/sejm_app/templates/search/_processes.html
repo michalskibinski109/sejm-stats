@@ -1,0 +1,20 @@
+<div class="mt-5">
+    <h1 class="display-6  p-1 text-danger">Projekty ustaw, uchwał, wnioski ({{ processes|length }})</h1>
+    <ul class="list-group mb-3">
+        {% for process in processes.all|slice:":5" %}
+            <hr class="m-0 p-0 " />
+            <li class="list-group-item d-flex justify-content-between align-items-between  m-2  border-0 border-bottom-1">
+                <p class="m-0 me-2">
+                    <i class="fa fa-lg {{ process.is_finished|yesno:'fa-check-circle text-success, fa-regular fa-clock text-warning' }} mr-2"></i>
+                    <a href="{{ act.url }}" class="m-0 me-2 text-start">{{ process.title|truncatechars:260 }}</a>
+                </p>
+                <p class="text-muted mb-0  text-end">{{ process.change_date|date:"d.m.Y" }}</p>
+            </li>
+        {% empty %}
+            <li class="list-group list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1">
+                <p class="m-0 me-2">Brak</p>
+            </li>
+        {% endfor %}
+        <button class="btn btn-outline-primary btn-sm w-100 my-3" disabled>Pobierz wszystkie</button>
+    </ul>
+</div>

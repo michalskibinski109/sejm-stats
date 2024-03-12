@@ -1,29 +1,20 @@
-<div class="dropdown my-3 mx-0  border rounded shadow">
-    <div class=" col-12 p-3 display-6 fs-3 d-flex justify-content-between align-items-center"
-         role="button"
-         data-bs-toggle="collapse"
-         data-bs-target="#actsDropdown"
-         aria-expanded="false"
-         aria-controls="actsDropdown">
-        Akty
-        <i class="fa-solid fa-caret-down me-2"></i>
-    </div>
-    <div id="actsDropdown"
-         class=" collapse mx-0 p-1"
-         aria-labelledby="actsDropdown">
-        <ul class="list-group mb-3">
-            {% for act in acts %}
-                <li class="list-group-item d-flex align-items-center m-2 border-0 border-bottom-1">
-                    <div>
-                        <p class="text-muted mb-0">{{ act.announcementDate|date:"d.m.Y" }}</p>
-                        <p class="mb-0">
-                            <a href="{{ act.url }}">{{ act.title|truncatechars:320 }}</a>
-                        </p>
-                    </div>
-                </li>
-                <hr class="m-0" />
-            {% empty %}
-                <li class="list-group-item">Nie znaleziono aktów</li>
-            {% endfor %}
-        </ul>
-    </div>
+<div class="mt-5">
+    <h1 class="display-6  p-1 text-danger">Akty prawne ({{ acts|length }})</h1>
+    <ul class="list-group mb-3">
+        {% for act in acts.all|slice:":5" %}
+            <hr class="m-0 p-0 " />
+            <li class="list-group-item d-flex justify-content-between align-items-between  m-2  border-0 border-bottom-1">
+                <div class="row">
+                    <a href="{{ act.url }}"  class="m-0 me-2">{{ act.title|truncatechars:260 }}</a>
+                    <p class="text-muted mt-2 text-start ">{{ act.releasedBy }}</p>
+                </div>
+                <p class="text-muted mb-0 text-end">{{ act.changeDate|date:"d.m.Y" }}</p>
+            </li>
+        {% empty %}
+            <li class="list-group list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1">
+                <p class="m-0 me-2">Brak</p>
+            </li>
+        {% endfor %}
+        <button class="btn btn-outline-primary btn-sm w-100" disabled>Pobierz wszystkie</button>
+    </ul>
+</div>

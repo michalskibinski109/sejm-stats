@@ -32,6 +32,14 @@ class Envoy(models.Model):
     )
 
     @cached_property
+    def total_activity(self) -> int:
+        return (
+            self.votes.count() * 0.2
+            + self.interpellations.count()
+            + self.processes.count()
+        )
+
+    @cached_property
     def is_female(self) -> bool:
         return self.first_name.endswith("a")
 

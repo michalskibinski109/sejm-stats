@@ -2,6 +2,7 @@ from django.views.generic import DetailView
 from sejm_app.models import Envoy, Voting, VotingOption, ClubVote
 from loguru import logger
 import json
+from django.db import models
 
 # import defaultdict
 from collections import defaultdict
@@ -18,6 +19,13 @@ class EnvoyDetailView(DetailView):
         context["interpellations"] = self.object.interpellations.all()
         context["latest_votings"] = self.get_latest_votings(5)
         context["discipline_ratio"] = self.get_discipline_ratio()
+        # max_activity = 100
+        # for envoy in Envoy.objects.all():
+        #     if envoy.total_activity > max_activity:
+        #         max_activity = envoy.total_activity
+        # print(max_activity)
+        context["activity"] = int(self.object.total_activity / 1.97)
+
         return context
 
     def get_latest_votings(self, n):

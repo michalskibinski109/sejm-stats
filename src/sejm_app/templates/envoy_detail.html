@@ -7,7 +7,21 @@
 {% endblock extra_head %}
 {% block content %}
     <div class="container fluid mt-4">
-        <h1 class="display-5">{{ envoy.title }}</h1>
+        <div class="row">
+            <h1 class="display-5 col-9">{{ envoy.title }}</h1>
+            <div class=" col-3 d-flex align-items-center rounded border p-1"
+                 style="background: linear-gradient(90deg, rgba(100,220,90,0.6) {{ activity }}%, transparent {{ activity }}%)">
+                <h5 class="display-6 fs-3 text-center">
+                    {% if activity < 25 %}
+                        Niska aktywność
+                    {% elif activity < 50 %}
+                        Umiarkowana aktywność
+                    {% else %}
+                        Wysoka aktywność
+                    {% endif %}
+                </h5>
+            </div>
+        </div>
         <hr class="my-4">
         <div class="row gutters-sm">
             <div class="col-md-4 col-12 mb-3">
@@ -79,19 +93,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="mb-4 col-12">
+                    <div class="card my-4 p-2">
+                        <h1 class="card-title display-6  ">Sprawozdanie finansowe</h1>
+                        <div class="card-body">Tu będzie wykres z danymi finansowymi</div>
+                    </div>
+                </div>
             </div>
             <div class="col-12 col-lg-8">
-                <h3 class="display-6  p-0 mt-4 text-danger d-flex justify-content-between">
-                    Życiorys
-                    <a href="{{ envoy.biography_source }} "
-                       class="btn btn-outline-primary btn-sm ms-2 py-1"
-                       target="_blank">
-                        Czytaj więcej <i class=" px-2 fa-solid fa-external-link"></i>
-                    </a>
-                </h3>
+                <h3 class="display-6  p-0 mt-1 text-danger d-flex justify-content-between">Życiorys</h3>
                 <hr class="my-3">
                 <p class="card-text p-1">{{ envoy.biography|truncatechars:1500 }}</p>
-                <div class="mt-4">
+                <a href="{{ envoy.biography_source }} "
+                   class="btn btn-outline-primary btn-sm w-100"
+                   target="_blank">
+                    Czytaj więcej <i class=" px-2 fa-solid fa-external-link"></i>
+                </a>
+                <div class="mt-5">
                     <h1 class="display-6  p-1 text-danger">Ostatnie głosowania</h1>
                     <ul class="list-group mb-3">
                         {% for voting in latest_votings %}
@@ -103,19 +121,20 @@
                                     {% else %}
                                         <i class="fa text-danger fa-lg fa-x"></i>
                                     {% endif %}
-                                    {{ voting.title|truncatechars:160 }}
+                                    {{ voting.title|truncatechars:190 }}
                                 </p>
                                 <p class="text-muted ps-3">{{ voting.envoy_vote }}</p>
                             </li>
                         {% endfor %}
+                        <button class="btn btn-outline-primary btn-sm w-100" disabled>Pobierz wszystkie</button>
                     </ul>
                 </div>
-                <div class="mt-4">
+                <div class="mt-5">
                     <h1 class="display-6  p-1 text-danger">Projekty ustaw, uchwał, wnioski</h1>
                     <ul class="list-group mb-3">
-                        {% for process in envoy.processes.all|slice:"-5:" %}
+                        {% for process in envoy.processes.all|slice:":5" %}
                             <hr class="m-0 p-0 " />
-                            <li class="list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1 clickable-card">
+                            <li class="list-group-item d-flex justify-content-between align-items-between  m-2  border-0 border-bottom-1 clickable-card">
                                 <p class="m-0 me-2">
                                     {% if process.is_finished %}
                                         <i class="fa text-success fa-lg fa-check"></i>
@@ -124,13 +143,14 @@
                                     {% endif %}
                                     {{ process.title|truncatechars:160 }}
                                 </p>
-                                <p class="text-muted ps-3">{{ process.document_type }}</p>
+                                <p class="text-muted ps-3 text-end">{{ process.document_type }}</p>
                             </li>
                         {% empty %}
                             <li class="list-group list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1 clickable-card">
                                 <p class="m-0 me-2">Brak</p>
                             </li>
                         {% endfor %}
+                        <button class="btn btn-outline-primary btn-sm w-100" disabled>Pobierz wszystkie</button>
                     </ul>
                 </div>
             </div>

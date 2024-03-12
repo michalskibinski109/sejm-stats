@@ -53,8 +53,8 @@ def run():
         return
     # download_clubs()
     # download_envoys()
-    # download_photos()
-    # download_clubs_photos()
+    download_photos()
+    download_clubs_photos()
     # download_votings()
     # download_prints()
     # download_processes()
@@ -177,37 +177,37 @@ def download_clubs():
 
 
 def download_clubs_photos():
-    # if not Club.objects.get(id=1).photo:
-    logger.info("Downloading clubs photos")
-    for club in Club.objects.all():
-        if club.photo:
-            continue
-        photo_url = f"{settings.CLUBS_URL}/{club.id}/logo"
-        photo = requests.get(photo_url)
-        logger.info(f"Downloading photo for {club.id}")
-        if photo.status_code == 200:
-            photo_file = ContentFile(photo.content)
-            club.photo.save(f"{club.id}.jpg", photo_file)
-            club.save()
-        else:
-            logger.warning(f"Photo for {club.id} not found")
+    if not Club.objects.all().first().photo:
+        logger.info("Downloading clubs photos")
+        for club in Club.objects.all():
+            if club.photo:
+                continue
+            photo_url = f"{settings.CLUBS_URL}/{club.id}/logo"
+            photo = requests.get(photo_url)
+            logger.info(f"Downloading photo for {club.id}")
+            if photo.status_code == 200:
+                photo_file = ContentFile(photo.content)
+                club.photo.save(f"{club.id}.jpg", photo_file)
+                club.save()
+            else:
+                logger.warning(f"Photo for {club.id} not found")
 
 
 def download_photos():
     if not Envoy.objects.get(id=1).photo:
         logger.info("Downloading photos")
-        for envoy in Envoy.objects.all():
-            if envoy.photo:
-                continue
-            photo_url = f"{settings.ENVOYS_URL}/{envoy.id}/photo"
-            photo = requests.get(photo_url)
-            logger.info(f"Downloading photo for {envoy.id}")
-            if photo.status_code == 200:
-                photo_file = ContentFile(photo.content)
-                envoy.photo.save(f"{envoy.id}.jpg", photo_file)
-                envoy.save()
-            else:
-                logger.warning(f"Photo for {envoy.id} not found")
+    for envoy in Envoy.objects.all():
+        if envoy.photo:
+            continue
+        photo_url = f"{settings.ENVOYS_URL}/{envoy.id}/photo"
+        photo = requests.get(photo_url)
+        logger.info(f"Downloading photo for {envoy.id}")
+        if photo.status_code == 200:
+            photo_file = ContentFile(photo.content)
+            envoy.photo.save(f"{envoy.id}.jpg", photo_file)
+            envoy.save()
+        else:
+            logger.warning(f"Photo for {envoy.id} not found")
 
 
 def download_votings():
