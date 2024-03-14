@@ -1,6 +1,7 @@
 from django.db.models import F
 from django.views.generic import TemplateView
 from sejm_app.models import Voting, Scandal, Club, Process
+from loguru import logger
 
 
 class HomeView(TemplateView):

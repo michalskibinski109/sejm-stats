@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container container-fluid mt-4">
+        <div class="display-5 d-flex justify-content-between">
+            Artykuły
+            <span>
+                <i class="fa-solid fa-circle-info mx-1 fs-3 text-primary"
+                   data-bs-toggle="modal"
+                   data-bs-target="#helpEnvoy"></i>
+            </span>
+        </div>
+        <hr class='my-4' />
+        <div class="row">
+            {% for article in articles %}
+                <div class="{% if article.is_important %}col-md-4{% else %}col-md-4{% endif %}">
+                    <a href="{% url 'article-detail' article.pk %}"
+                       class="card  text-decoration-none m-1">
+                        <img src="{{ article.image.url }}"
+                             class="img-fluid  article-image"
+                             alt="{{ article.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title   text-decoration-line">{{ article.title }}</h5>
+                            <p class="card-text">{{ article.content|truncatechars:70 }}</p>
+                            <div class="d-flex flex-wrap mt-3"></div>
+                        </div>
+                        <div class="card-footer text-muted mb-0">
+                            <span class="fw-bold me-1">{{ article.author|title }} : &nbsp</span>{{ article.updated_at|date:"F d, Y" }}
+                            <div class="mb-0">
+                                <p class="badge bg-warning mt-1">Klub: {{ article.club }}</p>
+                                <p class="badge bg-primary me-1">{{ article.envoys.full_name }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
