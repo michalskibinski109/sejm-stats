@@ -46,7 +46,7 @@ class EnvoyDetailView(DetailView):
         for voting in votings:
             try:
                 club_vote = voting.club_votes.get(club=club)
-            except ClubVote.MultipleObjectsReturned:
+            except (ClubVote.MultipleObjectsReturned, ClubVote.DoesNotExist):
                 logger.warning(f"Club vote for {voting.club_votes.filter(club=club)}")
 
                 continue

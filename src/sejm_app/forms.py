@@ -24,6 +24,11 @@ class EnvoySearchForm(forms.Form):
 
 
 class ProcessSearchForm(forms.Form):
+    state = forms.BooleanField(
+        required=False,
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        label="Tylko niezakończone",
+    )
     document_type = forms.MultipleChoiceField(
         choices=Process.objects.all()
         .values_list("document_type", "document_type")

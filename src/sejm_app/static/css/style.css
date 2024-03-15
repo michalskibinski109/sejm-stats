@@ -15,7 +15,8 @@
 }
 
 .article-image {
-    /* Set the width and height here */
     width: 100%;
     height: 13vw;
+    object-fit: cover;
+    /* or 'contain' depending on your needs */
 }

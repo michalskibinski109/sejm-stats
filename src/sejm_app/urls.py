@@ -15,6 +15,7 @@ from .views import (
     SearchResultView,
 )
 
+
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
     path("search/", SearchResultView.as_view(), name="search"),

@@ -10,7 +10,11 @@ import re
 
 
 def get_pdf_authors(url: str) -> list:
-    file = requests.get(url)
+    try:
+        file = requests.get(url)
+    except requests.exceptions.ChunkedEncodingError:
+        logger.error("Error while downloading file")
+        return []
     with open("temp.pdf", "wb") as f:
         f.write(file.content)
     file_path = "temp.pdf"
@@ -36,7 +40,7 @@ def _extract_text_from_pdf(file_path: str) -> str:
 def _extract_envoys(text: str) -> list:
     # Regular expression pattern to match envoy names
     text = text.replace("\n", " ")
-    pattern = r"\(-\)\s([A-Za-zęóąśłżźćńĘÓĄŚŁŻŹĆŃ\s]+);"
+    pattern = r"\(-\)?\s([A-Za-zęóąśłżźćńĘÓĄŚŁŻŹĆŃ\s-]+)[.;]"
     matches = re.findall(pattern, text)
     envoys = [match.strip() for match in matches]
 

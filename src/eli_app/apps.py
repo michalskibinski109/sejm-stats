@@ -6,7 +6,7 @@ class EliAppConfig(AppConfig):
     name = "eli_app"
 
     def ready(self) -> None:
-        from eli_app.libs.populate_db import init_db
+        # from eli_app.libs.populate_db import init_db
 
-        init_db()
+        # init_db()
         return super().ready()

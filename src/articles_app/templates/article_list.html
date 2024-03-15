@@ -14,7 +14,7 @@
             {% for article in articles %}
                 <div class="{% if article.is_important %}col-md-4{% else %}col-md-4{% endif %}">
                     <a href="{% url 'article-detail' article.pk %}"
-                       class="card  text-decoration-none m-1">
+                       class="card  text-decoration-none m-1 my-3">
                         <img src="{{ article.image.url }}"
                              class="img-fluid  article-image"
                              alt="{{ article.title }}">

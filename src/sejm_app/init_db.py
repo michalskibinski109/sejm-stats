@@ -53,8 +53,8 @@ def run():
         return
     # download_clubs()
     # download_envoys()
-    download_photos()
-    download_clubs_photos()
+    # download_photos()
+    # download_clubs_photos()
     # download_votings()
     # download_prints()
     # download_processes()
@@ -140,18 +140,24 @@ def download_prints():
 
 
 def download_envoys():
-    if not Envoy.objects.exists():
-        logger.info(f"Envoys don't exist in database. Calling {settings.ENVOYS_URL}")
-        envoys = requests.get(settings.ENVOYS_URL).json()
-        for envoy in envoys:
-            envoy = {camel_to_snake(k): v for k, v in envoy.items()}
-            # first_last_name,last_first_name // remove this fields
+    logger.info(f"Envoys don't exist in database. Calling {settings.ENVOYS_URL}")
+    envoys = requests.get(settings.ENVOYS_URL).json()
+    for envoy in envoys:
+        envoy = {camel_to_snake(k): v for k, v in envoy.items()}
+        # first_last_name,last_first_name // remove this fields
 
-            envoy.pop("first_last_name")
-            envoy.pop("last_first_name")
-            envoy["club"] = Club.objects.get(id=envoy["club"])
-            envoy = Envoy.objects.create(**envoy)
-            download_biography(envoy)
+        envoy.pop("first_last_name")
+        envoy.pop("last_first_name")
+        envoy["club"] = Club.objects.get(id=envoy["club"])
+        if not Envoy.objects.filter(id=envoy["id"]).exists():
+            envoy_model = Envoy.objects.create(**envoy)
+            download_biography(envoy_model)
+            envoy_model.save()
+        else:
+            envoy_model = Envoy.objects.get(id=envoy["id"])
+            for key, value in envoy.items():
+                setattr(envoy_model, key, value)
+            envoy_model.save()
     else:
         logger.info("Envoys already exists in database")
 
@@ -166,12 +172,17 @@ def download_biography(envoy: Envoy):
 
 
 def download_clubs():
-    if not Club.objects.exists():
-        logger.info(f"Clubs don't exist in database. Calling {settings.CLUBS_URL}")
-        clubs = requests.get(settings.CLUBS_URL).json()
-        for club in clubs:
-            club_snake_case = {camel_to_snake(k): v for k, v in club.items()}
-            Club.objects.create(**club_snake_case)
+    logger.info(f"Clubs don't exist in database. Calling {settings.CLUBS_URL}")
+    clubs = requests.get(settings.CLUBS_URL).json()
+    for club in clubs:
+        club_snake_case = {camel_to_snake(k): v for k, v in club.items()}
+        if Club.objects.filter(id=club_snake_case["id"]).exists():
+            club = Club.objects.get(id=club_snake_case["id"])
+            for key, value in club_snake_case.items():
+                setattr(club, key, value)
+            club.save()
+        else:
+            Club.objects.update_or_create(**club_snake_case)
     else:
         logger.info("Clubs already exists in database")
 
@@ -179,18 +190,18 @@ def download_clubs():
 def download_clubs_photos():
     if not Club.objects.all().first().photo:
         logger.info("Downloading clubs photos")
-        for club in Club.objects.all():
-            if club.photo:
-                continue
-            photo_url = f"{settings.CLUBS_URL}/{club.id}/logo"
-            photo = requests.get(photo_url)
-            logger.info(f"Downloading photo for {club.id}")
-            if photo.status_code == 200:
-                photo_file = ContentFile(photo.content)
-                club.photo.save(f"{club.id}.jpg", photo_file)
-                club.save()
-            else:
-                logger.warning(f"Photo for {club.id} not found")
+    for club in Club.objects.all():
+        if club.photo:
+            continue
+        photo_url = f"{settings.CLUBS_URL}/{club.id}/logo"
+        photo = requests.get(photo_url)
+        logger.info(f"Downloading photo for {club.id}")
+        if photo.status_code == 200:
+            photo_file = ContentFile(photo.content)
+            club.photo.save(f"{club.id}.jpg", photo_file)
+            club.save()
+        else:
+            logger.warning(f"Photo for {club.id} not found")
 
 
 def download_photos():

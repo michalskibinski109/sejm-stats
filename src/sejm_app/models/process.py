@@ -60,6 +60,7 @@ class Process(models.Model):
 
     def save(self, *args, **kwargs):
         self.created_by = self._get_type_of_process()
+        logger.debug(f"Created by: {self.created_by}")
         self._assign_authors()
         return super().save(*args, **kwargs)
 

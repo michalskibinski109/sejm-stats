@@ -19,11 +19,16 @@ class ProcessListView(ListView):
             super()
             .get_queryset()
             .annotate(stage_count=Count("stages"))
-            .filter(stage_count__gt=1)
+            # .filter(stage_count__gt=1)
         )
         form = ProcessSearchForm(self.request.GET)
         if form.is_valid():
             document_types = form.cleaned_data.get("document_type")
+            only_not_finished = form.cleaned_data.get("state")
             if document_types:
                 queryset = queryset.filter(document_type__in=document_types)
+            if only_not_finished:
+                queryset = [
+                    process for process in queryset if process.is_finished is False
+                ]
         return queryset
