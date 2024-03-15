@@ -12,23 +12,15 @@ Welcome to Sejm 2.0, a project aimed at making parliamentary data more accessibl
 ![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/debd73b5-1dab-4002-82f4-f98c9f400ed6)
 
 
-## Introduction 🚀
-
-sejm-stats is a project aimed at improving the accessibility of parliamentary information for everyone. The official parliamentary website is not very user-friendly and lacks some key features, such as keyword search. sejm-stats aims to fix these issues and add some additional features.
-
 ## Motivation
 
 The main motivation behind sejm-stats is to make parliamentary information more accessible to everyone. The project is not driven by financial motives, but rather by the desire to keep everyone informed about what's happening in the country. sejm-stats is not affiliated with any political party. The goal is to provide objective and convenient information to help citizens understand the decision-making processes in our country. However, as the project developed, it became clear that some form of financing would be necessary to keep it going.
 
-## Advantages over the official parliamentary website
-
-In addition to all the data available on the official parliamentary website, sejm-stats will also offer:
-
-- Intelligent summaries of resolutions, laws, bill projects, etc. using artificial intelligence models (NLP). 📝
-- Advanced data search capabilities using AI, elasticSearch, and a vector database.
-- Integrated data visualizations. 📊
-- The ability to subscribe to a specific topic and receive notifications about new bill projects, resolutions, etc. 📬
-- Analysis of parliamentary data using machine learning to detect anomalies and irregularities in the actions of deputies. 🤖
-- The ability to export data to CSV, JSON, XML files for further analysis. 📁
-- An intuitive user interface offering light and dark themes. ☀️
-
+## Features
+Sejm 2.0 is a web app that makes it easy to track the activities of the Polish parliament (Sejm) and its members. It offers a more intuitive and user-friendly interface than the official Sejm website, as well as a number of additional features, including:
+- Detailed information about each member of parliament (MP), including their contact information, voting record, and committee assignments.
+- A powerful search engine that allows you to find information about specific bills, votes, and other parliamentary activities.
+- The ability to track the progress of bills through the legislative process.
+- The ability to subscribe to alerts about specific MPs, bills, or topics.
+- A forum for discussing current events in Polish politics.
+Sejm 2.0 is still under development, but it is already a valuable resource for anyone who wants to stay informed about what is happening in the Polish parliament.
