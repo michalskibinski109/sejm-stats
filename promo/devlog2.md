@@ -20,8 +20,8 @@ To by się zgadzało zapytał o zabytki w 118 różnych gminach. Musi być bardz
 
 Skoro weszliśmy już profil w posła to wytłumaczmy sobie co można tu sprawdzić.
 
-1. Po pierwsze mamy życiorys, który jako, że sejm nie udostępnia nam tych danych, jest pobierany z wikipedii. 
-2. Po 2 możemy z jakiegoś powodu wysłać maila do posła. 
+1. Po pierwsze mamy życiorys, który jako, że sejm nie udostępnia nam tych danych, jest pobierany z wikipedii. Przycisk przekieruje nas do strony wikipedii.
+2. Po 2 możemy z wysłać maila do posła, mam nadzieję, że nie będzie się to kończyło nękaniem posłów przez internautów.
 3. Można zaobserwować posła, co w przyszłości będzie wiązało się z otrzymywaniem powiadomień o jego aktywności. 
 4. Możemy prześledzić jak poseł głosował w różnych sprawach. Pod jakimi projektami się podpisał jakie interpelacje składał i czy głosował zgodnie z linią partii.
 5. W przyszłości planuję dodać tutaj informację ze sprawozdania finansowego, ale jako, że niektórzy posłowie piszą jakby nie chcieli, żeby to było jawne, wymaga to trochę więcej czasu.
@@ -66,5 +66,4 @@ Dajcie znać jeśli macie jakieś pomysły na rozwój projektu.
 
 Aplikacja nadal nie jest dostępna publicznie ponieważ wymgało by to ode mnie nakładu finansowego. 
 Mam jednak przygotowanego docker-a i jestem gotowy do hostowania jej na AWS-ie.
-
 
