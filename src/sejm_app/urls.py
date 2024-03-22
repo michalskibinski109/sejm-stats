@@ -13,6 +13,7 @@ from .views import (
     ProcessListView,
     ProcessDetailView,
     SearchResultView,
+    UpdateView,
 )
 
 
@@ -28,5 +29,6 @@ urlpatterns = [
     path("faq/", FAQListView.as_view(), name="faq"),
     path("scandals/", ScandalListView.as_view(), name="scandals"),
     path("processes/", ProcessListView.as_view(), name="processes"),
+    path("update/", UpdateView.as_view(), name="update"),
     path("process/<int:pk>/", ProcessDetailView.as_view(), name="process_detail"),
 ]

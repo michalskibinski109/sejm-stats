@@ -37,7 +37,7 @@ class SearchResultView(View):
         title_vector = SearchVector("title", config="pl_ispell")
         keyword_vector = SearchVector("keywords", config="pl_ispell")
         person_vector = SearchVector(
-            "first_name", "second_name", "last_name", config="pl_ispell"
+            "firstName", "secondName", "lastName", config="pl_ispell"
         )
         interpolations = (
             Interpellation.objects.annotate(
@@ -100,7 +100,7 @@ class SearchResultView(View):
         # Aggregate interpellations by week
         interp_agg = (
             Interpellation.objects.filter(
-                id__in=[interp.id for interp in interpolations]
+                id__in=interpolations.values_list("id", flat=True)
             )
             .annotate(
                 week=TruncWeek("receipt_date")
@@ -112,7 +112,7 @@ class SearchResultView(View):
 
         # Aggregate processes by week
         proc_agg = (
-            Process.objects.filter(id__in=[proc.id for proc in processes])
+            Process.objects.filter(id__in=processes.values_list("id", flat=True))
             .annotate(week=TruncWeek("process_start_date"))
             .values("week")
             .annotate(count=Count("id"))
@@ -121,7 +121,7 @@ class SearchResultView(View):
 
         # Aggregate prints by week
         print_agg = (
-            PrintModel.objects.filter(id__in=[printm.id for printm in prints])
+            PrintModel.objects.filter(id__in=prints.values_list("id", flat=True))
             .annotate(week=TruncWeek("document_date"))
             .values("week")
             .annotate(count=Count("id"))

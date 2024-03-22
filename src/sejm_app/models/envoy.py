@@ -8,22 +8,22 @@ from django.utils.functional import cached_property
 class Envoy(models.Model):
     id = models.AutoField(primary_key=True)
     photo = models.ImageField(upload_to="photos", null=True, blank=True)
-    first_name = models.CharField(max_length=255)
-    second_name = models.CharField(max_length=255, null=True, blank=True)
-    last_name = models.CharField(max_length=255)
+    firstName = models.CharField(max_length=255)
+    secondName = models.CharField(max_length=255, null=True, blank=True)
+    lastName = models.CharField(max_length=255)
     email = models.EmailField(max_length=255)
     active = models.BooleanField(default=True)
-    inactive_cause = models.CharField(max_length=255, null=True, blank=True)
-    waiver_desc = models.TextField(null=True, blank=True)
-    district_num = models.IntegerField()
-    district_name = models.CharField(max_length=255)
+    inactiveCause = models.CharField(max_length=255, null=True, blank=True)
+    waiverDesc = models.TextField(null=True, blank=True)
+    districtNum = models.IntegerField()
+    districtName = models.CharField(max_length=255)
     voivodeship = models.CharField(max_length=255)
     club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name="envoys")
-    birth_date = models.DateField()
-    birth_location = models.CharField(max_length=255)
+    birthDate = models.DateField()
+    birthLocation = models.CharField(max_length=255)
     profession = models.CharField(max_length=255)
-    education_level = models.CharField(max_length=255)
-    number_of_votes = models.IntegerField()
+    educationLevel = models.CharField(max_length=255)
+    numberOfVotes = models.IntegerField()
     biography = models.TextField(
         null=True, blank=True, help_text="Biography of the envoy pulled from wikipedia"
     )
@@ -41,15 +41,15 @@ class Envoy(models.Model):
 
     @cached_property
     def is_female(self) -> bool:
-        return self.first_name.endswith("a")
+        return self.firstName.endswith("a")
 
     @cached_property
     def title(self) -> str:
         prefix = "Posłanka" if self.is_female else "Poseł"
-        return f"{prefix} {self.first_name} {self.last_name}"
+        return f"{prefix} {self.firstName} {self.lastName}"
 
     def full_name(self) -> str:
-        return f"{self.first_name} {self.second_name if self.second_name else ''} {self.last_name}"
+        return f"{self.firstName} {self.secondName if self.secondName else ''} {self.lastName}"
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.club.id})"
+        return f"{self.firstName} {self.lastName} ({self.club.id})"

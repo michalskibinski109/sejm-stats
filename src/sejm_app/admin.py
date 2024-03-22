@@ -82,7 +82,7 @@ class VoteAdmin(admin.ModelAdmin):
 
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "phone", "fax", "email", "members_count")
+    list_display = ("id", "name", "phone", "fax", "email")
 
 
 @admin.register(Voting)
@@ -98,7 +98,7 @@ class VotingAdmin(admin.ModelAdmin):
 class EnvoyAdmin(admin.ModelAdmin):
     list_display = (
         "id",
-        "first_name",
-        "second_name",
-        "last_name",
+        "firstName",
+        "secondName",
+        "lastName",
     )

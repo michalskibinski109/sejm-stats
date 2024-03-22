@@ -45,7 +45,7 @@ class Reply(models.Model):
                     first_name, last_name = value.split(" ")[-2:]
                     logger.debug(f"first_name: {first_name}, last_name: {last_name}")
                     response["from_member"] = Envoy.objects.get(
-                        first_name=first_name, last_name=last_name
+                        firstName=first_name, lastName=last_name
                     )
                 except Envoy.DoesNotExist:
                     logger.error(
@@ -110,9 +110,7 @@ class Interpellation(models.Model):
                     value = Envoy.objects.get(id=value)
                 elif isinstance(value, str):
                     first_name, last_name = value.split(" ")[-2:]
-                    value = Envoy.objects.get(
-                        first_name=first_name, last_name=last_name
-                    )
+                    value = Envoy.objects.get(firstName=first_name, lastName=last_name)
                 else:
                     logger.debug(f"Could not parse envoy from {value}")
                     continue

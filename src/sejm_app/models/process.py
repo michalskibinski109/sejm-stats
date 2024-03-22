@@ -76,7 +76,7 @@ class Process(models.Model):
             for author in possible_authors:
                 first_name, last_name = author.split(" ")[0], author.split(" ")[-1]
                 if envoy := envoys.filter(
-                    first_name__iexact=first_name, last_name__iexact=last_name
+                    firstName__iexact=first_name, lastName__iexact=last_name
                 ).first():
                     try:
 

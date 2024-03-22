@@ -9,7 +9,6 @@ from sejm_app.utils import parse_all_dates, camel_to_snake
 from sejm_app.models.vote import Vote, ClubVote, VotingOption
 from sejm_app.models.club import Club
 import re
-from django.db.models import Count, Case, When, IntegerField
 
 
 class Voting(models.Model):
@@ -23,10 +22,10 @@ class Voting(models.Model):
     sitting = models.IntegerField(
         null=True, blank=True, help_text=_("Number of the Sejm sitting")
     )
-    sitting_day = models.IntegerField(
+    sittingDay = models.IntegerField(
         null=True, blank=True, help_text=_("Day number of the Sejm sitting")
     )
-    voting_number = models.IntegerField(
+    votingNumber = models.IntegerField(
         null=True, blank=True, help_text=_("Voting number")
     )
     date = models.DateTimeField(null=True, blank=True, help_text=_("Date of the vote"))
@@ -40,7 +39,7 @@ class Voting(models.Model):
         max_length=255, null=True, blank=True, help_text=_("Short voting topic")
     )
 
-    pdf_link = models.URLField(
+    pdfLink = models.URLField(
         null=True,
         blank=True,
         help_text=_("Link to the PDF document with voting details"),
@@ -77,28 +76,12 @@ class Voting(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.id = self.sitting_day * 1000 + self.voting_number
+            self.id = self.sittingDay * 1000 + self.votingNumber
         super().save(*args, **kwargs)
-
-    def create_club_votes(self):
-        for club in Club.objects.all():
-            if self.club_votes.filter(club=club).exists():
-                continue
-            votes = Vote.objects.filter(voting=self, MP__club=club)
-            yes = votes.filter(vote=VotingOption.YES).count()
-            no = votes.filter(vote=VotingOption.NO).count()
-            abstain = votes.filter(
-                vote__in=[VotingOption.ABSTAIN, VotingOption.ABSENT]
-            ).count()
-            club_vote = ClubVote.objects.create(
-                club=club, voting=self, yes=yes, no=no, abstain=abstain
-            )
-            club_vote.save()
 
     @classmethod
     def from_api_response(cls, response: dict):
         voting = cls()
-        response = {camel_to_snake(key): value for key, value in response.items()}
         response = parse_all_dates(response)
         for key, value in response.items():
             if not hasattr(voting, key) or key == "votes":
@@ -118,5 +101,4 @@ class Voting(models.Model):
                     vote.save()
             except django.db.utils.DataError:
                 logger.warning(f"DataError: {votes_data}")
-        voting.create_club_votes()
         return voting

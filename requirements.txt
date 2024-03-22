@@ -17,3 +17,5 @@ pyhon-decouple
 pytesseract
 pdfminer.six
 pdf2image
+celery
+django-celery-beat

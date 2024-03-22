@@ -9,8 +9,7 @@
     <div class="container fluid mt-4">
         <div class="row">
             <h1 class="display-5 col-9">{{ envoy.title }}</h1>
-            <div class=" col-3 d-flex align-items-center rounded border p-1"
-                 style="background: linear-gradient(90deg, rgba(100,220,90,0.6) {{ activity }}%, transparent {{ activity }}%)">
+            {% comment %} <div class=" col-3 d-flex align-items-center rounded border p-1" style="background: linear-gradient(90deg, rgba(100,220,90,0.6) {{ activity }}%, transparent {{ activity }}%)">
                 <h5 class="display-6 fs-3 text-center">
                     {% if activity < 25 %}
                         Niska aktywność
@@ -20,7 +19,7 @@
                         Wysoka aktywność
                     {% endif %}
                 </h5>
-            </div>
+            </div> {% endcomment %}
         </div>
         <hr class="my-4">
         <div class="row gutters-sm">
@@ -31,7 +30,7 @@
                             <img src="{{ envoy.photo.url }}"  class="rounded" width="150">
                             <div class="mt-3">
                                 <p class="text-secondary mb-1">{{ envoy.club.name }}</p>
-                                <p class="text-muted font-size-sm">{{ envoy.district_name }}</p>
+                                <p class="text-muted font-size-sm">{{ envoy.districtName }}</p>
                                 <button class="btn btn-danger mx-2">Obserwuj</button>
                                 <a href="mailto:{{ envoy.email }}"
                                    class="btn btn-outline-danger mx-2 px-5">

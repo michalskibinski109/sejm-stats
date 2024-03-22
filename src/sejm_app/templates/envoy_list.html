@@ -78,9 +78,9 @@
                     <select class="form-select my-3" name="district" id="district">
                         <option value="all" {% if 'all' in selected_districts %}selected{% endif %}>Wszystkie</option>
                         {% for district in districts %}
-                            <option value="{{ district.district_name }}"
+                            <option value="{{ district.districtName }}"
                                     {% if district.district_name in selected_districts %}selected{% endif %}>
-                                {{ district.district_name }}
+                                {{ district.districtName }}
                             </option>
                         {% endfor %}
                     </select>

@@ -152,3 +152,12 @@ ENVOYS_URL = urljoin(API_URL, f"sejm/term{TERM}/MP")
 CLUBS_URL = urljoin(API_URL, f"sejm/term{TERM}/clubs")
 VOTINGS_URL = urljoin(API_URL, f"sejm/term{TERM}/votings")
 RESOLUTION_URL = "https://orka.sejm.gov.pl/proc10.nsf/uchwaly"
+
+
+# CELERY
+
+CELERY_TIMEZONE = "CET"
+CELERY_TASK_SERIALIZER = "pickle"
+CELERY_RESULT_SERIALIZER = "pickle"
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_ACCEPT_CONTENT = ["pickle"]

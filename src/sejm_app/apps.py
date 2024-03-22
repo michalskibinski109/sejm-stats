@@ -7,10 +7,10 @@ class SejmAppConfig(AppConfig):
     verbose_name = "Sejm"
 
     def ready(self):
-        import sejm_app.signals
+        # import sejm_app.signals
 
-        from sejm_app import init_db
+        # from sejm_app import init_db
 
-        init_db.run()
-        pass
+        # init_db.run()
+        # pass
         super().ready()

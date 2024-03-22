@@ -16,7 +16,7 @@ class EnvoyListView(ListView):
         context = super().get_context_data(**kwargs)
         context["clubs"] = Club.objects.all()
         context["selected_clubs"] = self.request.GET.getlist("club")
-        context["districts"] = Envoy.objects.values("district_name")
+        context["districts"] = Envoy.objects.values("districtName")
         context["selected_districts"] = self.request.GET.getlist("district")
         return context
 
@@ -30,13 +30,13 @@ class EnvoyListView(ListView):
             query_parts = search_query.strip().split()
             qf = Q()
             for part in query_parts:
-                qf &= Q(first_name__icontains=part) | Q(last_name__icontains=part)
+                qf &= Q(firstName__icontains=part) | Q(lastName__icontains=part)
             queryset = queryset.filter(qf)
         if clubs:
             queryset = queryset.filter(club__id__in=clubs)
         if districts and "all" not in districts:
-            queryset = queryset.filter(district_name__in=districts)
-        queryset = queryset.order_by("first_name", "last_name")
+            queryset = queryset.filter(districtName__in=districts)
+        queryset = queryset.order_by("firstName", "lastName")
         if most_active:
             queryset = sorted(queryset, key=lambda x: x.total_activity, reverse=True)[
                 :10

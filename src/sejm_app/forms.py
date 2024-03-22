@@ -16,7 +16,7 @@ class EnvoySearchForm(forms.Form):
         required=False,
     )
     district = forms.ModelChoiceField(
-        queryset=Envoy.objects.all().values_list("district_name", flat=True).distinct(),
+        queryset=Envoy.objects.all().values_list("districtName", flat=True).distinct(),
         empty_label="Wszystkie",
         widget=Select2Widget(attrs={"class": "form-select my-3"}),
         required=False,
@@ -30,10 +30,15 @@ class ProcessSearchForm(forms.Form):
         label="Tylko niezakończone",
     )
     document_type = forms.MultipleChoiceField(
-        choices=Process.objects.all()
-        .values_list("document_type", "document_type")
-        .distinct(),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
         required=False,
         label="Typ dokumentu",
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["document_type"].choices = (
+            Process.objects.all()
+            .values_list("document_type", "document_type")
+            .distinct()
+        )
