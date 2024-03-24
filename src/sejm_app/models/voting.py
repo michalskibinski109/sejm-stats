@@ -51,8 +51,11 @@ class Voting(models.Model):
         help_text=_("Type of voting, one of ELECTRONIC, TRADITIONAL, ON_LIST"),
     )
 
-    @cached_property
-    def success(self) -> bool:
+    success = models.BooleanField(
+        null=True, blank=True, help_text=_("Whether the voting was successful")
+    )
+
+    def _check_if_success(self) -> bool:
         if self.no + self.yes + self.abstain < 230:
             logger.warning(
                 f"Voting {self.id} has less than 230 votes, cannot determine if passed"
@@ -70,35 +73,11 @@ class Voting(models.Model):
             return None
         sub_str = sub_str.group(1)
         numbers = re.findall(r"\d+(?:-\w)?", sub_str)
-        # return f"{settings.RESOLUTION_URL}/{number}_u.htm"
         return [f"{settings.RESOLUTION_URL}/{number}_u.htm" for number in numbers]
         # return
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.id = self.sittingDay * 1000 + self.votingNumber
+        self.success = self._check_if_success()
         super().save(*args, **kwargs)
-
-    @classmethod
-    def from_api_response(cls, response: dict):
-        voting = cls()
-        response = parse_all_dates(response)
-        for key, value in response.items():
-            if not hasattr(voting, key) or key == "votes":
-                continue
-            if isinstance(value, str) and len(value) > 255:
-                value = value[:255]
-            setattr(voting, key, value)
-        voting.save()
-        if votes_data := response.get("votes"):
-            try:
-                voting.save()
-                votes = (
-                    Vote.from_api_response(vote_data, voting)
-                    for vote_data in votes_data
-                )
-                for vote in votes:
-                    vote.save()
-            except django.db.utils.DataError:
-                logger.warning(f"DataError: {votes_data}")
-        return voting

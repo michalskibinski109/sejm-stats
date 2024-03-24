@@ -11,7 +11,11 @@ def camel_to_snake(name: str) -> str:
 
 def parse_all_dates(response: dict, only_date=False) -> dict:
     for key, value in response.items():
-        if isinstance(value, str) and (("date" in key) or ("last_modified" in key)):
+        if (
+            isinstance(value, str)
+            and (("date" in key.lower()) or ("last_modified" in key.lower()))
+            or ("lastmodified" in key.lower())
+        ):
             value = parse_datetime(value) if "T" in value else parse_date(value)
             if isinstance(value, datetime):
                 value = timezone.make_aware(value)

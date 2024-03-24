@@ -13,16 +13,17 @@ class VotingOption(models.IntegerChoices):
 
 
 class Vote(models.Model):
-    voting = models.ForeignKey(
-        "Voting", on_delete=models.CASCADE, null=True, blank=True, related_name="votes"
-    )
-    MP = models.ForeignKey(
-        "Envoy", on_delete=models.CASCADE, null=True, blank=True, related_name="votes"
-    )
+    id = models.IntegerField(primary_key=True)
+    voting = models.ForeignKey("Voting", on_delete=models.CASCADE, related_name="votes")
+    MP = models.ForeignKey("Envoy", on_delete=models.CASCADE, related_name="votes")
     vote = models.SmallIntegerField(
         choices=VotingOption.choices,
         help_text=_("Vote option"),
     )
+
+    def save(self, *args, **kwargs):
+        self.id = self.voting.pk * 1000 + self.MP.pk
+        super().save(*args, **kwargs)
 
     @property
     def vote_label(self):
@@ -34,26 +35,6 @@ class Vote(models.Model):
             VotingOption.VOTE_VALID: "Głos ważny",
         }
         return dct[self.vote]
-
-    @classmethod
-    def from_api_response(cls, response: dict, voting: "Voting"):
-        # https://api.sejm.gov.pl/sejm/openapi/ui/#/default/get_sejm_term_term__votings__sitting___num_
-        vote = cls()
-        vote.voting = voting
-        response = {camel_to_snake(key): value for key, value in response.items()}
-        response = parse_all_dates(response)
-        for key, value in response.items():
-            if not hasattr(vote, key):
-                continue
-            if key == "MP":
-                value = Envoy.objects.get(id=value)
-            if key == "vote":
-                value = VotingOption[value.upper()].value
-            setattr(vote, key, value)
-        if voting.votes.filter(MP=vote.MP).exists():
-            return voting.votes.get(MP=vote.MP)
-        vote.save()
-        return vote
 
 
 class ClubVote(models.Model):

@@ -5,7 +5,9 @@ from sejm_app import models
 from django.db.models import Model
 from django.db import transaction
 from sejm_app.models import Voting, Vote, ClubVote, VotingOption, Club
-
+from sejm_app.models.envoy import Envoy
+from sejm_app.utils import parse_all_dates
+from django.db.utils import DataError
 from .db_updater_task import DbUpdaterTask
 
 
@@ -61,6 +63,37 @@ class VotingsUpdaterTask(DbUpdaterTask):
                 break
             resp.raise_for_status()
             with transaction.atomic():
-                voting = Voting.from_api_response(resp.json())
+                voting = self._create_voting(resp.json())
                 self._create_club_votes(voting)
             number += 1
+
+    def _create_vote(self, vote_data: dict, voting: Voting) -> Vote:
+        vote = Vote()
+        vote.voting = voting
+        vote_data = parse_all_dates(vote_data)
+        vote.MP = Envoy.objects.get(id=vote_data["MP"])
+        vote.vote = VotingOption[vote_data["vote"].upper()].value
+        if voting.votes.filter(MP=vote.MP).exists():
+            return voting.votes.get(MP=vote.MP)
+        return vote
+
+    def _create_voting(self, data: dict):
+        voting = Voting()
+        data = parse_all_dates(data)
+        for key, value in data.items():
+            if not hasattr(voting, key) or key == "votes":
+                continue
+            if isinstance(value, str) and len(value) > 255:
+                value = value[:255]
+            setattr(voting, key, value)
+        if votes_data := data.get("votes"):
+            try:
+                voting.save()
+                votes = [
+                    self._create_vote(vote_data, voting) for vote_data in votes_data
+                ]
+                for vote in votes:
+                    vote.save()
+            except DataError:
+                logger.warning(f"DataError: {votes_data}")
+        return voting

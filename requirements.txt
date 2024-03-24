@@ -13,9 +13,10 @@ elasticsearch-dsl
 psycopg~=3.1.8
 psycopg-binary 
 wikipedia
-pyhon-decouple
+python-decouple
 pytesseract
 pdfminer.six
 pdf2image
 celery
 django-celery-beat
+django-celery-results

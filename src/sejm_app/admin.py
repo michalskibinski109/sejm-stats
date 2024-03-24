@@ -31,7 +31,7 @@ class ReplyAdmin(admin.ModelAdmin):
 
 @admin.register(Interpellation)
 class InterpellationAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "from_member")
+    list_display = ("id", "title", "fromMember")
 
 
 # Register your models here.

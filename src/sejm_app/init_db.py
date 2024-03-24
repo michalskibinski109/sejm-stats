@@ -47,26 +47,6 @@ def run():
     # download_interpellations()
 
 
-def download_interpellations():
-    url = f"{settings.SEJM_ROOT_URL}/interpellations"
-    last_interpellation = (
-        Interpellation.objects.order_by("num").last().num
-        if Interpellation.objects.exists()
-        else 1
-    )
-    for i in count(last_interpellation):
-        logger.info(f"Downloading interpellation {i}")
-        if f"{settings.TERM}{i}" in Interpellation.objects.values_list("id", flat=True):
-            continue
-        resp = requests.get(f"{url}/{i}")
-        if resp.status_code != 200:
-            logger.info(f"Finished downloading interpellations on {i}")
-            return
-        else:
-            interpellation = resp.json()
-            interpellation = Interpellation.from_api_response(interpellation)
-
-
 def download_processes():
     url = f"{settings.SEJM_ROOT_URL}/processes"
     last_process = (

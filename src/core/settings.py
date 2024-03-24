@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "django_select2",
     "crispy_forms",
+    "django_celery_results",
     "crispy_bootstrap5",
 ]
 
@@ -161,3 +162,4 @@ CELERY_TASK_SERIALIZER = "pickle"
 CELERY_RESULT_SERIALIZER = "pickle"
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_ACCEPT_CONTENT = ["pickle"]
+CELERY_RESULT_BACKEND = "django-db"

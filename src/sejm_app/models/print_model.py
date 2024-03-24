@@ -12,17 +12,11 @@ class PrintModel(models.Model):
     number = models.CharField(max_length=10)
     term = models.SmallIntegerField()
     title = models.TextField()
-    document_date = models.DateField(db_column="documentDate")
-    delivery_date = models.DateField(db_column="deliveryDate")
-    change_date = models.DateTimeField(db_column="changeDate")
+    documentDate = models.DateField()
+    deliveryDate = models.DateField()
+    changeDate = models.DateTimeField()
 
     def save(self, *args, **kwargs):
-        self.document_date = timezone.make_aware(
-            datetime.strptime(self.document_date, "%Y-%m-%d")
-        )
-        self.delivery_date = timezone.make_aware(
-            datetime.strptime(self.delivery_date, "%Y-%m-%d")
-        )
         self.id = f"{self.term}{self.number}"
         super().save(*args, **kwargs)
 
@@ -37,6 +31,10 @@ class PrintModel(models.Model):
     @cached_property
     def pdf_url(self) -> str:
         return f"{settings.SEJM_ROOT_URL}/prints/{self.number}/{self.number}.pdf"
+
+    @cached_property
+    def api_url(self) -> str:
+        return urljoin(settings.SEJM_ROOT_URL, f"prints/{self.number}")
 
     def __str__(self) -> str:
         return f"{self.number}. {self.title}"
