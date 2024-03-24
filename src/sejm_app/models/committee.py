@@ -11,7 +11,7 @@ class CommitteeType(models.TextChoices):
 class Committee(models.Model):
     name = models.CharField(max_length=512)
     nameGenitive = models.CharField(max_length=512)
-    code = models.CharField(max_length=10, unique=True)
+    code = models.CharField(max_length=10, unique=True, primary_key=True)
     appointmentDate = models.DateField()
     compositionDate = models.DateField()
     phone = models.CharField(max_length=100, blank=True)

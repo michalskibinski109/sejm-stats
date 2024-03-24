@@ -24,3 +24,11 @@ Sejm 2.0 is a web app that makes it easy to track the activities of the Polish p
 - The ability to subscribe to alerts about specific MPs, bills, or topics.
 - A forum for discussing current events in Polish politics.
 Sejm 2.0 is still under development, but it is already a valuable resource for anyone who wants to stay informed about what is happening in the Polish parliament.
+
+### Running
+
+celery worker
+
+```bash
+celery -A core worker -l INFO --pool=solo
+```

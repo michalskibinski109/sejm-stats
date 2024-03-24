@@ -70,7 +70,7 @@
                                    {% if club.id|stringformat:'s' in selected_clubs %}checked{% endif %}>
                             <label class="form-check-label " for="club-{{ forloop.counter }}">
                                 {{ club.id }}
-                                <span class=" fst-italic ">({{ club.members_count }})</span>
+                                <span class=" fst-italic ">({{ club.membersCount }})</span>
                             </label>
                         </div>
                     {% endfor %}
@@ -79,7 +79,7 @@
                         <option value="all" {% if 'all' in selected_districts %}selected{% endif %}>Wszystkie</option>
                         {% for district in districts %}
                             <option value="{{ district.districtName }}"
-                                    {% if district.district_name in selected_districts %}selected{% endif %}>
+                                    {% if district.districtName in selected_districts %}selected{% endif %}>
                                 {{ district.districtName }}
                             </option>
                         {% endfor %}

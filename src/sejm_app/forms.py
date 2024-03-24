@@ -23,9 +23,6 @@ class EnvoySearchForm(forms.Form):
     )
 
 
-from .models import Committee
-
-
 class CommitteeSearchForm(forms.Form):
     type = forms.ChoiceField(
         required=False,
