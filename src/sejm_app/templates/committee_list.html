@@ -11,7 +11,7 @@
             src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
     <script>
 $(document).ready( function () {
-    $('#processesTable').DataTable({
+    $('#committeeTable').DataTable({
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.25/i18n/Polish.json"
         }
@@ -23,12 +23,12 @@ $(document).ready( function () {
 {% endblock extra_head %}
 {% block content %}
     <div class="container fluid mt-4">
-        <h1 class="display-5">Procesy legislacyjne</h1>
+        <h1 class="display-5">Komisje sejmowe</h1>
         <hr class="my-4">
         <div class="row">
             <div class="col-md-3  p-2 pt-0">
                 {% load crispy_forms_tags %}
-                <form method="get" class="rounded shadow p-3 " novalidate>
+                <form method="get" class="rounded border p-3 " novalidate>
                     <h4 class="text-danger ">Filtruj</h4>
                     <hr class="my-4 text-danger">
                     {{ form|crispy }}
@@ -37,28 +37,28 @@ $(document).ready( function () {
                 </form>
             </div>
             <div class="col-9">
-                <table id="processesTable" class="table table-striped table-hover ">
+                <table id="committeeTable" class="table table-striped table-hover ">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Tytuł</th>
-                            <th>Typ dokumentu</th>
-                            <th>Data rozpoczęcia</th>
+                            <th>Kod</th>
+                            <th>Nazwa</th>
+                            <th>Typ</th>
+                            <th>Data mianowania</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for process in processes %}
+                        {% for committee in committees %}
                             <tr>
-                                <td>{{ process.number }}</td>
+                                <td>{{ committee.code }}</td>
                                 <td>
-                                    <a href="{% url 'process_detail' process.id %}">{{ process.title }}</a>
+                                    <a href="{% url 'committee_detail' committee.code %}">{{ committee.name }}</a>
                                 </td>
-                                <td>{{ process.documentType }}</td>
-                                <td>{{ process.processStartDate }}</td>
+                                <td>{{ committee.get_type_display }}</td>
+                                <td>{{ committee.appointmentDate }}</td>
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="7" class="text-center">Nie znaleziono procesów</td>
+                                <td colspan="6" class="text-center">Nie znaleziono komisji</td>
                             </tr>
                         {% endfor %}
                     </tbody>

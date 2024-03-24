@@ -1,5 +1,5 @@
 from django.views.generic import DetailView
-from sejm_app.models import Envoy, Voting, VotingOption, ClubVote
+from sejm_app.models import Envoy, Voting, VotingOption, ClubVote, CommitteeMember
 from loguru import logger
 import json
 from django.db import models
@@ -19,6 +19,7 @@ class EnvoyDetailView(DetailView):
         context["interpellations"] = self.object.interpellations.all()
         context["latest_votings"] = self.get_latest_votings(5)
         context["discipline_ratio"] = self.get_discipline_ratio()
+        context["member_of"] = CommitteeMember.objects.filter(envoy=self.object)
         # max_activity = 100
         # for envoy in Envoy.objects.all():
         #     if envoy.total_activity > max_activity:

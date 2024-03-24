@@ -36,9 +36,9 @@ def parse_all_dates(response: dict, date_only=False) -> dict:
         return response
     for key, value in response.items():
         if (
-            isinstance(value, str)
-            and (("date" in key.lower()) or ("last_modified" in key.lower()))
-            or ("lastmodified" in key.lower())
+            (isinstance(value, str) or isinstance(value, datetime))
+            and (("date" in key.lower()) or ("modified" in key.lower()))
+            or ("modified" in key.lower())
         ):
             value = parse_datetime(value) if "T" in value else parse_date(value)
             if isinstance(value, datetime):

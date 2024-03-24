@@ -12,3 +12,5 @@ from .scandal_list_view import ScandalListView
 from .query_result_view import SearchResultView
 from .update_view import UpdateView
 from .last_update_view import LastUpdateView
+from .committee_detail_view import CommitteeDetailView
+from .committee_list_view import CommitteeListView

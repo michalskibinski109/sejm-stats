@@ -152,6 +152,22 @@
                         <button class="btn btn-outline-primary btn-sm w-100" disabled>Pobierz wszystkie</button>
                     </ul>
                 </div>
+                <div class="mt-5">
+                    <h1 class="display-6  p-1 text-danger">Komisje sejmowe</h1>
+                    <ul class="list-group mb-3">
+                        {% for membership in member_of %}
+                            <hr class="m-0 p-0 " />
+                            <li class="list-group-item d-flex justify-content-between align-items-between  m-2  border-0 border-bottom-1 clickable-card">
+                                <p class="m-0 me-2">{{ membership.committee.name|truncatechars:160 }}</p>
+                                {% if membership.function %}<p class="text-muted ps-3 text-end">{{ membership.function }}</p>{% endif %}
+                            </li>
+                        {% empty %}
+                            <li class="list-group list-group-item d-flex justify-content-between align-items-center  m-2  border-0 border-bottom-1 clickable-card">
+                                <p class="m-0 me-2">Brak</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
             <div class="col-12">{% include "search/_interpellations.html" %}</div>
         </div>

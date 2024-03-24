@@ -25,7 +25,7 @@
                                         <strong>
                                             <a href="{{ reply.body_link }}" class="text-decoration-none">
                                             odpowiedź od: {{ reply.author }}</strong></a>
-                                            <p>Dnia: {{ reply.receipt_date|date:"d M Y" }}</p>
+                                            <p>Dnia: {{ reply.receiptDate|date:"d M Y" }}</p>
                                         </li>
                                         {% if not forloop.last %}<hr />{% endif %}
                                     {% endfor %}
@@ -41,7 +41,7 @@
                                 <i class="fa-solid text-warning fa-clock"></i>
                             {% endif %}
                         {{ interpellation.from_member }}</span>
-                        <span class="card-text">Zmodyfikowano: {{ interpellation.last_modified|date:"d M Y" }}</span>
+                        <span class="card-text">Zmodyfikowano: {{ interpellation.lastModified|date:"d M Y" }}</span>
                     </div>
                 </div>
             </a>

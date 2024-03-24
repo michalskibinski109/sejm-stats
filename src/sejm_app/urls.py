@@ -15,6 +15,8 @@ from .views import (
     SearchResultView,
     UpdateView,
     LastUpdateView,
+    CommitteeListView,
+    CommitteeDetailView,
 )
 
 
@@ -29,6 +31,8 @@ urlpatterns = [
     path("votings/", VotingListView.as_view(), name="votings"),
     path("voting/<int:pk>/", VotingDetailView.as_view(), name="voting_detail"),
     path("faq/", FAQListView.as_view(), name="faq"),
+    path("committees/", CommitteeListView.as_view(), name="committees"),
+    path("committee/<str:pk>/", CommitteeDetailView.as_view(), name="committee_detail"),
     path("scandals/", ScandalListView.as_view(), name="scandals"),
     path("processes/", ProcessListView.as_view(), name="processes"),
     path("update/", UpdateView.as_view(), name="update"),

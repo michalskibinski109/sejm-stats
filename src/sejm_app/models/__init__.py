@@ -8,4 +8,4 @@ from .print_model import PrintModel, AdditionalPrint
 from .process import Process
 from .stage import Stage
 from .interpellation import Interpellation, Reply
-from .committee import Committee, CommitteeMember
+from .committee import Committee, CommitteeMember, CommitteeType

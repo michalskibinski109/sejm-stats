@@ -44,7 +44,7 @@ class SearchResultView(View):
                 search=title_vector,
             )
             .filter(search=combined_search_query)
-            .order_by("-last_modified")
+            .order_by("-lastModified")
         )
         processes = Process.objects.annotate(search=title_vector).filter(
             search=combined_search_query
@@ -92,7 +92,7 @@ class SearchResultView(View):
     ) -> dict:
 
         return {
-            club.id: interpolations.filter(from_member__club=club).count()
+            club.id: interpolations.filter(fromMember__club=club).count()
             for club in Club.objects.all()
         }
 
@@ -103,8 +103,8 @@ class SearchResultView(View):
                 id__in=interpolations.values_list("id", flat=True)
             )
             .annotate(
-                week=TruncWeek("receipt_date")
-            )  # Assuming 'receipt_date' is the relevant date field
+                week=TruncWeek("receiptDate")
+            )  # Assuming 'receiptDate' is the relevant date field
             .values("week")
             .annotate(count=Count("id"))
             .order_by("week")
@@ -113,7 +113,7 @@ class SearchResultView(View):
         # Aggregate processes by week
         proc_agg = (
             Process.objects.filter(id__in=processes.values_list("id", flat=True))
-            .annotate(week=TruncWeek("process_start_date"))
+            .annotate(week=TruncWeek("processStartDate"))
             .values("week")
             .annotate(count=Count("id"))
             .order_by("week")
@@ -122,7 +122,7 @@ class SearchResultView(View):
         # Aggregate prints by week
         print_agg = (
             PrintModel.objects.filter(id__in=prints.values_list("id", flat=True))
-            .annotate(week=TruncWeek("document_date"))
+            .annotate(week=TruncWeek("documentDate"))
             .values("week")
             .annotate(count=Count("id"))
             .order_by("week")
