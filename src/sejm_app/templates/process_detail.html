@@ -33,7 +33,7 @@
                                 {% else %}
                                     <div class="timeline-badge">Nie podano</div>
                                 {% endif %}
-                                <h5>{{ stage.stage_name }}</h5>
+                                <h5>{{ stage.stageName }}</h5>
                                 {% if stage.voting %}
                                     <a href="{% url 'voting_detail' stage.voting.id %}" class="">Głosowanie</a>
                                 {% endif %}

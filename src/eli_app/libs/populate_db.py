@@ -119,7 +119,7 @@ populate_institutions = partial(populate, model=Institution)
 populate_keywords = partial(populate, model=Keyword)
 populate_statuses = partial(populate, model=ActStatus)
 populate_references = partial(populate, model=Reference)
-populate_document_types = partial(populate, model=DocumentType)
+populate_documentTypes = partial(populate, model=DocumentType)
 
 
 def init_db():
@@ -129,5 +129,5 @@ def init_db():
     populate_publishers(api.list_publishers)
     populate_statuses(api.list_statuses)
     populate_references(api.list_reference_types)
-    populate_document_types(api.list_document_types)
+    populate_documentTypes(api.list_documentTypes)
     populate_acts(api.list_acts)

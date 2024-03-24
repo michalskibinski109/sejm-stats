@@ -14,11 +14,13 @@ from .views import (
     ProcessDetailView,
     SearchResultView,
     UpdateView,
+    LastUpdateView,
 )
 
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
+    path("last-update/", LastUpdateView.as_view(), name="last_update"),
     path("search/", SearchResultView.as_view(), name="search"),
     path("envoys/", EnvoyListView.as_view(), name="envoys"),
     path("envoys/<int:pk>", EnvoyDetailView.as_view(), name="envoy_detail"),

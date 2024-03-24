@@ -9,6 +9,6 @@ class ProcessDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["stages"] = self.object.stages.all().order_by("stage_number")
+        context["stages"] = self.object.stages.all().order_by("stageNumber")
         # get all distinct stage.decision
         return context

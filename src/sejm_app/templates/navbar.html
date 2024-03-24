@@ -64,6 +64,17 @@
                 </li> {% endcomment %}
             </ul>
         </div>
+        {% if user.is_authenticated %}
+            <div class="nav-item mx-3">
+                <button class="btn btn-outline-danger px-2"
+                        aria-current="page"
+                        id="updateButton"
+                        data-csrf='{% csrf_token %}'
+                        data-href="{% url 'update' %}">
+                    <i class="fas tex-danger fa-sync-alt mx-2"></i>
+                </button>
+            </div>
+        {% endif %}
         <div id="theme-toggle"
              class="nav-item me-3 d-flex align-items-center"
              style="cursor: pointer">

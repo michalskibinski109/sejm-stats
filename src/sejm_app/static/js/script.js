@@ -13,18 +13,27 @@ $(document).ready(function () {
     $("html").attr("data-bs-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   });
-
-  // Search bar
-  // $("#searchBar").on("keyup", function () {
-  //   var query = $(this).val();
-  //   $.ajax({
-  //     url: "",
-  //     data: { q: query },
-  //     dataType: "json",
-  //     success: function (response) {
-  //       // Replace the envoy list with the new HTML
-  //       $(".row").html(response.html);
-  //     },
-  //   });
-  // });
+  $("#updateButton").click(function () {
+    var url = $("#updateButton").data("href");
+    var csrfToken = $("#updateButton").data("csrf");
+    $.ajax({
+      url: url,
+      type: "GET",
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
+      success: function (response) {
+        showNotification(response.message);
+      },
+      error: function (xhr, status, error) {
+        showNotification("Update failed: " + error);
+      },
+    });
+  });
 });
+
+// Function to show notification
+function showNotification(message) {
+  // This example uses a simple alert, but you can replace this with any notification mechanism
+  alert(message);
+}

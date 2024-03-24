@@ -18,7 +18,7 @@ class Voting(models.Model):
     abstain = models.SmallIntegerField(
         null=True, blank=True, help_text=_("Abstain votes")
     )
-
+    term = models.IntegerField(null=True, blank=True, help_text=_("Sejm term number"))
     sitting = models.IntegerField(
         null=True, blank=True, help_text=_("Number of the Sejm sitting")
     )
@@ -78,6 +78,6 @@ class Voting(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-            self.id = self.sittingDay * 1000 + self.votingNumber
+            self.id = self.sitting * 100000 + self.sittingDay * 1000 + self.votingNumber
         self.success = self._check_if_success()
         super().save(*args, **kwargs)

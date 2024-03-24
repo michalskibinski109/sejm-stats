@@ -23,10 +23,10 @@ class ProcessListView(ListView):
         )
         form = ProcessSearchForm(self.request.GET)
         if form.is_valid():
-            document_types = form.cleaned_data.get("document_type")
+            documentTypes = form.cleaned_data.get("documentType")
             only_not_finished = form.cleaned_data.get("state")
-            if document_types:
-                queryset = queryset.filter(document_type__in=document_types)
+            if documentTypes:
+                queryset = queryset.filter(documentType__in=documentTypes)
             if only_not_finished:
                 queryset = [
                     process for process in queryset if process.is_finished is False

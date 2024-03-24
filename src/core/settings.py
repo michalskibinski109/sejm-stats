@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "pl"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Warsaw"
 
 USE_I18N = True
 
@@ -157,7 +157,7 @@ RESOLUTION_URL = "https://orka.sejm.gov.pl/proc10.nsf/uchwaly"
 
 # CELERY
 
-CELERY_TIMEZONE = "CET"
+CELERY_TIMEZONE = "Europe/Warsaw"
 CELERY_TASK_SERIALIZER = "pickle"
 CELERY_RESULT_SERIALIZER = "pickle"
 CELERY_BROKER_URL = "redis://localhost:6379/0"

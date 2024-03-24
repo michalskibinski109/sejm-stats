@@ -42,12 +42,45 @@
                   {% block content %}
                   {% endblock content %}
             </main>
-            <footer class="mt-5 rounded border footer">
-                  <div class="text-center p-3">
-                        © 2024 Copyright:
-                        <a class="text-danger"
-                           href="https://github.com/michalskibinski109/chess-stats">Michal Skibinski</a>
+            <footer class="d-flex flex-wrap justify-content-between align-items-center pt-3 px-5 my-4 border-top">
+                  <div class="col-md-4 d-flex align-items-center">
+                        <a href="/"
+                           class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                              <img src="{% static 'img/logo.png' %}" alt="Logo" width="30" height="30">
+                              <!-- Replace with your actual logo path -->
+                        </a>
+                        <span class="text-muted">© 2024 Michal Skibinski. All rights reserved.</span>
                   </div>
+                  <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                        <li class="mx-3">
+                              <a class="text-muted"
+                                 href="https://michalskibinski109.github.io/sejm-stats-docs/"
+                                 title="Documentation">
+                                    <i class="fas fa-xl fa-book text-primary"></i>
+                              </a>
+                        </li>
+                        <li class="mx-3">
+                              <a class="text-muted"
+                                 href="https://www.youtube.com/@sejm-stats"
+                                 title="YouTube">
+                                    <i class="fab  fa-xl fa-youtube text-danger"></i>
+                              </a>
+                        </li>
+                        <li class="mx-3">
+                              <a class="text-muted"
+                                 href="https://patronite.pl/sejm-stats"
+                                 title="Patronite">
+                                    <i class="fas  fa-xl fa-heart text-danger"></i>
+                              </a>
+                        </li>
+                        <li class="mx-3">
+                              <a class="text-muted"
+                                 href="mailto:mskibinski109@gmail.com"
+                                 title="Email">
+                                    <i class="fas  fa-xl text-primary fa-envelope"></i>
+                              </a>
+                        </li>
+                  </ul>
             </footer>
       </body>
 </html>

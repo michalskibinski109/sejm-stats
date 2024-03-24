@@ -29,7 +29,7 @@ class ProcessSearchForm(forms.Form):
         widget=forms.CheckboxInput(attrs={"class": "form-check-input"}),
         label="Tylko niezakończone",
     )
-    document_type = forms.MultipleChoiceField(
+    documentType = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input"}),
         required=False,
         label="Typ dokumentu",
@@ -37,8 +37,6 @@ class ProcessSearchForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["document_type"].choices = (
-            Process.objects.all()
-            .values_list("document_type", "document_type")
-            .distinct()
+        self.fields["documentType"].choices = (
+            Process.objects.all().values_list("documentType", "documentType").distinct()
         )

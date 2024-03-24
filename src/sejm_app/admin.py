@@ -14,6 +14,7 @@ from sejm_app.models import (
     Reply,
     ClubVote,
 )
+from sejm_app.models.committee import Committee, CommitteeMember
 
 
 @admin.register(ClubVote)
@@ -37,7 +38,7 @@ class InterpellationAdmin(admin.ModelAdmin):
 # Register your models here.
 @admin.register(Stage)
 class StageAdmin(admin.ModelAdmin):
-    list_display = ("id", "decision", "stage_name", "date", "process")
+    list_display = ("id", "decision", "stageName", "date", "process")
 
 
 @admin.register(Process)
@@ -101,4 +102,20 @@ class EnvoyAdmin(admin.ModelAdmin):
         "firstName",
         "secondName",
         "lastName",
+    )
+
+
+@admin.register(Committee)
+class CommitteeAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
+
+
+@admin.register(CommitteeMember)
+class CommitteeMemberAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "function",
     )
