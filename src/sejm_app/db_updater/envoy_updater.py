@@ -18,8 +18,7 @@ class EnvoyUpdaterTask(DbUpdaterTask):
 
     def run(self, *args, **kwargs):
         logger.info("Updating envoys")
-        with transaction.atomic():
-            self._download_envoys()
+        self._download_envoys()
 
     def _download_photo(self, envoy: models.Envoy):
         if envoy.photo:
@@ -51,9 +50,10 @@ class EnvoyUpdaterTask(DbUpdaterTask):
             envoy["club"] = Club.objects.get(id=envoy["club"])
             if not self.MODEL.objects.filter(id=envoy["id"]).exists():
                 envoy_model = self.MODEL.objects.create(**envoy)
-                self._download_biography(envoy_model)
-                self._download_photo(envoy_model)
-                envoy_model.save()
+                with transaction.atomic():
+                    self._download_biography(envoy_model)
+                    self._download_photo(envoy_model)
+                    envoy_model.save()
             else:
                 envoy_model = self.MODEL.objects.get(id=envoy["id"])
                 for key, value in envoy.items():

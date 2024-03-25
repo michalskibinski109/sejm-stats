@@ -50,8 +50,16 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link "
+                   aria-current="page"
+                   href="{% url 'interpellations' %}">
+                    <i class="fas fa-comment"></i> <!-- Example icon, replace with the icon you want -->
+                    Interpleacje
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="{% url 'acts' %}">
-                    <i class="fas fa-users"></i> <!-- Example icon, replace with the icon you want -->
+                    <i class="fas fa-book"></i> <!-- Example icon, replace with the icon you want -->
                     Dziennik ustaw
                 </a>
             </li>
@@ -62,12 +70,12 @@
                     Afery
                 </a>
             </li>
-            <li class="nav-item ">
+            {% comment %} <li class="nav-item ">
                 <a href="{% url 'articles' %}" class="nav-link ">
                     <i class="fas fa-newspaper "></i>
                     Artykuły
                 </a>
-            </li>
+            </li> {% endcomment %}
             <li class="nav-item ">
                 <a href="{% url 'faq' %}" class="nav-link">
                     <i class="fas fa-question "></i>

@@ -14,3 +14,5 @@ from .update_view import UpdateView
 from .last_update_view import LastUpdateView
 from .committee_detail_view import CommitteeDetailView
 from .committee_list_view import CommitteeListView
+from .interpellation_detail_view import InterpellationDetailView
+from .interpellation_list_view import InterpellationListView

@@ -17,6 +17,8 @@ from .views import (
     LastUpdateView,
     CommitteeListView,
     CommitteeDetailView,
+    InterpellationDetailView,
+    InterpellationListView,
 )
 
 
@@ -37,4 +39,10 @@ urlpatterns = [
     path("processes/", ProcessListView.as_view(), name="processes"),
     path("update/", UpdateView.as_view(), name="update"),
     path("process/<int:pk>/", ProcessDetailView.as_view(), name="process_detail"),
+    path("interpellations/", InterpellationListView.as_view(), name="interpellations"),
+    path(
+        "interpellations/<int:pk>/",
+        InterpellationDetailView.as_view(),
+        name="interpellation_detail",
+    ),
 ]
