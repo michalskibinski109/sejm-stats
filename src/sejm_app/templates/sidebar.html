@@ -1,0 +1,95 @@
+{% load static %}
+<div class="offcanvas offcanvas-start"
+     data-bs-scroll="true"
+     data-bs-backdrop="false"
+     tabindex="-1"
+     id="sidebarMenu"
+     aria-labelledby="offcanvasScrollingLabel">
+    <div class="offcanvas-header">
+        <a class="navbar-brand nav-item d-flex justify-content-center align-items-center mx-3"
+           href="/"
+           style="height: 100%">
+            <img src="{% static 'img/logo.png' %}"
+                 alt="logo"
+                 width="40"
+                 height="40"
+                 class="d-inline-block align-middle">
+            <p class="fs-4 mx-1 m-0 text-center">Sejm-Stats</p>
+        </a>
+        <span class="mx-1 badge bg-danger text-wrap">beta</span>
+        <button type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <hr>
+    <div class="offcanvas-body">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item ">
+                <a href="{% url 'envoys' %}" class="nav-link active" aria-current="page">
+                    <i class="fas fa-users"></i>
+                    Posłowie
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="{% url 'clubs' %}" class="nav-link">
+                    <i class="fas fa-handshake"></i>
+                    Kluby parlamentarne
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="{% url 'processes' %}">
+                    <i class="fas fa-cogs"></i> <!-- Example icon, replace with the icon you want -->
+                    Procesy legislacyjne
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="{% url 'committees' %}">
+                    <i class="fas fa-users"></i> <!-- Example icon, replace with the icon you want -->
+                    Komisje sejmowe
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'acts' %}">
+                    <i class="fas fa-users"></i> <!-- Example icon, replace with the icon you want -->
+                    Dziennik ustaw
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item ">
+                <a href="{% url 'scandals' %}" class="nav-link  bg-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Afery
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="{% url 'articles' %}" class="nav-link ">
+                    <i class="fas fa-newspaper "></i>
+                    Artykuły
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a href="{% url 'faq' %}" class="nav-link">
+                    <i class="fas fa-question "></i>
+                    pytania i odpowiedzi
+                </a>
+            </li>
+            <hr>
+            <li class="nav-item">
+                <a class="nav-link active"
+                   href="https://patronite.pl/sejm-stats"
+                   title="Patronite">
+                    <i class="fas  fa-xl fa-heart text-danger"></i> patronite
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   href="https://www.youtube.com/@sejm-stats"
+                   title="YouTube">
+                    <i class="fab fa-xl fa-youtube text-danger"></i> YouTube
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
