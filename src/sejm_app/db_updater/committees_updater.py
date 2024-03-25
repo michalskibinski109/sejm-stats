@@ -22,7 +22,7 @@ class CommitteeUpdaterTask(DbUpdaterTask):
 
     def update_or_create_committee(self, data):
         committee, _ = Committee.objects.update_or_create(
-            code=data["code"],
+            id=data["code"],
             defaults={
                 "name": data["name"],
                 "nameGenitive": data["nameGenitive"],
@@ -39,7 +39,7 @@ class CommitteeUpdaterTask(DbUpdaterTask):
         for member_data in members:
             envoy = Envoy.objects.get(id=member_data["id"])
             CommitteeMember.objects.update_or_create(
-                committee=Committee.objects.get(code=committee.code),
+                committee=committee,
                 envoy=envoy,
                 defaults={
                     "function": member_data.get("function"),

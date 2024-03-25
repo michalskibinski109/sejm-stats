@@ -49,9 +49,9 @@ $(document).ready( function () {
                     <tbody>
                         {% for committee in committees %}
                             <tr>
-                                <td>{{ committee.code }}</td>
+                                <td>{{ committee.id }}</td>
                                 <td>
-                                    <a href="{% url 'committee_detail' committee.code %}">{{ committee.name }}</a>
+                                    <a href="{% url 'committee_detail' committee.id %}">{{ committee.name }}</a>
                                 </td>
                                 <td>{{ committee.get_type_display }}</td>
                                 <td>{{ committee.appointmentDate }}</td>

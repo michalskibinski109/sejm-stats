@@ -107,15 +107,9 @@ class EnvoyAdmin(admin.ModelAdmin):
 
 @admin.register(Committee)
 class CommitteeAdmin(admin.ModelAdmin):
-    list_display = (
-        "code",
-        "name",
-    )
+    list_display = ("name",)
 
 
 @admin.register(CommitteeMember)
 class CommitteeMemberAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "function",
-    )
+    list_display = ("function",)
