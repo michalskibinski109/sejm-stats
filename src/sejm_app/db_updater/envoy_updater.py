@@ -8,6 +8,7 @@ from sejm_app.libs.wikipedia_searcher import get_wikipedia_biography
 from sejm_app.models.club import Club
 from .db_updater_task import DbUpdaterTask
 from django.core.files.base import ContentFile
+from django.db import transaction
 
 
 class EnvoyUpdaterTask(DbUpdaterTask):
@@ -17,7 +18,8 @@ class EnvoyUpdaterTask(DbUpdaterTask):
 
     def run(self, *args, **kwargs):
         logger.info("Updating envoys")
-        self._download_envoys()
+        with transaction.atomic():
+            self._download_envoys()
 
     def _download_photo(self, envoy: models.Envoy):
         if envoy.photo:

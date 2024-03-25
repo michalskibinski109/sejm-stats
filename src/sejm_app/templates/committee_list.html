@@ -22,8 +22,57 @@ $(document).ready( function () {
     {{ form.media.css }}
 {% endblock extra_head %}
 {% block content %}
-    <div class="container fluid mt-4">
-        <h1 class="display-5">Komisje sejmowe</h1>
+    <div class="modal fade"
+         id="helpCommittee"
+         tabindex="-1"
+         aria-labelledby="envoyModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="envoyModalLabel">Co to jest komisja sejmowa?</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <blockquote class="text-muted fst-italic">
+                        Komisje sejmowe to organy pomocnicze Sejmu, powoływane w celu szczegółowego rozpatrywania spraw należących do zakresu działania Sejmu. Podzielone są na stałe i nadzwyczajne, zajmują się przygotowaniem projektów ustaw i sprawozdań z ich realizacji.
+                    </blockquote>
+                    Zadania i funkcje
+                    <hr />
+                    <ul>
+                        <li>
+                            <strong>Przygotowanie ustaw:</strong> Komisje analizują i opiniują projekty ustaw przed ich pierwszym czytaniem w Sejmie.
+                        </li>
+                        <li>
+                            <strong>Kontrola rządu:</strong> Prowadzą działania kontrolne wobec działań rządu i administracji państwowej.
+                        </li>
+                        <li>
+                            <strong>Praca nad specjalistycznymi zagadnieniami:</strong> Każda komisja specjalizuje się w określonej dziedzinie (np. gospodarka, zdrowie), co pozwala na głębszą analizę projektów ustaw.
+                        </li>
+                        <li>
+                            <strong>Organizacja wysłuchań publicznych:</strong> Mogą organizować wysłuchania publiczne w celu zgromadzenia opinii na temat projektów ustaw.
+                        </li>
+                    </ul>
+                    <a href="https://pl.wikipedia.org/wiki/Komisja_sejmowa" target="_blank">Więcej na temat komisji sejmowych na Wikipedii</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container container-fluid mt-4">
+        <div class=" display-5  d-flex justify-content-between">
+            Komisje sejmowe
+            <span>
+                <i class="fa-solid fa-circle-info mx-1 fs-3 text-primary"
+                   data-bs-toggle="modal"
+                   data-bs-target="#helpCommittee"></i>
+            </span>
+        </div>
         <hr class="my-4">
         <div class="row">
             <div class="col-md-3  p-2 pt-0">
@@ -49,9 +98,9 @@ $(document).ready( function () {
                     <tbody>
                         {% for committee in committees %}
                             <tr>
-                                <td>{{ committee.id }}</td>
+                                <td>{{ committee.code }}</td>
                                 <td>
-                                    <a href="{% url 'committee_detail' committee.id %}">{{ committee.name }}</a>
+                                    <a href="{% url 'committee_detail' committee.code %}">{{ committee.name }}</a>
                                 </td>
                                 <td>{{ committee.get_type_display }}</td>
                                 <td>{{ committee.appointmentDate }}</td>
