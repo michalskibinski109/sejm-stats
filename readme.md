@@ -10,7 +10,8 @@ Welcome to Sejm 2.0, a project aimed at making parliamentary data more accessibl
 ## Nowa wersja
 
 ![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/9fe175ed-93f3-44d7-9014-1dae63e8a716)
-![Uploading image.png…]()
+![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/21486ad2-75c5-4d2d-b06b-17c2f1bb8c62)
+
 
 
 ![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/51c4e1d1-a340-4b9e-a312-4cdccc52989a)
