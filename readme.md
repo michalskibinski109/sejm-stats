@@ -6,6 +6,12 @@
 
 Welcome to Sejm 2.0, a project aimed at making parliamentary data more accessible and understandable. This project provides a clear and concise view of complex parliamentary data, making it easier for citizens to stay informed about the actions and decisions of their representatives.
 
+
+## Nowa wersja
+
+![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/8529e157-9d54-4ff6-85dc-ae48bfd2833f)
+
+
 ![image](https://github.com/michalskibinski109/sejm2.0/assets/77834536/51c4e1d1-a340-4b9e-a312-4cdccc52989a)
 ![image](https://github.com/michalskibinski109/sejm-stats/assets/77834536/dc098f3b-983a-49c5-9fa9-21556b1ff328)
 
