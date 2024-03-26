@@ -22,7 +22,7 @@ class CommitteeUpdaterTask(DbUpdaterTask):
 
     def update_or_create_committee(self, data):
         committee, _ = Committee.objects.update_or_create(
-            id=data["code"],
+            code=data["code"],
             defaults={
                 "name": data["name"],
                 "nameGenitive": data["nameGenitive"],
