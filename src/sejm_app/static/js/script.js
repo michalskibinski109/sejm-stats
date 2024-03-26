@@ -1,16 +1,16 @@
 // Set theme immediately when the script is loaded
 var theme = localStorage.getItem("theme");
 if (theme) {
-  $("html").attr("data-bs-theme", theme);
+  $("html").attr("data-mdb-theme", theme);
 }
 
 $(document).ready(function () {
   // Theme toggle
   $("#theme-toggle").click(function () {
-    var theme = $("html").attr("data-bs-theme");
+    var theme = $("html").attr("data-mdb-theme");
     let icon = $("#theme-toggle-icon");
     var newTheme = theme === "dark" ? "light" : "dark";
-    $("html").attr("data-bs-theme", newTheme);
+    $("html").attr("data-mdb-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   });
   $("#updateButton").click(function () {

@@ -1,4 +1,8 @@
 # Byte-compiled / optimized / DLL files
+mdb/
+
+./mdb/
+mdb 
 __pycache__/
 *.py[cod]
 *$py.class
