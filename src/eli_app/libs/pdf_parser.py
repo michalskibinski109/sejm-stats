@@ -1,5 +1,4 @@
 import PyPDF2
-from transformers import pipeline, SummarizationPipeline
 import requests
 from loguru import logger
 from pdfminer.high_level import extract_text

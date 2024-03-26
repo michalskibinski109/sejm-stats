@@ -8,6 +8,7 @@ from sejm_app.libs.wikipedia_searcher import get_wikipedia_biography
 from sejm_app.models.club import Club
 from .db_updater_task import DbUpdaterTask
 from django.core.files.base import ContentFile
+from django.db import transaction
 
 
 class EnvoyUpdaterTask(DbUpdaterTask):
@@ -49,9 +50,10 @@ class EnvoyUpdaterTask(DbUpdaterTask):
             envoy["club"] = Club.objects.get(id=envoy["club"])
             if not self.MODEL.objects.filter(id=envoy["id"]).exists():
                 envoy_model = self.MODEL.objects.create(**envoy)
-                self._download_biography(envoy_model)
-                self._download_photo(envoy_model)
-                envoy_model.save()
+                with transaction.atomic():
+                    self._download_biography(envoy_model)
+                    self._download_photo(envoy_model)
+                    envoy_model.save()
             else:
                 envoy_model = self.MODEL.objects.get(id=envoy["id"])
                 for key, value in envoy.items():

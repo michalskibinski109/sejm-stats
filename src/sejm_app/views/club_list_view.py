@@ -12,14 +12,12 @@ class ClubListView(ListView):
 
     def get_queryset(self):
         # Annotate each club with the count of its envoys and order by this count
-        return Club.objects.annotate(envoys_count=Count("envoys")).order_by(
-            "-envoys_count"
-        )
+        return Club.objects.order_by("-membersCount")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         clubs_list = [
-            {"id": club.id, "envoys_count": club.envoys_count}
+            {"id": club.id, "envoys_count": club.membersCount}
             for club in context["clubs"]
         ]
         context["clubs_json"] = json.dumps(clubs_list)

@@ -23,6 +23,27 @@ class EnvoySearchForm(forms.Form):
     )
 
 
+# class InterpellationSearchForm(forms.Form):
+#     term = forms.IntegerField(
+#         required=False,
+#         widget=forms.NumberInput(
+#             attrs={"class": "form-control mb-3", "placeholder": "Term"}
+#         ),
+#     )
+#     num = forms.IntegerField(
+#         required=False,
+#         widget=forms.NumberInput(
+#             attrs={"class": "form-control mb-3", "placeholder": "Number"}
+#         ),
+#     )
+#     title = forms.CharField(
+#         required=False,
+#         widget=forms.TextInput(
+#             attrs={"class": "form-control mb-3", "placeholder": "Title"}
+#         ),
+#     )
+
+
 class CommitteeSearchForm(forms.Form):
     type = forms.ChoiceField(
         required=False,

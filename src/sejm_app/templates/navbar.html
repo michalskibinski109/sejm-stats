@@ -1,7 +1,16 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg rounded-bottom border-3 border-bottom border-danger pb-1">
     <div class="container-fluid">
-        <a class="navbar-brand nav-item d-flex justify-content-center align-items-center"
+        <!-- Offcanvas toggle button -->
+        <button class="btn btn-outline-danger"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#sidebarMenu"
+                aria-controls="offcanvasScrolling">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Logo and title next to the toggle button -->
+        <a class="navbar-brand nav-item d-flex justify-content-center align-items-center mx-3"
            href="/"
            style="height: 100%">
             <img src="{% static 'img/logo.png' %}"
@@ -10,80 +19,23 @@
                  height="40"
                  class="d-inline-block align-middle">
             <p class="fs-4 mx-1 m-0 text-center">Sejm-Stats</p>
-            {% comment %} <span class="mx-3  badge bg-danger text-wrap">pre-release version</span> {% endcomment %}
         </a>
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active text-start "
-                       aria-current="page"
-                       href="{% url 'envoys' %}">Posłowie</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="{% url 'clubs' %}">Kluby
-                    parlamentarne</a>
-                </li>
-                {% comment %} <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'votings' %}">Głosowania</a>
-                </li> {% endcomment %}
-                {% comment %} <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'faq' %}">FAQ</a>
-                </li> {% endcomment %}
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'acts' %}">Akty prawne</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active"
-                       aria-current="page"
-                       href="{% url 'processes' %}">Procesy legislacyjne</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active"
-                       aria-current="page"
-                       href="{% url 'committees' %}">Komisje sejmowe</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active "
-                       aria-current="page"
-                       href="{% url 'scandals' %}">Afery</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active "
-                       aria-current="page"
-                       href="{% url 'articles' %}">Artykuły</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active text-muted" aria-current="page" href="/admin">Zaloguj</a>
-                </li>
-                {% comment %} <li class="nav-item">
-                    <a class="nav-link active " aria-current="page" href="/admin">Admin</a>
-                </li> {% endcomment %}
-            </ul>
-        </div>
-        {% if user.is_authenticated %}
-            <div class="nav-item mx-3">
-                <button class="btn btn-outline-danger px-2"
-                        aria-current="page"
-                        id="updateButton"
-                        data-csrf='{% csrf_token %}'
-                        data-href="{% url 'update' %}">
-                    <i class="fas tex-danger fa-sync-alt mx-2"></i>
-                </button>
-            </div>
-        {% endif %}
-        <div id="theme-toggle"
-             class="nav-item me-3 d-flex align-items-center"
-             style="cursor: pointer">
-            <i id="theme-toggle-icon" class="fas fa-moon fa-2x"></i>
+        <span class="mx-1 badge bg-danger text-wrap">beta</span>
+        <div class="d-flex ms-auto">
+            {% if user.is_authenticated %}
+                <div class="cursor-pointer"
+                     id="updateButton"
+                     data-csrf='{% csrf_token %}'
+                     data-href="{% url 'update' %}">
+                    <i class="fas text-danger fa-sync-alt mx-3"></i>
+                </div>
+            {% endif %}
+            <a class="text-muted mx-3" href="/admin" title="Zaloguj">
+                <i class="fas fa-sign-in-alt fa-lg"></i>
+            </a>
+            <a id="theme-toggle" class="text-muted mx-3" style="cursor: pointer;">
+                <i id="theme-toggle-icon" class="fas fa-lg fa-moon"></i>
+            </a>
         </div>
     </div>
 </nav>

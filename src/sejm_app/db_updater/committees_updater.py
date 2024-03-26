@@ -39,7 +39,7 @@ class CommitteeUpdaterTask(DbUpdaterTask):
         for member_data in members:
             envoy = Envoy.objects.get(id=member_data["id"])
             CommitteeMember.objects.update_or_create(
-                committee=Committee.objects.get(code=committee.code),
+                committee=committee,
                 envoy=envoy,
                 defaults={
                     "function": member_data.get("function"),
