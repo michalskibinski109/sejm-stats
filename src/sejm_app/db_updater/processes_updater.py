@@ -12,7 +12,8 @@ from django.utils.timezone import make_aware
 
 from typing import Optional, Dict, Any
 from eli_app.libs.pdf_parser import (
-    get_pdf_authors,
+    get_pages_number,
+    get_pdf_authors_and_page_num,
 )  # Ensure this import is corrected based on your actual module structure
 from django.db.models import Max
 
@@ -72,23 +73,24 @@ class ProcessesUpdaterTask(DbUpdaterTask):
         )
         if created:
             logger.debug(f"Created process {process_id} created by {process.createdBy}")
-            self._assign_authors(process, data)
+            self._assign_authors_and_pages(process)
             # if key == "print_model":
         for stage in stages_data:
             self._create_or_update_stage(stage, process)
 
     def _create_or_update_stage(self, data: dict, process):
         stage = Stage()
-        if len(data.get("children", ())) != 1:
+        if len(data.get("children", ())) > 1:
             logger.debug(
                 f"{len(data.get('children', ()))} children for stage in {process.id}"
             )
             return
-        child = data.pop("children")[0]
-        for key in data.keys():
-            if key in child:
-                del child[key]
-        data.update(child)
+        if data.get("children"):
+            child = data.pop("children")[0]
+            for key in data.keys():
+                if key in child:
+                    del child[key]
+            data.update(child)
         data = parse_all_dates(data)
         for key, value in data.items():
             if key == "voting" and value:
@@ -108,8 +110,9 @@ class ProcessesUpdaterTask(DbUpdaterTask):
             votingNumber=voting_data["votingNumber"],
         ).first()
 
-    def _assign_authors(self, process: Process, data: Dict[str, Any]) -> None:
+    def _assign_authors_and_pages(self, process: Process) -> None:
         if process.createdBy == CreatedByEnum.CLUB:
+            process.pagesCount = get_pages_number(process.printModel.pdf_url)
             for club in Club.objects.all():
                 if club.name.lower() in process.title.lower():
                     process.club = club
@@ -117,15 +120,20 @@ class ProcessesUpdaterTask(DbUpdaterTask):
                     return
         elif process.createdBy == CreatedByEnum.ENVOYS:
             envoys = Envoy.objects.all()
-            possible_authors = get_pdf_authors(
+            possible_authors, pages_count = get_pdf_authors_and_page_num(
                 process.printModel.pdf_url
             )  # Adjust this based on actual PDF URL source
+
+            process.pagesCount = pages_count
             for author in possible_authors:
                 first_name, last_name = author.split(" ")[0], author.split(" ")[-1]
                 if envoy := envoys.filter(
                     firstName__iexact=first_name, lastName__iexact=last_name
                 ).first():
                     process.MPs.add(envoy)
+        else:
+            process.pagesCount = get_pages_number(process.printModel.pdf_url)
+        logger.debug(f"Pages count for {process.id}: {process.pagesCount}")
 
     def _get_type_of_process(self, title: str, documentType: str) -> str:
         if documentType.lower() not in [

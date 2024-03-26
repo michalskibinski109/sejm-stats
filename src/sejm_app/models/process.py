@@ -7,7 +7,6 @@ from loguru import logger
 from .stage import Stage
 from .envoy import Envoy
 from .club import Club
-from eli_app.libs.pdf_parser import get_pdf_authors
 
 
 class CreatedByEnum(models.TextChoices):
@@ -27,14 +26,14 @@ class Process(models.Model):
     UE = models.BooleanField(
         choices=((True, "YES"), (False, "NO")), null=True, blank=True
     )
-    comments = models.TextField()
+    comments = models.TextField(default="Brak")
     number = models.IntegerField()
     term = models.IntegerField()
     webGeneratedDate = models.DateTimeField(null=True, blank=True)
     changeDate = models.DateField(null=True)
-    description = models.TextField()
+    description = models.TextField(default="Brak")
     documentDate = models.DateField()
-    documentType = models.CharField(max_length=255)
+    documentType = models.CharField(max_length=64)
     legislativeCommittee = models.BooleanField()
     printModel = models.ForeignKey(
         PrintModel, on_delete=models.CASCADE, blank=True, null=True
@@ -56,54 +55,23 @@ class Process(models.Model):
         blank=True,
         default=None,
     )
+    pagesCount = models.SmallIntegerField(
+        default=0, help_text="Number of pages in the document", blank=True
+    )
+
+    @cached_property
+    def length_tag(self):
+        if self.pagesCount < 3:
+            return "bardzo krótki"
+        if self.pagesCount < 10:
+            return "krótki"
+        if self.pagesCount < 20:
+            return "średni"
+        return "długi"
 
     # web_generated_date = models.DateTimeField()
     def __str__(self):
         return f"{self.id} {self.title}"
-
-    def save(self, *args, **kwargs):
-        # self.createdBy = self._get_type_of_process()
-        # logger.debug(f"Created by: {self.createdBy}")
-        # self._assign_authors()
-        return super().save(*args, **kwargs)
-
-    # def _assign_authors(self) -> None:
-    #     if self.createdBy == CreatedByEnum.CLUB:
-    #         for club in Club.objects.all():
-    #             if club.name.lower() in self.title.lower():
-    #                 self.club = club
-    #                 return
-    #     if self.createdBy == CreatedByEnum.ENVOYS:
-    #         envoys = Envoy.objects.all()
-    #         possible_authors = get_pdf_authors(self.print.pdf_url)
-    #         for author in possible_authors:
-    #             first_name, last_name = author.split(" ")[0], author.split(" ")[-1]
-    #             if envoy := envoys.filter(
-    #                 firstName__iexact=first_name, lastName__iexact=last_name
-    #             ).first():
-    #                 try:
-
-    #                     self.MPs.add(envoy)
-    #                 except ValueError as e:
-    #                     logger.error(f"Error while adding {envoy} to process: {e}")
-
-    # def _get_type_of_process(self) -> str:
-    #     if self.documentType.lower() not in [
-    #         "projekt ustawy",
-    #         "wniosek",
-    #         "projekt uchwały",
-    #     ]:
-    #         return
-    #     if self.title.lower().startswith("poselski"):
-    #         return CreatedByEnum.ENVOYS
-    #     if "prezydium sejmu" in self.title.lower():
-    #         return CreatedByEnum.PRESIDIUM
-    #     if "obywatelski" in self.title.lower():
-    #         return CreatedByEnum.CITIZENS
-    #     if "rządowy" in self.title.lower():
-    #         return CreatedByEnum.GOVERNMENT
-    #     if "przez klub parlamentarny" in self.title.lower():
-    #         return CreatedByEnum.CLUB
 
     @property
     def print(self):
