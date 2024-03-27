@@ -1,8 +1,65 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container fluid mt-4">
-        <div class="alert alert-warning" role="alert">Widok w przygotowaniu...</div>
         <h1 class="display-5">Komisja {{ committee.get_type_display }}: {{ committee.code }}</h1>
+        <p class="lead">{{ committee.name }}</p>
         <hr class="my-4">
+        <div class="p-1 mb-4">
+            <span class="badge badge-primary p-2 me-1">Powołano: {{ committee.appointmentDate }}</span>
+            <span class="badge badge-info p-2 ">Telefon: {{ committee.first_phone }}</span>
+        </div>
+        <h2>Zakres działania</h2>
+        <p>{{ committee.scope }}</p>
+        <hr class="my-4">
+        <h2>Członkowie Komisji ({{ committee.members.all|length }})</h2>
+        <div class="row">
+            {% for member in committee.members.all %}
+                <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+                    <a href='{% url "envoy_detail" member.envoy.id %}'
+                       style="text-decoration: none;
+                              color: inherit"
+                       class="card clickable-card flex-row mb-4 shadow">
+                        <img src='{{ member.envoy.photo.url }}'
+                             loading="lazy"
+                             class="card-img-left">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title fs-6">{{ member.envoy.full_name }}</h5>
+                            </div>
+                            <span class="badge bg-white rounded p-1 ">
+                                <img src="{{ member.envoy.club.photo.url }}"
+                                     loading="lazy"
+                                     alt="Club Photo"
+                                     style="width: 40px;
+                                            height: 40px">
+                            </span>
+                            {% if member.function %}<p class="m-1 my-2 badge badge-primary">{{ member.function }}</p>{% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">Brak członków w komisji.</div>
+            {% endfor %}
+        </div>
+        <hr class="my-4">
+        <h2>Ostatnie Posiedzenia</h2>
+        <div class="list-group">
+            {% for sitting in committee.sittings.all|slice:":5" %}
+                <div class="list-group-item">
+                    <h5 class="mb-1">Posiedzenie nr {{ sitting.num }} - Data: {{ sitting.date }}</h5>
+                    <p class="mb-1">Agenda</p>
+                    <p class="mb-1">{{ sitting.agenda|truncatewords:50 }}</p>
+                    {% if sitting.video_id %}
+                        <div>
+                            <a href="{{ sitting.video_url }}"
+                               class="btn btn-primary mt-2"
+                               target="_blank">Zobacz wideo</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">Brak dostępnych posiedzeń.</div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

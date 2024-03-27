@@ -48,6 +48,7 @@ class Envoy(models.Model):
         prefix = "Posłanka" if self.is_female else "Poseł"
         return f"{prefix} {self.firstName} {self.lastName}"
 
+    @cached_property
     def full_name(self) -> str:
         return f"{self.firstName} {self.secondName if self.secondName else ''} {self.lastName}"
 

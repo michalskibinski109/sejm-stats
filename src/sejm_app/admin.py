@@ -10,11 +10,17 @@ from sejm_app.models import (
     AdditionalPrint,
     Process,
     Stage,
+    CommitteeSitting,
     Interpellation,
     Reply,
     ClubVote,
 )
 from sejm_app.models.committee import Committee, CommitteeMember
+
+
+@admin.register(CommitteeSitting)
+class CommitteeSittingAdmin(admin.ModelAdmin):
+    list_display = ("id",)
 
 
 @admin.register(ClubVote)

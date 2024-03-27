@@ -85,9 +85,9 @@
       <ul class="list-group mb-3">
         {% for voting in latest_votings %}
           <hr class="m-0 p-0 " />
-          <li class="list-group-item d-flex justify-content-between align-items-between m-2  border-0 border-bottom-1 clickable-card">
+          <li class="list-group-item d-flex justify-content-between align-items-between m-lg-2 m-0  border-0 border-bottom-1 clickable-card">
             <p class="text-start">
-              <p class="m-0 mx-2 text-start">
+              <p class="m-0 mx-md-2 mx-1 text-start">
                 {% if voting.success %}
                   <i class="fa text-success fa-lg fa-check"></i>
                 {% else %}
@@ -96,7 +96,7 @@
               </p>
               {{ voting.title|truncatechars:120 }}
             </p>
-            <p class="text-muted px-2">{{ voting.date|date:"d.m.Y" }}</p>
+            <p class="text-muted px-lg-2 px-0">{{ voting.date|date:"d.m.Y" }}</p>
           </li>
         {% endfor %}
       </ul>

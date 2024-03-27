@@ -92,7 +92,6 @@ $(document).ready( function () {
                             <th>Kod</th>
                             <th>Nazwa</th>
                             <th>Typ</th>
-                            <th>Data mianowania</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -103,7 +102,6 @@ $(document).ready( function () {
                                     <a href="{% url 'committee_detail' committee.code %}">{{ committee.name }}</a>
                                 </td>
                                 <td>{{ committee.get_type_display }}</td>
-                                <td>{{ committee.appointmentDate }}</td>
                             </tr>
                         {% empty %}
                             <tr>
